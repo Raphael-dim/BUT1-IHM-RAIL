@@ -27,11 +27,11 @@ public class VueDuJeu extends VBox {
     private VBox destinations;
 
     public VueDuJeu(IJeu jeu) {
+        this.setPrefSize(500, 500);
         this.jeu = jeu;
         plateau = new VuePlateau();
         AutresJoueurs = new VueAutresJoueurs();
-        //getChildren().addAll(plateau, AutresJoueurs);
-        this.setPrefSize(500, 500);
+        getChildren().addAll(AutresJoueurs);
     }
 
     public IJeu getJeu() {
@@ -40,7 +40,7 @@ public class VueDuJeu extends VBox {
 
     public void creerBindings() {
         destinations = new VBox();
-
+        AutresJoueurs.creerBindings();
         ListChangeListener<Destination> changement = new ListChangeListener<Destination>() {
             @Override
             public void onChanged(Change<? extends Destination> arg0) {

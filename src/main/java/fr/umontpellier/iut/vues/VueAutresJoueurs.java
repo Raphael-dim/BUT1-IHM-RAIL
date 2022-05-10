@@ -1,5 +1,6 @@
 package fr.umontpellier.iut.vues;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 /**
@@ -10,7 +11,12 @@ import javafx.scene.layout.Pane;
  */
 public class VueAutresJoueurs extends Pane {
 
-    
+    public VueAutresJoueurs() {
+        this.setPrefSize(200, 200);
+    }
 
-
+    public void creerBindings() {
+        getChildren().add(new Label());
+        System.out.println(((VueDuJeu) getScene().getRoot()).getJeu().getJoueurs());
+    }
 }

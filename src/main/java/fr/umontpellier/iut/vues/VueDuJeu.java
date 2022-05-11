@@ -39,8 +39,8 @@ public class VueDuJeu extends VBox {
     }
 
     public void creerBindings() {
-        destinations = new VBox();
         AutresJoueurs.creerBindings();
+        destinations = new VBox();
         ListChangeListener<Destination> changement = new ListChangeListener<Destination>() {
             @Override
             public void onChanged(Change<? extends Destination> arg0) {

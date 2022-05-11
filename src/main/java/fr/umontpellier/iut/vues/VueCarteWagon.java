@@ -1,6 +1,7 @@
 package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.ICouleurWagon;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 /**
@@ -20,4 +21,12 @@ public class VueCarteWagon extends Pane {
         return couleurWagon;
     }
 
+    public ImageView AfficherCarte() {
+
+        switch(couleurWagon.toString()){
+            case "Noir" : return new ImageView("images/cartesWagons/carte-wagon-NOIR.png");
+
+        }
+        return null;
+    }
 }

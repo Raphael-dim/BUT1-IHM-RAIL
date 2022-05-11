@@ -2,10 +2,13 @@ package fr.umontpellier.iut.vues;
 import java.util.List;
 
 import fr.umontpellier.iut.IJoueur;
+import fr.umontpellier.iut.IJoueur.Couleur;
+import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -55,6 +58,26 @@ public class VueAutresJoueurs extends VBox {
     public Pane panneauJoueur(IJoueur joueur) {
         Label label = new Label(joueur.getNom());
         Pane pane = new Pane(label);
+        ListChangeListener<CouleurWagon> changeListener = new ListChangeListener<CouleurWagon>() {
+            @Override
+            public void onChanged(Change<? extends CouleurWagon> arg0) {
+                Platform.runLater(() -> {
+                    while (arg0.next()) {
+                        if (arg0.wasAdded()) {
+                            for (CouleurWagon couleurWagon : arg0.getAddedSubList()) {
+                                pane.getChildren().add(new VueCarteWagon(couleurWagon).AfficherCarte());
+                            }
+                        } else if (arg0.wasRemoved()) {
+                            for (CouleurWagon couleurWagon : arg0.getRemoved()) {
+                            }
+                        }
+                    }
+                });
+                
+            }
+            
+        };
+        joueur.cartesWagonProperty().addListener(changeListener);
         pane.setId(joueur.getNom());
         return pane;
     }

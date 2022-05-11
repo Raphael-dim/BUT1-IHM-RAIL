@@ -30,20 +30,22 @@ public class VueAutresJoueurs extends VBox {
             @Override
             public void changed(ObservableValue<? extends IJoueur> arg0, IJoueur arg1, IJoueur arg2) {
                 Platform.runLater(() -> {
-                    List<Joueur> Autresjoueurs = ((VueDuJeu) getScene().getRoot()).getJeu().getJoueurs();
-                    Autresjoueurs.remove(((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().getValue());
                     if (getChildren().isEmpty())
                         {
+                            List<Joueur> Autresjoueurs = ((VueDuJeu) getScene().getRoot()).getJeu().getJoueurs();
+                            Autresjoueurs.remove(((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().getValue());
                             for (Joueur j : Autresjoueurs) 
                                 {
                                     getChildren().add(panneauJoueur(j));
                                 }
                         }
-                    System.out.println(arg0.getValue().getNom()+"test1");
-                    System.out.println(arg1.getNom() + "test2");
-                    System.out.println(arg2.getNom()+"tes3");
-                    getChildren().add(panneauJoueur(arg1));
-                    getChildren().remove(getPane(arg0.getValue().getNom()));
+                    else    
+                        {
+                            System.out.println(arg1.getNom());
+                            System.out.println(arg0.getValue().getNom());
+                            getChildren().add(panneauJoueur(arg1));
+                            getChildren().remove(getPane(arg0.getValue().getNom()));
+                        }
                 });
             }
         };

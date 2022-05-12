@@ -8,7 +8,9 @@ import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -27,6 +29,7 @@ public class VueAutresJoueurs extends VBox {
 
     public VueAutresJoueurs() {
         this.setPrefSize(200, 200);
+        this.setSpacing(200);
     }
 
     public void creerBindings() {
@@ -55,10 +58,28 @@ public class VueAutresJoueurs extends VBox {
         ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().addListener(changeListener);
     }
 
+    public String traduire(String couleur) {
+
+        switch(couleur)
+        {
+            case "JAUNE": return "#fcba03";
+            case "ROUGE": return "red";
+            case "BLEU": return "blue";
+            case "ROSE": return "#fc0394";
+            case "VERT": return "green";
+        }
+        return couleur;
+        
+    }
+
     public Pane panneauJoueur(IJoueur joueur) {
         Label label = new Label(joueur.getNom());
+        label.setStyle("-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        Rectangle rectangle = new Rectangle(150, 150);
+        rectangle.setStyle("-fx-fill: null; -fx-border-style: solid; -fx-border-width: 10; -fx-stroke: black;");
         Pane pane = new Pane(label);
-        int x= 40;
+        pane.getChildren().addAll(rectangle);
+        int x= 0;
         for (CouleurWagon carte : joueur.cartesWagonProperty())
             {
                 ImageView image = new VueCarteWagon(carte).AfficherCarte();
@@ -66,26 +87,18 @@ public class VueAutresJoueurs extends VBox {
                 image.setFitWidth(70);
                 x+=20;
                 image.setX(x);
+                image.setY(40);
                 pane.getChildren().add(image);
             }
-        ListChangeListener<CouleurWagon> changeListener = new ListChangeListener<CouleurWagon>() {
-            @Override
-            public void onChanged(Change<? extends CouleurWagon> arg0) {
-                Platform.runLater(() -> {
-                    while (arg0.next()) {
-                        if (arg0.wasAdded()) {
-                            for (CouleurWagon couleurWagon : arg0.getAddedSubList()) {
-                                pane.getChildren().add(new VueCarteWagon(couleurWagon).AfficherCarte());
-                            }
-                        } else if (arg0.wasRemoved()) {
-                            for (CouleurWagon couleurWagon : arg0.getRemoved()) {
-                            }
-                        }
-                    }
-                });
+        for (int i = 0; i < joueur.getNbGares(); i++)
+            {
+                ImageView wagon = new ImageView("images/wagons/image-wagon-"+joueur.getCouleur()+".png");
+                wagon.setFitHeight(20);
+                wagon.setFitWidth(20);
+                wagon.setX(i*20);
+                wagon.setY(20);
+                pane.getChildren().add(wagon);
             }
-        };
-        joueur.cartesWagonProperty().addListener(changeListener);
         pane.setId(joueur.getNom());
         return pane;
     }

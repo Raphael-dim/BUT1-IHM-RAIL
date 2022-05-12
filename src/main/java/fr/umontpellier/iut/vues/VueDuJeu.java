@@ -3,6 +3,7 @@ package fr.umontpellier.iut.vues;
 import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.Destination;
+import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Pos;
@@ -24,17 +25,21 @@ public class VueDuJeu extends VBox {
 
     private IJeu jeu;
     private VuePlateau plateau;
-    private VueAutresJoueurs AutresJoueurs;
+    private VueAutresJoueurs autresJoueurs;
+    private VueJoueurCourant joueurCourant;
     private VBox destinations;
 
     public VueDuJeu(IJeu jeu) {
-        this.setPrefSize(500, 500);
+        this.setPrefSize(900, 700);
         this.jeu = jeu;
+
         plateau = new VuePlateau();
-        AutresJoueurs = new VueAutresJoueurs();
-        AutresJoueurs.setAlignment(Pos.CENTER_RIGHT);
+        autresJoueurs = new VueAutresJoueurs();
+        autresJoueurs.setTranslateX(600);
+        joueurCourant = new VueJoueurCourant();
+
         //this.setStyle("-fx-background-color: #0000ff");
-        getChildren().addAll(AutresJoueurs);
+        getChildren().addAll(autresJoueurs, joueurCourant);
     }
 
     public IJeu getJeu() {
@@ -42,7 +47,9 @@ public class VueDuJeu extends VBox {
     }
 
     public void creerBindings() {
-        AutresJoueurs.creerBindings();
+        autresJoueurs.creerBindings();
+        joueurCourant.creerBindings();
+
         destinations = new VBox();
         ListChangeListener<Destination> changement = new ListChangeListener<Destination>() {
             @Override

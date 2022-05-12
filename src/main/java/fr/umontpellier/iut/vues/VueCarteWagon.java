@@ -25,7 +25,14 @@ public class VueCarteWagon extends Pane {
 
         switch(couleurWagon.toString()){
             case "Noir" : return new ImageView("images/cartesWagons/carte-wagon-NOIR.png");
-
+            case "Blanc" : return new ImageView("images/cartesWagons/carte-wagon-BLANC.png");
+            case "Jaune" : return new ImageView("images/cartesWagons/carte-wagon-JAUNE.png");
+            case "Rouge": return new ImageView("images/cartesWagons/carte-wagon-ROUGE.png");
+            case "Bleu": return new ImageView("images/cartesWagons/carte-wagon-BLEU.png");
+            case "Vert":return new ImageView("images/cartesWagons/carte-wagon-VERT.png");
+            case "Rose": return new ImageView("images/cartesWagons/carte-wagon-ROSE.png");
+            case "Orange": return new ImageView("images/cartesWagons/carte-wagon-ORANGE.png");
+            case "Locomotive": return new ImageView("images/cartesWagons/carte-wagon-LOCOMOTIVE.png");
         }
         return null;
     }

@@ -9,8 +9,10 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -44,8 +46,6 @@ public class VueAutresJoueurs extends VBox {
                         }
                     else    
                         {
-                            System.out.println(arg1.getNom());
-                            System.out.println(arg0.getValue().getNom());
                             getChildren().add(panneauJoueur(arg1));
                             getChildren().remove(getPane(arg0.getValue().getNom()));
                         }
@@ -58,6 +58,16 @@ public class VueAutresJoueurs extends VBox {
     public Pane panneauJoueur(IJoueur joueur) {
         Label label = new Label(joueur.getNom());
         Pane pane = new Pane(label);
+        int x= 40;
+        for (CouleurWagon carte : joueur.cartesWagonProperty())
+            {
+                ImageView image = new VueCarteWagon(carte).AfficherCarte();
+                image.setFitHeight(50);
+                image.setFitWidth(70);
+                x+=20;
+                image.setX(x);
+                pane.getChildren().add(image);
+            }
         ListChangeListener<CouleurWagon> changeListener = new ListChangeListener<CouleurWagon>() {
             @Override
             public void onChanged(Change<? extends CouleurWagon> arg0) {
@@ -73,9 +83,7 @@ public class VueAutresJoueurs extends VBox {
                         }
                     }
                 });
-                
             }
-            
         };
         joueur.cartesWagonProperty().addListener(changeListener);
         pane.setId(joueur.getNom());

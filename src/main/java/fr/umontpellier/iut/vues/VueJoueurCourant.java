@@ -6,8 +6,15 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.DepthTest;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
@@ -47,9 +54,24 @@ public class VueJoueurCourant extends Pane {
             {
                 ImageView vueCarteWagon = new VueCarteWagon(carte).AfficherCarte();
                 vueCarteWagon.setId(carte+"");
+                vueCarteWagon.setPreserveRatio(true);
                 vueCarteWagon.setFitHeight(100);
-                vueCarteWagon.setFitWidth(150);
+                //vueCarteWagon.setFitWidth(150);
                 vueCarteWagon.setX(x);
+
+                vueCarteWagon.setOnMouseEntered(e-> {
+                    vueCarteWagon.setFitHeight(120);
+                    //vueCarteWagon.toFront();
+                    vueCarteWagon.setEffect(new Glow(0.3)); 
+                    vueCarteWagon.setEffect(new DropShadow(20, Color.BLACK));
+                });
+                vueCarteWagon.setOnMouseExited(e-> {
+
+                    vueCarteWagon.setEffect(null);
+                    vueCarteWagon.setFitHeight(100);
+                    //vueCarteWagon.toBack();
+                    
+                });
                 getChildren().add(vueCarteWagon);
                 x+=40;
             }

@@ -73,28 +73,20 @@ public class VueAutresJoueurs extends VBox {
     }
 
     public Pane panneauJoueur(IJoueur joueur) {
-        Label label = new Label(joueur.getNom());
-        label.setStyle("-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        Label nom = new Label(joueur.getNom());
+        nom.setStyle("-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        Label score = new Label("Score : "+ joueur.getScore());
+        score.setStyle("-fx-font-size: 15; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        score.setLayoutY(130);
         Rectangle rectangle = new Rectangle(150, 150);
         rectangle.setStyle("-fx-fill: null; -fx-border-style: solid; -fx-border-width: 10; -fx-stroke: black;");
-        Pane pane = new Pane(label);
-        pane.getChildren().addAll(rectangle);
-        int x= 0;
-        for (CouleurWagon carte : joueur.cartesWagonProperty())
-            {
-                ImageView image = new VueCarteWagon(carte).AfficherCarte();
-                image.setFitHeight(50);
-                image.setFitWidth(70);
-                x+=20;
-                image.setX(x);
-                image.setY(40);
-                pane.getChildren().add(image);
-            }
+        Pane pane = new Pane(nom);
+        pane.getChildren().addAll(rectangle, score);
         for (int i = 0; i < joueur.getNbGares(); i++)
             {
                 ImageView wagon = new ImageView("images/wagons/image-wagon-"+joueur.getCouleur()+".png");
-                wagon.setFitHeight(20);
-                wagon.setFitWidth(20);
+                wagon.setPreserveRatio(true);
+                wagon.setFitHeight(25);
                 wagon.setX(i*20);
                 wagon.setY(20);
                 pane.getChildren().add(wagon);

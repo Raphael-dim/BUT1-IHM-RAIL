@@ -28,8 +28,9 @@ import javafx.scene.shape.Rectangle;
 public class VueAutresJoueurs extends VBox {
 
     public VueAutresJoueurs() {
-        this.setPrefSize(200, 200);
-        this.setSpacing(200);
+        this.setTranslateX(900);
+        this.setPrefSize(500, 500);
+        this.setSpacing(50);
     }
 
     public void creerBindings() {

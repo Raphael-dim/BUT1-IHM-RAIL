@@ -9,6 +9,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -20,26 +23,36 @@ import javafx.scene.layout.VBox;
  * (le joueur courant, les 5 cartes Wagons visibles, les destinations lors de l'étape d'initialisation de la partie, ...)
  * ainsi que les listeners à exécuter lorsque ces éléments changent
  */
-public class VueDuJeu extends VBox {
+public class VueDuJeu extends HBox {
 
     private IJeu jeu;
     private VuePlateau plateau;
     private VueAutresJoueurs autresJoueurs;
     private VueJoueurCourant joueurCourant;
     private VBox destinations;
-    private VBox cartesWagonsVisibles;
+    private HBox cartesWagonVisibles;
+    private HBox piocheEtDefausse;
 
     public VueDuJeu(IJeu jeu) {
-        this.setPrefSize(900, 700);
         this.jeu = jeu;
+        this.setStyle("-fx-background-color: grey;");
 
         plateau = new VuePlateau();
+
         autresJoueurs = new VueAutresJoueurs();
-        autresJoueurs.setTranslateX(600);
+
         joueurCourant = new VueJoueurCourant();
 
         //this.setStyle("-fx-background-color: #0000ff");
-        getChildren().addAll(autresJoueurs, joueurCourant);
+        //getChildren().add(plateau);
+        cartesWagonVisibles();
+        piocheEtDefausse();
+        
+        piocheEtDefausse.setStyle("-fx-background-color: blue;");
+        cartesWagonVisibles.setStyle("-fx-background-color: lightgreen;");
+        autresJoueurs.setStyle("-fx-background-color: red;");
+        joueurCourant.setStyle("-fx-background-color: pink;");
+
     }
 
     public IJeu getJeu() {
@@ -47,11 +60,9 @@ public class VueDuJeu extends VBox {
     }
 
     public void creerBindings() {
-        autresJoueurs.creerBindings();
-        joueurCourant.creerBindings();
-        cartesWagonVisibles();
 
         destinations = new VBox();
+        destinations.setStyle("-fx-background-color: black;");
         ListChangeListener<Destination> changement = new ListChangeListener<Destination>() {
             @Override
             public void onChanged(Change<? extends Destination> arg0) {
@@ -76,16 +87,26 @@ public class VueDuJeu extends VBox {
 
         jeu.destinationsInitialesProperty().addListener(changement);
         Button passer = new Button("Passer");
+        passer.setTranslateX(this.getTranslateX());
+        passer.setTranslateY(20);
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
         this.getChildren().addAll(passer, destinations);
+
+        getChildren().addAll(autresJoueurs, cartesWagonVisibles, piocheEtDefausse);
+        getChildren().add(joueurCourant);
+        autresJoueurs.creerBindings();
+        joueurCourant.setTranslateY(joueurCourant.getTranslateY()+20);
+        joueurCourant.setTranslateX(0);
+        joueurCourant.creerBindings();
     }
 
     public void cartesWagonVisibles() {
 
-        VBox cartesWagonVisibles = new VBox();
-
+        HBox cartesWagonVisibles = new HBox();
+        this.cartesWagonVisibles=cartesWagonVisibles;
+        cartesWagonVisibles.setTranslateY(600);
+        cartesWagonVisibles.setMaxHeight(50);
         ListChangeListener<CouleurWagon> changement = new ListChangeListener<CouleurWagon>() {
-
 
             @Override
             public void onChanged(Change<? extends CouleurWagon> arg0) {
@@ -94,29 +115,44 @@ public class VueDuJeu extends VBox {
                         if (arg0.wasAdded()) {
                             for (CouleurWagon couleurWagon : arg0.getAddedSubList()) {
                                 ImageView image = new VueCarteWagon(couleurWagon).AfficherCarte();
-                                image.setId(couleurWagon.hashCode()+"");
-                                image.setPreserveRatio(true);
-                                image.setFitHeight(100);
+                                VueCarteWagon.texturer(image);
+                                image.setId(couleurWagon + "");
+                                image.setOnMouseClicked(e->jeu.uneCarteWagonAEteChoisie(couleurWagon));
                                 cartesWagonVisibles.getChildren().add(image);
                             }
                         } else if (arg0.wasRemoved()) {
                             for (CouleurWagon couleurWagon : arg0.getRemoved()) {
-                                cartesWagonVisibles.getChildren().remove(couleurWagon.hashCode());
+                                cartesWagonVisibles.getChildren().remove(trouverImageView(couleurWagon+""));
                             }
                         }
                     }
-                });
-
-                
+                });   
             }
-        
         };
         jeu.cartesWagonVisiblesProperty().addListener(changement);
-        getChildren().add(cartesWagonVisibles);
+        this.cartesWagonVisibles=cartesWagonVisibles;
+    }
+
+    public void piocheEtDefausse() {
+        
+        HBox piocheEtDefausse = new HBox(10);
+        piocheEtDefausse.setMaxHeight(80);
+
+        piocheEtDefausse.setTranslateX(piocheEtDefausse.getTranslateX()+10);
+        piocheEtDefausse.setTranslateY(600);
+        ImageView pioche = new ImageView("images/wagons.png");
+        pioche.setOnMouseClicked(e->jeu.uneCarteWagonAEtePiochee());
+        VueCarteWagon.texturer(pioche);
+        ImageView defausse = new ImageView("images/wagons.png");
+        defausse.setPreserveRatio(true);
+        defausse.setFitHeight(80);
+
+        piocheEtDefausse.getChildren().addAll(pioche, defausse);
+        this.piocheEtDefausse=piocheEtDefausse;
     }
 
     public ImageView trouverImageView(String id) {
-        for (Node image : cartesWagonsVisibles.getChildren())
+        for (Node image : cartesWagonVisibles.getChildren())
             {
                 ImageView i = (ImageView) image;
                 if (i.getId().equals(id))

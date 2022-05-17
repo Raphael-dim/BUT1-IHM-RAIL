@@ -58,6 +58,7 @@ public class RailsIHM extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Rails");
         primaryStage.centerOnScreen();
+        primaryStage.setMaximized(true);
         primaryStage.setOnCloseRequest(event -> {
             this.onStopGame();
             event.consume();

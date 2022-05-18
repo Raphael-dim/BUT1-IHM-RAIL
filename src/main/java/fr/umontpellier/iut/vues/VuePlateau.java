@@ -15,19 +15,21 @@ import java.io.IOException;
 public class VuePlateau extends Pane {
 
     public VuePlateau() {
-        /*
+        
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/plateau.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/a.fxml"));
             loader.setRoot(this);
             loader.setController(this);
             loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
+        
     }
 
     @FXML
     public void choixRouteOuVille() {
+
+        
     }
 }

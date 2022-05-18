@@ -10,10 +10,6 @@ import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -95,8 +91,8 @@ public class VueAutresJoueurs extends VBox {
             {
                 ImageView wagon = new ImageView("images/wagons/image-wagon-"+joueur.getCouleur()+".png");
                 wagon.setPreserveRatio(true);
-                wagon.setFitHeight(25);
-                wagon.setX(i*20);
+                wagon.setFitHeight(40);
+                wagon.setX(i*30);
                 wagon.setY(50);
                 pane.getChildren().add(wagon);
             }

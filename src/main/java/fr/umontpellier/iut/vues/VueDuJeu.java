@@ -39,7 +39,7 @@ public class VueDuJeu extends GridPane {
         setStyle("-fx-background-color: grey;");
         setHgap(20);
         setVgap(20);
-        setPadding(new Insets(30));
+        setPadding(new Insets(20));
 
         plateau = new VuePlateau();
 
@@ -91,9 +91,6 @@ public class VueDuJeu extends GridPane {
         Button passer = new Button("Passer");
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
 
-
-        plateau.setPrefSize(950, 250);
-           
         add(plateau, 0, 0);
         add(autresJoueurs, 1, 0);
         add(WagonsVisiblesPiocheDefausse, 0, 1);

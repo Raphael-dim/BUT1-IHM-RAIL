@@ -1,5 +1,6 @@
 package fr.umontpellier.iut.vues;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -15,7 +16,7 @@ import java.io.IOException;
 public class VuePlateau extends Pane {
 
     public VuePlateau() {
-        
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/a.fxml"));
             loader.setRoot(this);
@@ -29,7 +30,6 @@ public class VuePlateau extends Pane {
 
     @FXML
     public void choixRouteOuVille() {
-
-        
+        System.out.println("test");
     }
 }

@@ -215,7 +215,7 @@
             <Rectangle height="11.0" width="33.0" layoutX="122.37500000000001" layoutY="565.125" rotate="-109.05770451012833" x="-16.5" y="-5.5" />
             <Rectangle height="11.0" width="33.0" layoutX="101.47500000000001" layoutY="536.8000000000001" rotate="-138.5322945838909" x="-16.5" y="-5.5" />
         </Group>
-        <Group id="Constantinople - Sevastopol" onMouseClicked="#choixRouteOuVille">
+        <Group id="²stantinople - Sevastopol" onMouseClicked="#choixRouteOuVille">
             <Rectangle height="11.0" width="33.0" layoutX="819.7750000000001" layoutY="435.32500000000005" rotate="91.00508600525419" x="-16.5" y="-5.5" />
             <Rectangle height="11.0" width="33.0" layoutX="809.0500000000001" layoutY="468.87500000000006" rotate="125.41705527646744" x="-16.5" y="-5.5" />
             <Rectangle height="11.0" width="33.0" layoutX="785.6750000000001" layoutY="480.70000000000005" rotate="-142.54942176826327" x="-16.5" y="-5.5" />

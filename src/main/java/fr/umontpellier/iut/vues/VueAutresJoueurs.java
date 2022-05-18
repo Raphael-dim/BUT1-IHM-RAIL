@@ -74,26 +74,39 @@ public class VueAutresJoueurs extends VBox {
     }
 
     public Pane panneauJoueur(IJoueur joueur) {
+
+        Pane pane = new Pane();
+
+        ImageView logo= new ImageView("images/avatar-"+joueur.getCouleur()+".png");
+        logo.setPreserveRatio(true);
+        logo.setFitHeight(100);
+
         Label nom = new Label(joueur.getNom());
         nom.setStyle("-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        nom.setLayoutX(80);
+
         Label score = new Label("Score : "+ joueur.getScore());
         score.setStyle("-fx-font-size: 15; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
-        score.setLayoutY(130);
+        score.setLayoutX(80);
+        score.setLayoutY(70);
+
         Rectangle rectangle = new Rectangle(150, 150);
         rectangle.setStyle("-fx-fill: null; -fx-border-style: solid; -fx-border-width: 10; -fx-stroke: black;");
-        Pane pane = new Pane(nom);
-        pane.getChildren().addAll(rectangle, score);
+
         Label gares = new Label("Gares : ");
         gares.setStyle("-fx-font-size: 15; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
-        gares.setTranslateY(35);
-        pane.getChildren().add(gares);
+        gares.setLayoutX(80);
+        gares.setLayoutY(35);
+
+        pane.getChildren().addAll(logo, nom, gares, score);
+
         for (int i = 0; i < joueur.getNbGares(); i++)
             {
                 ImageView wagon = new ImageView("images/wagons/image-wagon-"+joueur.getCouleur()+".png");
                 wagon.setPreserveRatio(true);
                 wagon.setFitHeight(40);
-                wagon.setX(i*30);
-                wagon.setY(50);
+                wagon.setX(i*30+130);
+                wagon.setY(28);
                 pane.getChildren().add(wagon);
             }
         pane.setId(joueur.getNom());

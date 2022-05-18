@@ -1,5 +1,6 @@
 package fr.umontpellier.iut.vues;
 
+import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import javafx.application.Platform;
@@ -7,45 +8,46 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
  *
  * On y définit les bindings sur le joueur courant, ainsi que le listener à exécuter lorsque ce joueur change
  */
-public class VueJoueurCourant extends HBox {
+public class VueJoueurCourant extends Pane {
 
     private IJoueur joueurCourant;
+    private IJeu jeu;
 
     public VueJoueurCourant() {
-        setTranslateY(700);
-        setTranslateX(0);
+
     }
     
     
     public void creerBindings() {
+        jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
         ChangeListener<IJoueur> changeListener = new ChangeListener<IJoueur>() {
             @Override
             public void changed(ObservableValue<? extends IJoueur> arg0, IJoueur arg1, IJoueur arg2) {
                 Platform.runLater(() -> {   
                     getChildren().clear();
-                    joueurCourant= ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().getValue();
+                    joueurCourant= jeu.joueurCourantProperty().getValue();
                     AfficherCartes();
                 });
             }
         };
 
-        ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().addListener(changeListener);
+        jeu.joueurCourantProperty().addListener(changeListener);
         
     }
 
     public void AfficherCartes() {
 
-        
         for (CouleurWagon carte: joueurCourant.getCartesWagon())
             {
                 ImageView vueCarteWagon = new VueCarteWagon(carte).AfficherCarte();
+                vueCarteWagon.setX(getChildren().size()* 65);
                 vueCarteWagon.setId(carte+"");
                 VueCarteWagon.texturer(vueCarteWagon);
                 getChildren().add(vueCarteWagon);
@@ -60,6 +62,7 @@ public class VueJoueurCourant extends HBox {
                             for (CouleurWagon couleurWagon : arg0.getAddedSubList()) {
                                 ImageView vueCarteWagon = new VueCarteWagon(couleurWagon).AfficherCarte();
                                 vueCarteWagon.setId(couleurWagon + "");
+                                vueCarteWagon.setX(getChildren().size()*65);
                                 VueCarteWagon.texturer(vueCarteWagon);
                                 getChildren().add(vueCarteWagon);
                             }

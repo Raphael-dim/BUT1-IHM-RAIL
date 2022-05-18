@@ -1,6 +1,7 @@
 package fr.umontpellier.iut.vues;
 import java.util.List;
 
+import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.IJoueur.Couleur;
 import fr.umontpellier.iut.rails.CouleurWagon;
@@ -27,14 +28,15 @@ import javafx.scene.shape.Rectangle;
  */
 public class VueAutresJoueurs extends VBox {
 
+    private IJeu jeu;
+
     public VueAutresJoueurs() {
-        this.setTranslateX(900);
-        this.setPrefSize(500, 500);
         this.setSpacing(50);
     }
 
     public void creerBindings() {
         
+        jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
         ChangeListener<IJoueur> changeListener = new ChangeListener<IJoueur>() {
             @Override
             public void changed(ObservableValue<? extends IJoueur> arg0, IJoueur arg1, IJoueur arg2) {
@@ -42,7 +44,7 @@ public class VueAutresJoueurs extends VBox {
                     if (getChildren().isEmpty())
                         {
                             List<Joueur> Autresjoueurs = ((VueDuJeu) getScene().getRoot()).getJeu().getJoueurs();
-                            Autresjoueurs.remove(((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().getValue());
+                            Autresjoueurs.remove(jeu.joueurCourantProperty().getValue());
                             for (Joueur j : Autresjoueurs) 
                                 {
                                     getChildren().add(panneauJoueur(j));
@@ -56,7 +58,7 @@ public class VueAutresJoueurs extends VBox {
                 });
             }
         };
-        ((VueDuJeu) getScene().getRoot()).getJeu().joueurCourantProperty().addListener(changeListener);
+            jeu.joueurCourantProperty().addListener(changeListener);
     }
 
     public String traduire(String couleur) {

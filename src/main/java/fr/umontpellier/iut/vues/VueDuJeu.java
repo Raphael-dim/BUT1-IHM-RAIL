@@ -5,12 +5,12 @@ import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -23,19 +23,21 @@ import javafx.scene.layout.VBox;
  * (le joueur courant, les 5 cartes Wagons visibles, les destinations lors de l'étape d'initialisation de la partie, ...)
  * ainsi que les listeners à exécuter lorsque ces éléments changent
  */
-public class VueDuJeu extends HBox {
+public class VueDuJeu extends GridPane {
 
     private IJeu jeu;
     private VuePlateau plateau;
     private VueAutresJoueurs autresJoueurs;
     private VueJoueurCourant joueurCourant;
     private VBox destinations;
-    private HBox cartesWagonVisibles;
-    private HBox piocheEtDefausse;
+    private HBox WagonsVisiblesPiocheDefausse;
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
-        this.setStyle("-fx-background-color: grey;");
+        setStyle("-fx-background-color: grey;");
+        setHgap(40);
+        setVgap(40);
+        setPadding(new Insets(30));
 
         plateau = new VuePlateau();
 
@@ -45,11 +47,11 @@ public class VueDuJeu extends HBox {
 
         //this.setStyle("-fx-background-color: #0000ff");
         //getChildren().add(plateau);
+
         cartesWagonVisibles();
         piocheEtDefausse();
         
-        piocheEtDefausse.setStyle("-fx-background-color: blue;");
-        cartesWagonVisibles.setStyle("-fx-background-color: lightgreen;");
+        WagonsVisiblesPiocheDefausse.setStyle("-fx-background-color: lightgreen;");
         autresJoueurs.setStyle("-fx-background-color: red;");
         joueurCourant.setStyle("-fx-background-color: pink;");
 
@@ -87,25 +89,26 @@ public class VueDuJeu extends HBox {
 
         jeu.destinationsInitialesProperty().addListener(changement);
         Button passer = new Button("Passer");
-        passer.setTranslateX(this.getTranslateX());
-        passer.setTranslateY(20);
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
-        this.getChildren().addAll(passer, destinations);
 
-        getChildren().addAll(autresJoueurs, cartesWagonVisibles, piocheEtDefausse);
-        getChildren().add(joueurCourant);
+        plateau.setPrefSize(950, 250);
+        add(plateau, 0, 0);
+        add(autresJoueurs, 1, 0);
+        add(WagonsVisiblesPiocheDefausse, 0, 1);
+
+        add(passer, 2, 1);
+        add(joueurCourant, 0, 3);
+
         autresJoueurs.creerBindings();
-        joueurCourant.setTranslateY(joueurCourant.getTranslateY()+20);
-        joueurCourant.setTranslateX(0);
         joueurCourant.creerBindings();
     }
 
     public void cartesWagonVisibles() {
 
-        HBox cartesWagonVisibles = new HBox();
-        this.cartesWagonVisibles=cartesWagonVisibles;
-        cartesWagonVisibles.setTranslateY(600);
-        cartesWagonVisibles.setMaxHeight(50);
+        WagonsVisiblesPiocheDefausse = new HBox();
+        WagonsVisiblesPiocheDefausse.setSpacing(20);
+        HBox CartesWagonsVisibles = new HBox();
+        WagonsVisiblesPiocheDefausse.getChildren().add(CartesWagonsVisibles);
         ListChangeListener<CouleurWagon> changement = new ListChangeListener<CouleurWagon>() {
 
             @Override
@@ -118,11 +121,11 @@ public class VueDuJeu extends HBox {
                                 VueCarteWagon.texturer(image);
                                 image.setId(couleurWagon + "");
                                 image.setOnMouseClicked(e->jeu.uneCarteWagonAEteChoisie(couleurWagon));
-                                cartesWagonVisibles.getChildren().add(image);
+                                CartesWagonsVisibles.getChildren().add(image);
                             }
                         } else if (arg0.wasRemoved()) {
                             for (CouleurWagon couleurWagon : arg0.getRemoved()) {
-                                cartesWagonVisibles.getChildren().remove(trouverImageView(couleurWagon+""));
+                                CartesWagonsVisibles.getChildren().remove(trouverImageView(CartesWagonsVisibles, couleurWagon+""));
                             }
                         }
                     }
@@ -130,29 +133,21 @@ public class VueDuJeu extends HBox {
             }
         };
         jeu.cartesWagonVisiblesProperty().addListener(changement);
-        this.cartesWagonVisibles=cartesWagonVisibles;
     }
 
     public void piocheEtDefausse() {
         
-        HBox piocheEtDefausse = new HBox(10);
-        piocheEtDefausse.setMaxHeight(80);
-
-        piocheEtDefausse.setTranslateX(piocheEtDefausse.getTranslateX()+10);
-        piocheEtDefausse.setTranslateY(600);
         ImageView pioche = new ImageView("images/wagons.png");
         pioche.setOnMouseClicked(e->jeu.uneCarteWagonAEtePiochee());
         VueCarteWagon.texturer(pioche);
         ImageView defausse = new ImageView("images/wagons.png");
         defausse.setPreserveRatio(true);
         defausse.setFitHeight(80);
-
-        piocheEtDefausse.getChildren().addAll(pioche, defausse);
-        this.piocheEtDefausse=piocheEtDefausse;
+        WagonsVisiblesPiocheDefausse.getChildren().addAll(pioche, defausse);
     }
 
-    public ImageView trouverImageView(String id) {
-        for (Node image : cartesWagonVisibles.getChildren())
+    public ImageView trouverImageView(HBox CartesWagonsVisibles, String id) {
+        for (Node image : CartesWagonsVisibles.getChildren())
             {
                 ImageView i = (ImageView) image;
                 if (i.getId().equals(id))

@@ -1,4 +1,5 @@
 package fr.umontpellier.iut.vues;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.umontpellier.iut.IJeu;
@@ -43,9 +44,10 @@ public class VueAutresJoueurs extends VBox {
                 Platform.runLater(() -> {
                     if (getChildren().isEmpty())
                         {
-                            List<Joueur> Autresjoueurs = ((VueDuJeu) getScene().getRoot()).getJeu().getJoueurs();
-                            Autresjoueurs.remove(jeu.joueurCourantProperty().getValue());
-                            for (Joueur j : Autresjoueurs) 
+                            List<Joueur> autresJoueurs = new ArrayList<>();
+                            autresJoueurs.addAll((((VueDuJeu) getScene().getRoot()).getJeu().getJoueurs()));
+                            autresJoueurs.remove(arg2);
+                            for (Joueur j : autresJoueurs) 
                                 {
                                     getChildren().add(panneauJoueur(j));
                                 }
@@ -53,7 +55,7 @@ public class VueAutresJoueurs extends VBox {
                     else    
                         {
                             getChildren().add(panneauJoueur(arg1));
-                            getChildren().remove(getPane(arg0.getValue().getNom()));
+                            getChildren().remove(getPane(arg2.getNom()));
                         }
                 });
             }

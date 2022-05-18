@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
@@ -36,8 +37,8 @@ public class VueDuJeu extends GridPane {
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
         setStyle("-fx-background-color: grey;");
-        setHgap(40);
-        setVgap(40);
+        setHgap(20);
+        setVgap(20);
         setPadding(new Insets(30));
 
         plateau = new VuePlateau();
@@ -73,14 +74,12 @@ public class VueDuJeu extends GridPane {
                 while (arg0.next()) {
                     if (arg0.wasAdded()) {
                         for (Destination destination : arg0.getAddedSubList()) {
-                            System.out.println(destination.getNom() + " a été ajouté");
                             destinations.getChildren().add(new Label(destination.getNom()));
                         }
                     } 
                     else if (arg0.wasRemoved()) {
                         for (Destination destination : arg0.getRemoved()) {
                             destinations.getChildren().remove(trouveLabelDestination(destination));
-                            System.out.println(destination.getNom() + " a été supprimé");
                         }
                     } 
                 }
@@ -92,17 +91,19 @@ public class VueDuJeu extends GridPane {
         Button passer = new Button("Passer");
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
 
+
         plateau.setPrefSize(950, 250);
+           
         add(plateau, 0, 0);
         add(autresJoueurs, 1, 0);
         add(WagonsVisiblesPiocheDefausse, 0, 1);
 
         add(passer, 2, 1);
         add(joueurCourant, 0, 3);
-
+        
         autresJoueurs.creerBindings();
         joueurCourant.creerBindings();
-    }
+    } 
 
     public void cartesWagonVisibles() {
 

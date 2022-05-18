@@ -32,8 +32,8 @@ public class VueJoueurCourant extends Pane {
             public void changed(ObservableValue<? extends IJoueur> arg0, IJoueur arg1, IJoueur arg2) {
                 Platform.runLater(() -> {   
                     getChildren().clear();
-                    joueurCourant= jeu.joueurCourantProperty().getValue();
-                    AfficherCartes();
+                    joueurCourant = arg2;
+                    afficherCartes();
                 });
             }
         };
@@ -42,7 +42,7 @@ public class VueJoueurCourant extends Pane {
         
     }
 
-    public void AfficherCartes() {
+    public void afficherCartes() {
 
         for (CouleurWagon carte: joueurCourant.getCartesWagon())
             {

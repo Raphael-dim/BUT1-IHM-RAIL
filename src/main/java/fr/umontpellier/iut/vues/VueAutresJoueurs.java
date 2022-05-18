@@ -85,13 +85,17 @@ public class VueAutresJoueurs extends VBox {
         rectangle.setStyle("-fx-fill: null; -fx-border-style: solid; -fx-border-width: 10; -fx-stroke: black;");
         Pane pane = new Pane(nom);
         pane.getChildren().addAll(rectangle, score);
+        Label gares = new Label("Gares : ");
+        gares.setStyle("-fx-font-size: 15; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        gares.setTranslateY(35);
+        pane.getChildren().add(gares);
         for (int i = 0; i < joueur.getNbGares(); i++)
             {
                 ImageView wagon = new ImageView("images/wagons/image-wagon-"+joueur.getCouleur()+".png");
                 wagon.setPreserveRatio(true);
                 wagon.setFitHeight(25);
                 wagon.setX(i*20);
-                wagon.setY(20);
+                wagon.setY(50);
                 pane.getChildren().add(wagon);
             }
         pane.setId(joueur.getNom());

@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 /**
@@ -50,11 +51,11 @@ public class VueDuJeu extends GridPane {
 
         cartesWagonVisibles();
         piocheEtDefausse();
-        
+        /*
         WagonsVisiblesPiocheDefausse.setStyle("-fx-background-color: lightgreen;");
         autresJoueurs.setStyle("-fx-background-color: red;");
         joueurCourant.setStyle("-fx-background-color: pink;");
-
+        */
     }
 
     public IJeu getJeu() {

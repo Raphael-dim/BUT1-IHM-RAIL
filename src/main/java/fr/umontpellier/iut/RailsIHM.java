@@ -48,7 +48,6 @@ public class RailsIHM extends Application {
             nomsJoueurs.add("Largo");
             nomsJoueurs.add("LeChuck");
             nomsJoueurs.add("Elaine");
-            nomsJoueurs.add("test");
         }
 
         serviceDuJeu = new ServiceDuJeu(nomsJoueurs.toArray(new String[0]));

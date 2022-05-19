@@ -11,6 +11,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -21,12 +22,13 @@ import javafx.scene.shape.Rectangle;
  *
  * On y définit les bindings sur le joueur courant, ainsi que le listener à exécuter lorsque ce joueur change
  */
-public class VueAutresJoueurs extends VBox {
+public class VueAutresJoueurs extends GridPane {
 
     private IJeu jeu;
 
     public VueAutresJoueurs() {
-        this.setSpacing(50);
+        this.setHgap(50);
+        this.setVgap(50);
     }
 
     public void creerBindings() {
@@ -41,14 +43,22 @@ public class VueAutresJoueurs extends VBox {
                             List<Joueur> autresJoueurs = new ArrayList<>();
                             autresJoueurs.addAll((((VueDuJeu) getScene().getRoot()).getJeu().getJoueurs()));
                             autresJoueurs.remove(arg2);
+                            int ligne = 0;
+                            int colonne = 0;
                             for (Joueur j : autresJoueurs) 
                                 {
-                                    getChildren().add(panneauJoueur(j));
+                                    add(panneauJoueur(j), colonne, ligne);
+                                    colonne++;
+                                    if (colonne>=2)
+                                        {
+                                            colonne=0;
+                                            ligne++;
+                                        }
                                 }
                         }
                     else    
                         {
-                            getChildren().add(panneauJoueur(arg1));
+                            add(panneauJoueur(arg1), getColumnIndex(getPane(arg2.getNom())), getRowIndex(getPane(arg2.getNom())));
                             getChildren().remove(getPane(arg2.getNom()));
                         }
                 });

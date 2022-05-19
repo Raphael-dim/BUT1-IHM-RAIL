@@ -3,6 +3,7 @@ import java.util.stream.IntStream;
 
 import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJeu;
+import fr.umontpellier.iut.IJoueur.Couleur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import javafx.application.Platform;
@@ -37,14 +38,15 @@ public class VueDuJeu extends GridPane {
     private VueAutresJoueurs autresJoueurs;
     private VueJoueurCourant joueurCourant;
     private HBox destinations;
-    private HBox WagonsVisiblesPiocheDefausse;
+    private HBox wagonsVisibles;
+    private HBox piocheDefausse;
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
         this.getStylesheets().add("css/page.css");
         this.setId("page");
-        setHgap(25);
-        setVgap(25);
+        setHgap(30);
+        setVgap(15);
         setPadding(new Insets(15));
 
         plateau = new VuePlateau();
@@ -56,6 +58,7 @@ public class VueDuJeu extends GridPane {
 
         cartesWagonVisibles();
         piocheEtDefausse();
+        destinations();
         /*
         WagonsVisiblesPiocheDefausse.setStyle("-fx-background-color: lightgreen;");
         autresJoueurs.setStyle("-fx-background-color: red;");
@@ -70,6 +73,7 @@ public class VueDuJeu extends GridPane {
     public void creerBindings() {
 
         destinations = new HBox();
+        destinations.setSpacing(10);
         ListChangeListener<Destination> changementDestination = new ListChangeListener<Destination>() {
             @Override
             public void onChanged(Change<? extends Destination> arg0) {
@@ -90,9 +94,10 @@ public class VueDuJeu extends GridPane {
                         }
                     } 
                 }
-            });
+                });
+            };
         };
-        };
+        jeu.destinationsInitialesProperty().addListener(changementDestination);
 
         Label instruction = new Label();
         instruction.setId("instruction");
@@ -103,31 +108,39 @@ public class VueDuJeu extends GridPane {
                 instruction.setText(arg0.getValue());
             }
         };
-
-
         jeu.instructionProperty().addListener(changementInstruction);
 
-        jeu.destinationsInitialesProperty().addListener(changementDestination);
+
+        
+        /*
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(65);
+        getColumnConstraints().add(col1);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(3);
+        getColumnConstraints().add(col2);
+        ColumnConstraints col3 = new ColumnConstraints();
+        col3.setPercentWidth(30);
+        getColumnConstraints().add(col3);
+        */
+
+        
         Button passer = new Button("Passer");
         passer.setId("passer");
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
 
-        ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(70);
-        getColumnConstraints().add(col1);
-        ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(30);
-        getColumnConstraints().add(col2);
+        VBox choix = new VBox();
+        choix.setSpacing(20);
+        choix.getChildren().addAll(instruction, passer, destinations);
         
+        VBox autresJoueursEtPioches = new VBox(autresJoueurs);
+        autresJoueursEtPioches.getChildren().addAll(piocheDefausse, wagonsVisibles);
+        autresJoueursEtPioches.setSpacing(70);
 
-        add(instruction, 1, 3);
         add(plateau, 0, 0);
-        add(autresJoueurs, 1, 0);
-        add(WagonsVisiblesPiocheDefausse, 0, 1);
-        
-        add(passer, 1, 1);
-        add(joueurCourant, 0, 2);
-        add(destinations, 1, 2);
+        add(autresJoueursEtPioches, 1, 0);
+        add(joueurCourant, 0, 1);
+        add(choix, 1, 1);
 
         autresJoueurs.creerBindings();
         joueurCourant.creerBindings();
@@ -136,10 +149,8 @@ public class VueDuJeu extends GridPane {
 
     public void cartesWagonVisibles() {
 
-        WagonsVisiblesPiocheDefausse = new HBox();
-        WagonsVisiblesPiocheDefausse.setSpacing(20);
-        HBox CartesWagonsVisibles = new HBox();
-        WagonsVisiblesPiocheDefausse.getChildren().add(CartesWagonsVisibles);
+        wagonsVisibles = new HBox();
+        wagonsVisibles.setSpacing(5);
         ListChangeListener<CouleurWagon> changement = new ListChangeListener<CouleurWagon>() {
 
             @Override
@@ -152,17 +163,17 @@ public class VueDuJeu extends GridPane {
                                 VueCarteWagon.texturer(image);
                                 image.setId(couleurWagon + "");
                                 image.setOnMouseClicked(e->jeu.uneCarteWagonAEteChoisie(couleurWagon));
-                                CartesWagonsVisibles.getChildren().add(image);
+                                wagonsVisibles.getChildren().add(image);
 
                             }
                         } else if (arg0.wasRemoved()) {
                             if (arg0.getRemovedSize()>=5)
                                 {
-                                    CartesWagonsVisibles.getChildren().clear();
+                                    wagonsVisibles.getChildren().clear();
                                 }
                             else{
                                 for (CouleurWagon couleurWagon : arg0.getRemoved()) {
-                                    CartesWagonsVisibles.getChildren().remove(trouverImageView(CartesWagonsVisibles, couleurWagon+""));
+                                    wagonsVisibles.getChildren().remove(trouverImageView(wagonsVisibles, couleurWagon+""));
                                 }
                             }
                         }
@@ -175,13 +186,23 @@ public class VueDuJeu extends GridPane {
 
     public void piocheEtDefausse() {
         
+        piocheDefausse = new HBox();
+        piocheDefausse.setSpacing(20);
         ImageView pioche = new ImageView("images/wagons.png");
         pioche.setOnMouseClicked(e->jeu.uneCarteWagonAEtePiochee());
         VueCarteWagon.texturer(pioche);
         ImageView defausse = new ImageView("images/wagons.png");
         defausse.setPreserveRatio(true);
         defausse.setFitHeight(80);
-        WagonsVisiblesPiocheDefausse.getChildren().addAll(pioche, defausse);
+        piocheDefausse.getChildren().addAll(pioche, defausse);
+    }
+
+    public void destinations() {
+
+        ImageView pioche = new ImageView("images/destinations.png");
+        VueCarteWagon.texturer(pioche);
+        pioche.setOnMouseClicked(e->jeu.uneDestinationAEtePiochee());
+        piocheDefausse.getChildren().addAll(pioche);
     }
 
     public ImageView trouverImageView(HBox CartesWagonsVisibles, String id) {

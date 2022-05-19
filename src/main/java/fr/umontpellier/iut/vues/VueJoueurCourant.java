@@ -1,5 +1,7 @@
 package fr.umontpellier.iut.vues;
 
+import java.util.List;
+
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
@@ -33,7 +35,7 @@ public class VueJoueurCourant extends Pane {
                 Platform.runLater(() -> {   
                     getChildren().clear();
                     joueurCourant = arg2;
-                    afficherCartes();
+                    afficherJoueur();
                 });
             }
         };
@@ -42,16 +44,9 @@ public class VueJoueurCourant extends Pane {
         
     }
 
-    public void afficherCartes() {
+    public void afficherJoueur() {
 
-        for (CouleurWagon carte: joueurCourant.getCartesWagon())
-            {
-                ImageView vueCarteWagon = new VueCarteWagon(carte).AfficherCarte();
-                vueCarteWagon.setX(getChildren().size()* 65);
-                vueCarteWagon.setId(carte+"");
-                VueCarteWagon.texturer(vueCarteWagon);
-                getChildren().add(vueCarteWagon);
-            }
+        afficherCartes(joueurCourant.getCartesWagon());
         ListChangeListener<CouleurWagon> changeListener = new ListChangeListener<CouleurWagon>() {
 
             @Override
@@ -59,13 +54,7 @@ public class VueJoueurCourant extends Pane {
                 Platform.runLater(() -> {
                     while (arg0.next()) {
                         if (arg0.wasAdded()) {
-                            for (CouleurWagon couleurWagon : arg0.getAddedSubList()) {
-                                ImageView vueCarteWagon = new VueCarteWagon(couleurWagon).AfficherCarte();
-                                vueCarteWagon.setId(couleurWagon + "");
-                                vueCarteWagon.setX(getChildren().size()*65);
-                                VueCarteWagon.texturer(vueCarteWagon);
-                                getChildren().add(vueCarteWagon);
-                            }
+                            afficherCartes(arg0.getAddedSubList());
                         } else if (arg0.wasRemoved()) {
                             for (CouleurWagon couleurWagon : arg0.getRemoved()) {
                             }
@@ -75,5 +64,25 @@ public class VueJoueurCourant extends Pane {
             }
         };
         joueurCourant.cartesWagonProperty().addListener(changeListener);
+    }
+
+    public void afficherCartes(List<? extends CouleurWagon> cartes) {
+
+        for (CouleurWagon couleurWagon : cartes) 
+            {
+                ImageView vueCarteWagon = new VueCarteWagon(couleurWagon).AfficherCarte();
+                vueCarteWagon.setId(couleurWagon + "");
+                VueCarteWagon.texturer(vueCarteWagon);
+                if (getChildren().size() >= 14) 
+                    {
+                        vueCarteWagon.setX((getChildren().size() % 14) * 65);
+                        vueCarteWagon.setY(100);
+                    } 
+                else 
+                    {
+                        vueCarteWagon.setX(getChildren().size() * 65);
+                    }
+                getChildren().add(vueCarteWagon);
+            }
     }
 }

@@ -28,6 +28,7 @@ public class RailsIHM extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        
         if (avecVueChoixJoueurs) {
             vueChoixJoueurs = new VueChoixJoueurs();
             vueChoixJoueurs.setNomsDesJoueursDefinisListener(quandLesNomsJoueursSontDefinis);
@@ -47,6 +48,7 @@ public class RailsIHM extends Application {
             nomsJoueurs.add("Largo");
             nomsJoueurs.add("LeChuck");
             nomsJoueurs.add("Elaine");
+            nomsJoueurs.add("test");
         }
 
         serviceDuJeu = new ServiceDuJeu(nomsJoueurs.toArray(new String[0]));
@@ -59,6 +61,7 @@ public class RailsIHM extends Application {
         primaryStage.setTitle("Rails");
         primaryStage.centerOnScreen();
         primaryStage.setMaximized(true);
+
         primaryStage.setOnCloseRequest(event -> {
             this.onStopGame();
             event.consume();

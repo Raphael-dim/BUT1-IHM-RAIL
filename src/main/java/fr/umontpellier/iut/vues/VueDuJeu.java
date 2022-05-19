@@ -10,8 +10,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -29,14 +31,15 @@ public class VueDuJeu extends GridPane {
     private VuePlateau plateau;
     private VueAutresJoueurs autresJoueurs;
     private VueJoueurCourant joueurCourant;
-    private VBox destinations;
+    private HBox destinations;
     private HBox WagonsVisiblesPiocheDefausse;
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
-        setStyle("-fx-background-color: grey;");
-        setHgap(20);
-        setVgap(20);
+        this.getStylesheets().add("css/page.css");
+        this.setId("page");
+        setHgap(25);
+        setVgap(25);
         setPadding(new Insets(20));
 
         plateau = new VuePlateau();
@@ -45,8 +48,6 @@ public class VueDuJeu extends GridPane {
 
         joueurCourant = new VueJoueurCourant();
 
-        //this.setStyle("-fx-background-color: #0000ff");
-        //getChildren().add(plateau);
 
         cartesWagonVisibles();
         piocheEtDefausse();
@@ -63,7 +64,7 @@ public class VueDuJeu extends GridPane {
 
     public void creerBindings() {
 
-        destinations = new VBox();
+        destinations = new HBox();
         destinations.setStyle("-fx-background-color: black;");
         ListChangeListener<Destination> changement = new ListChangeListener<Destination>() {
             @Override
@@ -87,17 +88,28 @@ public class VueDuJeu extends GridPane {
 
         jeu.destinationsInitialesProperty().addListener(changement);
         Button passer = new Button("Passer");
+        passer.setId("passer");
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
 
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(70);
+        getColumnConstraints().add(col1);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(30);
+        getColumnConstraints().add(col2);
+        
+
+        
         add(plateau, 0, 0);
         add(autresJoueurs, 1, 0);
         add(WagonsVisiblesPiocheDefausse, 0, 1);
-
-        add(passer, 2, 1);
-        add(joueurCourant, 0, 3);
         
+        add(passer, 1, 1);
+        add(joueurCourant, 0, 2);
+
         autresJoueurs.creerBindings();
         joueurCourant.creerBindings();
+
     } 
 
     public void cartesWagonVisibles() {
@@ -119,10 +131,17 @@ public class VueDuJeu extends GridPane {
                                 image.setId(couleurWagon + "");
                                 image.setOnMouseClicked(e->jeu.uneCarteWagonAEteChoisie(couleurWagon));
                                 CartesWagonsVisibles.getChildren().add(image);
+
                             }
                         } else if (arg0.wasRemoved()) {
-                            for (CouleurWagon couleurWagon : arg0.getRemoved()) {
-                                CartesWagonsVisibles.getChildren().remove(trouverImageView(CartesWagonsVisibles, couleurWagon+""));
+                            if (arg0.getRemovedSize()>=5)
+                                {
+                                    CartesWagonsVisibles.getChildren().clear();
+                                }
+                            else{
+                                for (CouleurWagon couleurWagon : arg0.getRemoved()) {
+                                    CartesWagonsVisibles.getChildren().remove(trouverImageView(CartesWagonsVisibles, couleurWagon+""));
+                                }
                             }
                         }
                     }

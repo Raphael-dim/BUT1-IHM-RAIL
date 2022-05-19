@@ -1,10 +1,14 @@
 package fr.umontpellier.iut.vues;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+
 
 /**
  * Cette classe présente les routes et les villes sur le plateau.
@@ -13,6 +17,9 @@ import java.io.IOException;
  * ainsi que les bindings qui mettront ?à jour le plateau après la prise d'une route ou d'une ville par un joueur
  */
 public class VuePlateau extends Pane {
+
+    @FXML Group villes;
+    @FXML Group routes;
 
     public VuePlateau() {
 
@@ -29,6 +36,6 @@ public class VuePlateau extends Pane {
 
     @FXML
     public void choixRouteOuVille() {
-        System.out.println("test");
+                
     }
 }

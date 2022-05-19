@@ -4,8 +4,6 @@ import java.util.List;
 
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
-import fr.umontpellier.iut.IJoueur.Couleur;
-import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;

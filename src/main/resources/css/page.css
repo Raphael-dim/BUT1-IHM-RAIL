@@ -9,8 +9,14 @@
 #page {
     -fx-background-color: rgb(151, 91, 91);
     -fx-background-radius: 5.0;
-    -fx-background-insets: 0.0 5.0 0.0 5.0;
-    -fx-padding: 10;
-    -fx-hgap: 10;
-    -fx-vgap: 10;
+    /*-fx-background-insets: 0.0 5.0 0.0 5.0;*/
+}
+
+#instruction  {
+    -fx-text-fill: #ff9900;
+    -fx-font-size: 25;
+    -fx-background-color: #00000091;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;
 }

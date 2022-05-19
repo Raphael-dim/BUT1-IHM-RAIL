@@ -1,10 +1,15 @@
 package fr.umontpellier.iut.vues;
+import java.util.stream.IntStream;
+
 import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -40,7 +45,7 @@ public class VueDuJeu extends GridPane {
         this.setId("page");
         setHgap(25);
         setVgap(25);
-        setPadding(new Insets(20));
+        setPadding(new Insets(15));
 
         plateau = new VuePlateau();
 
@@ -65,20 +70,23 @@ public class VueDuJeu extends GridPane {
     public void creerBindings() {
 
         destinations = new HBox();
-        destinations.setStyle("-fx-background-color: black;");
-        ListChangeListener<Destination> changement = new ListChangeListener<Destination>() {
+        ListChangeListener<Destination> changementDestination = new ListChangeListener<Destination>() {
             @Override
             public void onChanged(Change<? extends Destination> arg0) {
                 Platform.runLater(() -> {
                 while (arg0.next()) {
                     if (arg0.wasAdded()) {
                         for (Destination destination : arg0.getAddedSubList()) {
-                            destinations.getChildren().add(new Label(destination.getNom()));
+                            Button boutton = new Button(destination.getNom());
+                            boutton.setOnMouseClicked(e->{
+                                jeu.uneDestinationAEteChoisie(boutton.getText());
+                            });
+                            destinations.getChildren().add(boutton);
                         }
                     } 
                     else if (arg0.wasRemoved()) {
                         for (Destination destination : arg0.getRemoved()) {
-                            destinations.getChildren().remove(trouveLabelDestination(destination));
+                            destinations.getChildren().remove(trouverDestination(destination));
                         }
                     } 
                 }
@@ -86,7 +94,20 @@ public class VueDuJeu extends GridPane {
         };
         };
 
-        jeu.destinationsInitialesProperty().addListener(changement);
+        Label instruction = new Label();
+        instruction.setId("instruction");
+        ChangeListener<String> changementInstruction = new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+                instruction.setText(arg0.getValue());
+            }
+        };
+
+
+        jeu.instructionProperty().addListener(changementInstruction);
+
+        jeu.destinationsInitialesProperty().addListener(changementDestination);
         Button passer = new Button("Passer");
         passer.setId("passer");
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
@@ -99,13 +120,14 @@ public class VueDuJeu extends GridPane {
         getColumnConstraints().add(col2);
         
 
-        
+        add(instruction, 1, 3);
         add(plateau, 0, 0);
         add(autresJoueurs, 1, 0);
         add(WagonsVisiblesPiocheDefausse, 0, 1);
         
         add(passer, 1, 1);
         add(joueurCourant, 0, 2);
+        add(destinations, 1, 2);
 
         autresJoueurs.creerBindings();
         joueurCourant.creerBindings();
@@ -174,13 +196,13 @@ public class VueDuJeu extends GridPane {
         return null;
     }
 
-    public Label trouveLabelDestination(IDestination destination) {
-        for (Node label : destinations.getChildren())    
+    public Button trouverDestination(IDestination destination) {
+        for (Node boutton : destinations.getChildren())    
             {
-                Label l = (Label) label;
-                if (l.getText().equals(destination.getNom()))
+                Button b = (Button) boutton;
+                if (b.getText().equals(destination.getNom()))
                     {
-                        return l;
+                        return b;
                     }
             }
         return null;

@@ -18,11 +18,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.BuilderFactory;
@@ -45,16 +52,31 @@ public class VueDuJeu extends GridPane {
     private HBox destinations;
     private HBox wagonsVisibles;
     private HBox piocheDefausse;
+    private double maxHauteur;
+    private double maxLongueur;
 
     public VueDuJeu(IJeu jeu) {
+
         this.jeu = jeu;
         this.getStylesheets().add("css/page.css");
         this.setId("page");
+
+        Image image = new Image("images/fond.png");
+
+        BackgroundImage img = new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT);
+                
+        setBackground(new Background(img));
+
         setHgap(30);
         setVgap(15);
-        
+        maxHauteur =  this.getHeight();
+        maxLongueur = this.getWidth();
         setPadding(new Insets(15));
-    
+
         plateau = new VuePlateau();
 
         autresJoueurs = new VueAutresJoueurs();
@@ -65,8 +87,8 @@ public class VueDuJeu extends GridPane {
         cartesWagonVisibles();
         piocheEtDefausse();
         destinations();
+        
         /*
-        WagonsVisiblesPiocheDefausse.setStyle("-fx-background-color: lightgreen;");
         autresJoueurs.setStyle("-fx-background-color: red;");
         joueurCourant.setStyle("-fx-background-color: pink;");
         */
@@ -79,22 +101,51 @@ public class VueDuJeu extends GridPane {
     public void creerBindings() {
 
         this.getScene().widthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+                Platform.runLater(() -> {
                 for (Node node : getChildren())
                     {
-                    }   
+                        if (arg2.doubleValue() > maxLongueur)
+                            {
+                                maxLongueur = arg2.doubleValue();
+                            }
+                        double pourcentage;
+                        if (arg2.doubleValue() < arg1.doubleValue())
+                            {
+                                pourcentage = (maxLongueur / arg2.doubleValue());
+                                node.setScaleX(1 / pourcentage);
+                                node.setScaleY(1 / pourcentage);
+                            }
+                        if (arg2.doubleValue() > arg1.doubleValue()) 
+                            {
+                                pourcentage = (maxLongueur / arg2.doubleValue());
+                                node.setScaleX(1 / pourcentage);
+                                node.setScaleY(1 / pourcentage);
+                            }
+                        //node.setTranslateX(-100);
+                    } 
+                });  
             }    
         });
 
         this.getScene().heightProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+                Platform.runLater(() -> {
+
                 for (Node node : getChildren()) 
                     {
+                    if (arg2.doubleValue() > maxLongueur) {
+                        maxHauteur = arg2.doubleValue();
                     }
+                    double pourcentage;
+                    if (arg2.doubleValue() < arg1.doubleValue()) {
+                        pourcentage = (maxHauteur / arg2.doubleValue());
+                        //node.setScaleY(1 / pourcentage);
+                    }
+                    }
+                }); 
             }
         });
 
@@ -158,8 +209,13 @@ public class VueDuJeu extends GridPane {
         ColumnConstraints col2 = new ColumnConstraints();
         col2.setPercentWidth(40);
         getColumnConstraints().add(col2);
-        
 
+        RowConstraints lig1 = new RowConstraints();
+        lig1.setPercentHeight(70);
+        getRowConstraints().add(lig1);
+        RowConstraints lig2 = new RowConstraints();
+        lig2.setPercentHeight(30);
+        getRowConstraints().add(lig2);
         
         Button passer = new Button("Passer");
         passer.setId("passer");
@@ -237,10 +293,12 @@ public class VueDuJeu extends GridPane {
         ImageView pioche = new ImageView("images/wagons.png");
         pioche.setOnMouseClicked(e->jeu.uneCarteWagonAEtePiochee());
         VueCarteWagon.texturer(pioche);
+        /*
         ImageView defausse = new ImageView("images/wagons.png");
         defausse.setPreserveRatio(true);
         defausse.setFitHeight(80);
-        piocheDefausse.getChildren().addAll(pioche, defausse);
+        */
+        piocheDefausse.getChildren().addAll(pioche);
     }
 
     public void destinations() {

@@ -1,5 +1,6 @@
 package fr.umontpellier.iut.vues;
 
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,16 +19,16 @@ import java.io.IOException;
  */
 public class VuePlateau extends Pane {
 
-    @FXML Group villes;
-    @FXML Group routes;
-
+    @FXML Pane panneau;
     public VuePlateau() {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/plateau_55.fxml"));
             loader.setRoot(this);
             loader.setController(this);
-            loader.load();
+            Pane p = loader.load();
+            panneau = new Pane();
+            panneau.getChildren().add(p);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,6 +37,5 @@ public class VuePlateau extends Pane {
 
     @FXML
     public void choixRouteOuVille() {
-                
     }
 }

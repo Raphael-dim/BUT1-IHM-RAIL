@@ -5,6 +5,7 @@ import java.util.List;
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
+import fr.umontpellier.iut.rails.Plateau;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -46,6 +47,11 @@ public class VueJoueurCourant extends Pane {
 
     public void afficherJoueur() {
 
+        ImageView image = new ImageView("images/avatar-"+joueurCourant.getCouleur()+".png");
+        image.setPreserveRatio(true);
+        image.setFitHeight(200);
+        image.setOpacity(50);
+        getChildren().add(image);
         afficherCartes(joueurCourant.getCartesWagon());
         ListChangeListener<CouleurWagon> changeListener = new ListChangeListener<CouleurWagon>() {
 
@@ -70,19 +76,21 @@ public class VueJoueurCourant extends Pane {
 
         for (CouleurWagon couleurWagon : cartes) 
             {
-                ImageView vueCarteWagon = new VueCarteWagon(couleurWagon).AfficherCarte();
-                vueCarteWagon.setId(couleurWagon + "");
-                VueCarteWagon.texturer(vueCarteWagon);
-                if (getChildren().size() >= 14) 
-                    {
-                        vueCarteWagon.setX((getChildren().size() % 14) * 65);
-                        vueCarteWagon.setY(100);
-                    } 
-                else 
-                    {
-                        vueCarteWagon.setX(getChildren().size() * 65);
-                    }
-                getChildren().add(vueCarteWagon);
+                Platform.runLater(() -> {
+                    ImageView vueCarteWagon = new VueCarteWagon(couleurWagon).AfficherCarte();
+                    vueCarteWagon.setId(couleurWagon + "");
+                    VueCarteWagon.texturer(vueCarteWagon);
+                    if (getChildren().size() >= 14) 
+                        {
+                            vueCarteWagon.setX((getChildren().size() % 14) * 65 + 165);
+                            vueCarteWagon.setY(100);
+                        } 
+                    else 
+                        {
+                            vueCarteWagon.setX(getChildren().size() * 65 + 100);
+                        }
+                    getChildren().add(vueCarteWagon);
+                });
             }
     }
 }

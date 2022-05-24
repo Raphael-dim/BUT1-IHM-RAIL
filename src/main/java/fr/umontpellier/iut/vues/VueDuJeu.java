@@ -8,6 +8,7 @@ import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableNumberValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
@@ -15,12 +16,16 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.util.BuilderFactory;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -47,8 +52,9 @@ public class VueDuJeu extends GridPane {
         this.setId("page");
         setHgap(30);
         setVgap(15);
+        
         setPadding(new Insets(15));
-
+    
         plateau = new VuePlateau();
 
         autresJoueurs = new VueAutresJoueurs();
@@ -72,6 +78,28 @@ public class VueDuJeu extends GridPane {
 
     public void creerBindings() {
 
+        this.getScene().widthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+                for (Node node : getChildren())
+                    {
+                    }   
+            }    
+        });
+
+        this.getScene().heightProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+                for (Node node : getChildren()) 
+                    {
+                    }
+            }
+        });
+
+
+
         destinations = new HBox();
         destinations.setSpacing(10);
         ListChangeListener<Destination> changementDestination = new ListChangeListener<Destination>() {
@@ -84,6 +112,15 @@ public class VueDuJeu extends GridPane {
                             Button boutton = new Button(destination.getNom());
                             boutton.setOnMouseClicked(e->{
                                 jeu.uneDestinationAEteChoisie(boutton.getText());
+                            });
+                            boutton.setOnMouseEntered(e -> {
+                                boutton.setPrefSize(boutton.getWidth() + 20, 35);
+                                boutton.setEffect(new Glow(0.3));
+                                boutton.setEffect(new DropShadow(20, Color.BLACK));
+                            });
+                            boutton.setOnMouseExited(e -> {
+                                boutton.setEffect(null);
+                                boutton.setPrefSize(boutton.getWidth() - 20, 10);
                             });
                             destinations.getChildren().add(boutton);
                         }
@@ -105,29 +142,38 @@ public class VueDuJeu extends GridPane {
 
             @Override
             public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+                Platform.runLater(() -> {
                 instruction.setText(arg0.getValue());
+                });
             }
         };
         jeu.instructionProperty().addListener(changementInstruction);
 
 
         
-        /*
+        
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(65);
+        col1.setPercentWidth(60);
         getColumnConstraints().add(col1);
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(3);
+        col2.setPercentWidth(40);
         getColumnConstraints().add(col2);
-        ColumnConstraints col3 = new ColumnConstraints();
-        col3.setPercentWidth(30);
-        getColumnConstraints().add(col3);
-        */
+        
 
         
         Button passer = new Button("Passer");
         passer.setId("passer");
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
+
+        passer.setOnMouseEntered(e -> {
+            passer.setPrefSize(60, 35);
+            passer.setEffect(new Glow(0.3));
+            passer.setEffect(new DropShadow(20, Color.BLACK));
+        });
+        passer.setOnMouseExited(e -> {
+            passer.setEffect(null);
+            passer.setPrefSize(50, 10);
+        });
 
         VBox choix = new VBox();
         choix.setSpacing(20);

@@ -32,6 +32,7 @@ public class VueChoixJoueurs extends Stage {
     private GridPane grille;
     private ChoiceBox<Integer> choix;
     private ObservableList<String> nomsJoueurs;
+    private boolean demarrerPartie = false;
     public ObservableList<String> nomsJoueursProperty() {
         return nomsJoueurs;
     }
@@ -44,9 +45,12 @@ public class VueChoixJoueurs extends Stage {
         nomsJoueurs = FXCollections.observableArrayList();
         grille = new GridPane();
         Scene scene = new Scene(grille);
-        //grille.setStyle("-fx-background-color: red;");
+        grille.setStyle("-fx-background-color: darkgrey;");
         this.setTitle("Choix des joueurs");
         this.setScene(scene);
+        this.setWidth(500);
+        this.setHeight(400);
+
         this.show();
         Afficher();
     }
@@ -65,6 +69,7 @@ public class VueChoixJoueurs extends Stage {
         choix.getItems().add(3);
         choix.getItems().add(4);
         choix.getItems().add(5);
+
 
         grille.add(label, 0, 0);
         grille.add(choix, 1, 0);
@@ -135,12 +140,15 @@ public class VueChoixJoueurs extends Stage {
      * Définit l'action à exécuter lorsque la liste des participants est correctement initialisée
      */
     public void setNomsDesJoueursDefinisListener(ListChangeListener<String> quandLesNomsDesJoueursSontDefinis) {
+        nomsJoueurs.addListener(quandLesNomsDesJoueursSontDefinis);
     }
 
     /**
      * Définit l'action à exécuter lorsque le nombre de participants change
      */
-    protected void setChangementDuNombreDeJoueursListener(ChangeListener<Integer> quandLeNombreDeJoueursChange) {}
+    protected void setChangementDuNombreDeJoueursListener(ChangeListener<Integer> quandLeNombreDeJoueursChange) {
+        System.out.println("caca");
+    }
 
     /**
      * Vérifie que tous les noms des participants sont renseignés
@@ -157,11 +165,22 @@ public class VueChoixJoueurs extends Stage {
             else
                 tempNamesList.add(name);
         }
+
+
         if (!tempNamesList.isEmpty()) {
             hide();
+
             nomsJoueurs.clear();
             nomsJoueurs.addAll(tempNamesList);
+            demarrerPartie = true;
+
+
         }
+
+    }
+
+    public boolean getDemarrerPartie() {
+        return demarrerPartie;
     }
 
     /**

@@ -342,8 +342,4 @@ public class VueDuJeu extends GridPane {
             }
         return null;
     }
-
-    public VueJoueurCourant getVueJoueurCourant()   {
-        return joueurCourant;
-    }
 }

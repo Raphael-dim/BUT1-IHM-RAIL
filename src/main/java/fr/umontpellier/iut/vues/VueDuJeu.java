@@ -175,13 +175,12 @@ public class VueDuJeu extends GridPane {
                                 jeu.uneDestinationAEteChoisie(boutton.getText());
                             });
                             boutton.setOnMouseEntered(e -> {
-                                boutton.setPrefSize(boutton.getWidth() + 20, 35);
-                                boutton.setEffect(new Glow(0.3));
+                                boutton.setStyle(" -fx-font-size: 25; -fx-text-fill: #DFB951; -fx-background-color: #006464; -fx-border-radius: 20;-fx-background-radius: 20;  -fx-padding: 5;");
                                 boutton.setEffect(new DropShadow(20, Color.BLACK));
                             });
                             boutton.setOnMouseExited(e -> {
+                                boutton.setStyle(null);
                                 boutton.setEffect(null);
-                                boutton.setPrefSize(boutton.getWidth() - 20, 10);
                             });
                             destinations.getChildren().add(boutton);
                         }
@@ -232,13 +231,15 @@ public class VueDuJeu extends GridPane {
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
 
         passer.setOnMouseEntered(e -> {
-            passer.setPrefSize(60, 35);
+            passer.setStyle("-fx-font-size: 25; -fx-text-fill: #DFB951; -fx-background-color: #006464; -fx-border-radius: 20;-fx-background-radius: 20;  -fx-padding: 5;");
             passer.setEffect(new Glow(0.3));
             passer.setEffect(new DropShadow(20, Color.BLACK));
         });
         passer.setOnMouseExited(e -> {
+            passer.setStyle(null);
             passer.setEffect(null);
-            passer.setPrefSize(50, 10);
+
+
         });
 
         VBox choix = new VBox();

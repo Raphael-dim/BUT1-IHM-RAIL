@@ -1,10 +1,10 @@
 .button {
-    -fx-font-size: 20;
+    -fx-font-size: 18;
     -fx-text-fill: #006464;
-        -fx-background-color: #DFB951;
-        -fx-border-radius: 20;
-        -fx-background-radius: 20;
-        -fx-padding: 5;
+    -fx-background-color: #DFB951;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;
 }
 
 #page {
@@ -24,4 +24,58 @@
     -fx-border-radius: 20;
     -fx-background-radius: 20;
     -fx-padding: 5;
+}
+
+#choix{
+    -fx-font-size: 22;
+    -fx-text-fill: #ff9900;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 3;
+}
+
+#valider    {
+    -fx-font-size: 18;
+    -fx-text-fill: #ff9900;
+    -fx-background-color: #000000;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;
+}
+
+.text-field {
+    -fx-font-family: "Quicksand";
+    -fx-font-size: 18;
+    -fx-padding: 1, 1, 1, 1;
+    -fx-border-color: rgb(0, 0, 0);
+    -fx-border-width: 2;
+    -fx-border-radius: 1;
+    -fx-border: gone;
+    -fx-background-color: transparent;
+    -fx-text-fill: #b34700;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: black;
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: orange;
+}
+
+.choice-box .menu-item>.label {
+    -fx-text-fill: white;
+}
+
+.choice-box .menu-item:focused>.label {
+    -fx-text-fill: black;
+}
+
+
+.choice-box {
+    -fx-background-color: black;
+    -fx-mark-color: orange; 
+}
+
+.choice-box>.label {
+    -fx-text-fill: white;
 }

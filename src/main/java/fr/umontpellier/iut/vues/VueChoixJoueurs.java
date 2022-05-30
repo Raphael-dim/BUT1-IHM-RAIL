@@ -15,8 +15,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,23 +49,24 @@ public class VueChoixJoueurs extends Stage {
         nomsJoueurs = FXCollections.observableArrayList();
         grille = new GridPane();
         Scene scene = new Scene(grille);
-        grille.setStyle("-fx-background-color: darkgrey;");
         this.setTitle("Choix des joueurs");
         this.setScene(scene);
-        this.setWidth(500);
-        this.setHeight(400);
-
-        this.show();
+        this.setWidth(700);
+        this.setHeight(500);
+        scene.getStylesheets().add("css/page.css");
         Afficher();
+
     }
 
     public void Afficher()  {
 
+        Font.loadFont("fonts/western.ttf", 10);
         grille.setPadding(new Insets(30));
         grille.setHgap(30);
         grille.setVgap(30);
 
-        Label label = new Label("Choisissez le nombre de joueurs");
+        Label label = new Label("Choisissez le nombre de joueurs : ");
+        label.setId("choix");
         
         choix = new ChoiceBox<>();
         
@@ -79,6 +84,7 @@ public class VueChoixJoueurs extends Stage {
         grille.add(noms, 1, 1);
 
         Button valider = new Button("Valider");
+        valider.setId("valider");
         grille.add(valider, 1, 2);
         valider.setOnMouseClicked(e->{
             Boolean bool = false;
@@ -113,7 +119,9 @@ public class VueChoixJoueurs extends Stage {
 
                 if (arg1 == null)
                     {
-                        grille.add(new Label("Noms de joueurs"), 0, 1);
+                        Label label = new Label("Noms de joueurs : ");
+                        label.setId("choix");
+                        grille.add(label, 0, 1);
                     }
 
                 if (noms.getChildren().size() < arg2)
@@ -143,17 +151,6 @@ public class VueChoixJoueurs extends Stage {
         nomsJoueurs.addListener(quandLesNomsDesJoueursSontDefinis);
     }
 
-    /**
-     * Définit l'action à exécuter lorsque le nombre de participants change
-     */
-    protected void setChangementDuNombreDeJoueursListener(ChangeListener<Integer> quandLeNombreDeJoueursChange) {
-        System.out.println("caca");
-    }
-
-    /**
-     * Vérifie que tous les noms des participants sont renseignés
-     * et affecte la liste définitive des participants
-     */
     protected void setListeDesNomsDeJoueurs() {
         ArrayList<String> tempNamesList = new ArrayList<>();
         for (int i = 1; i <= getNombreDeJoueurs() ; i++) {

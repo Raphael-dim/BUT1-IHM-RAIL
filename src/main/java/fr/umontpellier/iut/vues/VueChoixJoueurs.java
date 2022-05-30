@@ -54,13 +54,13 @@ public class VueChoixJoueurs extends Stage {
         this.setWidth(700);
         this.setHeight(500);
         scene.getStylesheets().add("css/page.css");
+        grille.setId("page_debut");
         Afficher();
 
     }
 
     public void Afficher()  {
 
-        Font.loadFont("fonts/western.ttf", 10);
         grille.setPadding(new Insets(30));
         grille.setHgap(30);
         grille.setVgap(30);
@@ -68,8 +68,20 @@ public class VueChoixJoueurs extends Stage {
         Label label = new Label("Choisissez le nombre de joueurs : ");
         label.setId("choix");
         
-        choix = new ChoiceBox<>();
+        choix = new ChoiceBox<>();  
+        choix.setScaleX(1.2);
+        choix.setScaleY(1.2); 
+        choix.setOnMouseEntered(e->{
+            choix.setStyle("-fx-border-color: #ff9900; -fx-border-radius: 5");
+            choix.setScaleX(1.4);
+            choix.setScaleY(1.4);
+        }); 
         
+        choix.setOnMouseExited(e -> {
+            choix.setScaleX(1.2);
+            choix.setScaleY(1.2);
+            choix.setStyle(null);
+        });
         choix.getItems().add(2);
         choix.getItems().add(3);
         choix.getItems().add(4);
@@ -84,6 +96,13 @@ public class VueChoixJoueurs extends Stage {
         grille.add(noms, 1, 1);
 
         Button valider = new Button("Valider");
+
+        valider.setOnMouseEntered(e->{
+            valider.setStyle("-fx-font-size: 25");
+        });
+        valider.setOnMouseExited(e -> {
+            valider.setStyle("-fx-font-size: 20");
+        });
         valider.setId("valider");
         grille.add(valider, 1, 2);
         valider.setOnMouseClicked(e->{

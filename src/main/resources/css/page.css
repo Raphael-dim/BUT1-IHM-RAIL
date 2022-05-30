@@ -17,6 +17,11 @@
     */
 }
 
+#page_debut{
+    -fx-background-color: rgb(70, 70, 70);
+
+}
+
 #instruction  {
     -fx-text-fill: #ff9900;
     -fx-font-size: 25;
@@ -29,8 +34,7 @@
 #choix{
     -fx-font-size: 22;
     -fx-text-fill: #ff9900;
-    -fx-stroke: #000000;
-    -fx-stroke-width: 3;
+    -fx-underline: true;
 }
 
 #valider    {
@@ -51,7 +55,7 @@
     -fx-border-radius: 1;
     -fx-border: gone;
     -fx-background-color: transparent;
-    -fx-text-fill: #b34700;
+    -fx-text-fill: #eba100;
 }
 
 .choice-box .context-menu {

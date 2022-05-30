@@ -1,7 +1,6 @@
 package fr.umontpellier.iut.vues;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.value.ChangeListener;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -114,7 +113,6 @@ public class VuePlateau extends Pane {
             }
         @Override
         protected double computeValue() {
-            // TODO Auto-generated method stub
             return rect.getLayoutX() / DonneesPlateau.largeurInitialePlateau;
         }
         });
@@ -124,7 +122,6 @@ public class VuePlateau extends Pane {
             }
         @Override
         protected double computeValue() {
-            // TODO Auto-generated method stub
             return layoutY * image.getLayoutBounds().getHeight() / DonneesPlateau.hauteurInitialePlateau;
         }
         });*/

@@ -1,17 +1,12 @@
 package fr.umontpellier.iut.vues;
-import java.util.stream.IntStream;
-
 import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJeu;
-import fr.umontpellier.iut.IJoueur.Couleur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableNumberValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ListChangeListener.Change;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -28,11 +23,9 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.util.BuilderFactory;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.

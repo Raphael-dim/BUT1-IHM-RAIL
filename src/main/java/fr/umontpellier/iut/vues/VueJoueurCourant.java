@@ -30,7 +30,6 @@ public class VueJoueurCourant extends Pane {
         main = new Pane();
     }
     
-    
     public void creerBindings() {
         jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
         ChangeListener<IJoueur> changeListener = new ChangeListener<IJoueur>() {

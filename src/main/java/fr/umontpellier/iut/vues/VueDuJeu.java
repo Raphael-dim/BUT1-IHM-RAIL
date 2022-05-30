@@ -42,6 +42,7 @@ public class VueDuJeu extends GridPane {
     private VuePlateau plateau;
     private VueAutresJoueurs autresJoueurs;
     private VueJoueurCourant joueurCourant;
+    private VBox choix;
     private HBox destinations;
     private HBox wagonsVisibles;
     private HBox piocheDefausse;
@@ -80,6 +81,7 @@ public class VueDuJeu extends GridPane {
         cartesWagonVisibles();
         piocheEtDefausse();
         destinations();
+        choixEtInstructions();
         
         /*
         autresJoueurs.setStyle("-fx-background-color: red;");
@@ -153,58 +155,6 @@ public class VueDuJeu extends GridPane {
         });
         */
 
-
-        destinations = new HBox();
-        destinations.setSpacing(10);
-        ListChangeListener<Destination> changementDestination = new ListChangeListener<Destination>() {
-            @Override
-            public void onChanged(Change<? extends Destination> arg0) {
-                Platform.runLater(() -> {
-                while (arg0.next()) {
-                    if (arg0.wasAdded()) {
-                        for (Destination destination : arg0.getAddedSubList()) {
-                            Button boutton = new Button(destination.getNom());
-                            boutton.setOnMouseClicked(e->{
-                                jeu.uneDestinationAEteChoisie(boutton.getText());
-                            });
-                            boutton.setOnMouseEntered(e -> {
-                                boutton.setStyle(" -fx-font-size: 25; -fx-text-fill: #DFB951; -fx-background-color: #006464; -fx-border-radius: 20;-fx-background-radius: 20;  -fx-padding: 5;");
-                                boutton.setEffect(new DropShadow(20, Color.BLACK));
-                            });
-                            boutton.setOnMouseExited(e -> {
-                                boutton.setStyle(null);
-                                boutton.setEffect(null);
-                            });
-                            destinations.getChildren().add(boutton);
-                        }
-                    } 
-                    else if (arg0.wasRemoved()) {
-                        for (Destination destination : arg0.getRemoved()) {
-                            destinations.getChildren().remove(trouverDestination(destination));
-                        }
-                    } 
-                }
-                });
-            };
-        };
-        jeu.destinationsInitialesProperty().addListener(changementDestination);
-
-        Label instruction = new Label();
-        instruction.setId("instruction");
-        ChangeListener<String> changementInstruction = new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-                Platform.runLater(() -> {
-                instruction.setText(arg0.getValue());
-                });
-            }
-        };
-        jeu.instructionProperty().addListener(changementInstruction);
-
-
-        
-        
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setPercentWidth(60);
         getColumnConstraints().add(col1);
@@ -218,26 +168,6 @@ public class VueDuJeu extends GridPane {
         RowConstraints lig2 = new RowConstraints();
         lig2.setPercentHeight(30);
         getRowConstraints().add(lig2);
-        
-        Button passer = new Button("Passer");
-        passer.setId("passer");
-        passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
-
-        passer.setOnMouseEntered(e -> {
-            passer.setStyle("-fx-font-size: 25; -fx-text-fill: #DFB951; -fx-background-color: #006464; -fx-border-radius: 20;-fx-background-radius: 20;  -fx-padding: 5;");
-            passer.setEffect(new Glow(0.3));
-            passer.setEffect(new DropShadow(20, Color.BLACK));
-        });
-        passer.setOnMouseExited(e -> {
-            passer.setStyle(null);
-            passer.setEffect(null);
-
-
-        });
-
-        VBox choix = new VBox();
-        choix.setSpacing(20);
-        choix.getChildren().addAll(instruction, passer, destinations);
         
         VBox autresJoueursEtPioches = new VBox(autresJoueurs);
         autresJoueursEtPioches.getChildren().addAll(piocheDefausse, wagonsVisibles);
@@ -257,6 +187,42 @@ public class VueDuJeu extends GridPane {
         joueurCourant.creerBindings();
 
     } 
+
+    public void choixEtInstructions()   {
+
+
+        Label instruction = new Label();
+        instruction.setId("instruction");
+        ChangeListener<String> changementInstruction = new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+                Platform.runLater(() -> {
+                    instruction.setText(arg0.getValue());
+                });
+            }
+        };
+        jeu.instructionProperty().addListener(changementInstruction);
+        Button passer = new Button("Passer");
+        passer.setId("passer");
+        passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
+
+        passer.setOnMouseEntered(e -> {
+            passer.setStyle(
+                    "-fx-font-size: 25; -fx-text-fill: #DFB951; -fx-background-color: #006464; -fx-border-radius: 20;-fx-background-radius: 20;  -fx-padding: 5;");
+            passer.setEffect(new Glow(0.3));
+            passer.setEffect(new DropShadow(20, Color.BLACK));
+        });
+        passer.setOnMouseExited(e -> {
+            passer.setStyle(null);
+            passer.setEffect(null);
+
+        });
+
+        choix = new VBox();
+        choix.setSpacing(20);
+        choix.getChildren().addAll(instruction, passer, destinations);
+    }
 
     public void cartesWagonVisibles() {
 
@@ -316,6 +282,41 @@ public class VueDuJeu extends GridPane {
         VueCarteWagon.texturer(pioche);
         pioche.setOnMouseClicked(e->jeu.uneDestinationAEtePiochee());
         piocheDefausse.getChildren().addAll(pioche);
+
+        destinations = new HBox();
+        destinations.setSpacing(10);
+        ListChangeListener<Destination> changementDestination = new ListChangeListener<Destination>() {
+            @Override
+            public void onChanged(Change<? extends Destination> arg0) {
+                Platform.runLater(() -> {
+                    while (arg0.next()) {
+                        if (arg0.wasAdded()) {
+                            for (Destination destination : arg0.getAddedSubList()) {
+                                Button boutton = new Button(destination.getNom());
+                                boutton.setOnMouseClicked(e -> {
+                                    jeu.uneDestinationAEteChoisie(boutton.getText());
+                                });
+                                boutton.setOnMouseEntered(e -> {
+                                    boutton.setStyle(
+                                            " -fx-font-size: 25; -fx-text-fill: #DFB951; -fx-background-color: #006464; -fx-border-radius: 20;-fx-background-radius: 20;  -fx-padding: 5;");
+                                    boutton.setEffect(new DropShadow(20, Color.BLACK));
+                                });
+                                boutton.setOnMouseExited(e -> {
+                                    boutton.setStyle(null);
+                                    boutton.setEffect(null);
+                                });
+                                destinations.getChildren().add(boutton);
+                            }
+                        } else if (arg0.wasRemoved()) {
+                            for (Destination destination : arg0.getRemoved()) {
+                                destinations.getChildren().remove(trouverDestination(destination));
+                            }
+                        }
+                    }
+                });
+            };
+        };
+        jeu.destinationsInitialesProperty().addListener(changementDestination);
     }
 
     public ImageView trouverImageView(HBox CartesWagonsVisibles, String id) {

@@ -17,7 +17,7 @@
         <Group id="Amsterdam - Bruxelles" onMouseClicked="#choixRouteOuVille">
             <Rectangle height="12.0" width="36.0" layoutX="302.7" layoutY="216.9" rotate="115.25316339457389" x="-18.0" y="-6.0" />
         </Group>
-        <Group id="Amsterdam - Essen" onMouseClicked="#choixRouteOuVille">
+        <Group id="Amsterdam - Essen" onMouseClicked="#  ">
             <Rectangle height="12.0" width="36.0" layoutX="317.09999999999997" layoutY="165.6" rotate="-77.366638064725" x="-18.0" y="-6.0" />
             <Rectangle height="12.0" width="36.0" layoutX="344.4" layoutY="159.0" rotate="12.094757077012103" x="-18.0" y="-6.0" />
             <Rectangle height="12.0" width="36.0" layoutX="377.4" layoutY="180.0" rotate="50.440332031005504" x="-18.0" y="-6.0" />

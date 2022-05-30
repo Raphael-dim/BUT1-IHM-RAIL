@@ -2,16 +2,15 @@
 
 #routes Rectangle {
     -fx-fill: "Transparent";
-    /*-fx-stroke: "black";*/
-    -fx-stroke: "blue";
-    -fx-stroke-width: 2;
+    -fx-stroke: "red";
+    -fx-stroke-width:2;
 }
 
 #villes Circle {
     -fx-fill: "Transparent";
-    /*-fx-stroke: "black";*/
-    -fx-stroke: "red";
+    -fx-stroke: "blue";
     -fx-stroke-width: 2;
 }
+
 
 

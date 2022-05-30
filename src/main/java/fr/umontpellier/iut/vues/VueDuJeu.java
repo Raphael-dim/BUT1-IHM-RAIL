@@ -71,10 +71,10 @@ public class VueDuJeu extends GridPane {
                 
         setBackground(new Background(img));
 
-        setHgap(30);
+        setHgap(15);
         setVgap(15);
-        maxHauteur =  this.getHeight();
-        maxLongueur = this.getWidth();
+        maxHauteur =  1080;
+        maxLongueur = 1920;
         setPadding(new Insets(15));
 
         plateau = new VuePlateau();
@@ -106,49 +106,59 @@ public class VueDuJeu extends GridPane {
                 Platform.runLater(() -> {
                 for (Node node : getChildren())
                     {
-                        if (arg2.doubleValue() > maxLongueur)
+                        if ( ! node.getId().equals("plateau"))
                             {
-                                maxLongueur = arg2.doubleValue();
+                                if (arg2.doubleValue() > maxLongueur) {
+                                    maxLongueur = arg2.doubleValue();
+                                }
+                                double pourcentage;
+                                if (arg2.doubleValue() < arg1.doubleValue()) {
+                                    pourcentage = (maxLongueur / arg2.doubleValue());
+                                    node.setScaleX(1 / pourcentage);
+                                    node.setScaleY(1 / pourcentage);
+                                }
+                                if (arg2.doubleValue() > arg1.doubleValue()) {
+                                    pourcentage = (maxLongueur / arg2.doubleValue());
+                                    node.setScaleX(1 / pourcentage);
+                                    node.setScaleY(1 / pourcentage);
+                                }
+                                node.setTranslateX(0);
                             }
-                        double pourcentage;
-                        if (arg2.doubleValue() < arg1.doubleValue())
-                            {
-                                pourcentage = (maxLongueur / arg2.doubleValue());
-                                node.setScaleX(1 / pourcentage);
-                                node.setScaleY(1 / pourcentage);
-                            }
-                        if (arg2.doubleValue() > arg1.doubleValue()) 
-                            {
-                                pourcentage = (maxLongueur / arg2.doubleValue());
-                                node.setScaleX(1 / pourcentage);
-                                node.setScaleY(1 / pourcentage);
-                            }
-                        //node.setTranslateX(-100);
                     } 
                 });  
             }    
         });
 
+        /*
         this.getScene().heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
                 Platform.runLater(() -> {
-
+                
                 for (Node node : getChildren()) 
                     {
-                    if (arg2.doubleValue() > maxLongueur) {
-                        maxHauteur = arg2.doubleValue();
+                        if (arg2.doubleValue() > maxHauteur)
+                            {
+                                maxHauteur = arg2.doubleValue();
+                            }
+                        double pourcentage;
+                        if (arg2.doubleValue() < arg1.doubleValue()) {
+                            pourcentage = (maxHauteur / arg2.doubleValue());
+                            node.setScaleX(1 / pourcentage);
+                            node.setScaleY(1 / pourcentage);
+                        }
+                        if (arg2.doubleValue() > arg1.doubleValue()) {
+                            pourcentage = (maxHauteur / arg2.doubleValue());
+                            node.setScaleX(1 / pourcentage);
+                            node.setScaleY(1 / pourcentage);
+                        }
+                        node.setTranslateX(0);
                     }
-                    double pourcentage;
-                    if (arg2.doubleValue() < arg1.doubleValue()) {
-                        pourcentage = (maxHauteur / arg2.doubleValue());
-                        //node.setScaleY(1 / pourcentage);
-                    }
-                    }
+                
                 }); 
             }
         });
-
+        */
 
 
         destinations = new HBox();
@@ -239,11 +249,16 @@ public class VueDuJeu extends GridPane {
         autresJoueursEtPioches.getChildren().addAll(piocheDefausse, wagonsVisibles);
         autresJoueursEtPioches.setSpacing(70);
 
+        plateau.setId("plateau");
+        autresJoueursEtPioches.setId("autresJoueursEtPioches");
+        joueurCourant.setId("joueurCourant");
+        choix.setId("choix");
         add(plateau, 0, 0);
         add(autresJoueursEtPioches, 1, 0);
         add(joueurCourant, 0, 1);
         add(choix, 1, 1);
 
+        plateau.creerBindings();
         autresJoueurs.creerBindings();
         joueurCourant.creerBindings();
 
@@ -331,5 +346,9 @@ public class VueDuJeu extends GridPane {
                     }
             }
         return null;
+    }
+
+    public VueJoueurCourant getVueJoueurCourant()   {
+        return joueurCourant;
     }
 }

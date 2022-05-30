@@ -1,15 +1,20 @@
 package fr.umontpellier.iut.vues;
 
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ChangeListener;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
+import fr.umontpellier.iut.IJeu;
 
 /**
  * Cette classe présente les routes et les villes sur le plateau.
@@ -19,23 +24,158 @@ import java.io.IOException;
  */
 public class VuePlateau extends Pane {
 
-    @FXML Pane panneau;
-    public VuePlateau() {
+    private IJeu jeu;
 
+    public VuePlateau() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/plateau_55.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/plateau.fxml"));
             loader.setRoot(this);
             loader.setController(this);
-            Pane p = loader.load();
-            panneau = new Pane();
-            panneau.getChildren().add(p);
+            loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
     }
 
     @FXML
-    public void choixRouteOuVille() {
+    public void choixRouteOuVille(Event e) {
+        Node node = (Node) e.getSource();
+        jeu.uneVilleOuUneRouteAEteChoisie(node.getId()); 
     }
+
+    @FXML
+    ImageView image;
+    @FXML
+    private Group villes;
+    @FXML
+    private Group routes;
+
+    public void creerBindings() {
+        jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
+        bindRedimensionPlateau();
+    }
+
+    private void bindRedimensionPlateau() {
+        bindRoutes();
+        bindVilles();
+//        Les dimensions de l'image varient avec celle de la scène
+        image.fitWidthProperty().bind(getScene().widthProperty());
+        image.fitHeightProperty().bind(getScene().heightProperty());
+    }
+    
+    private void bindRectangle(Rectangle rect, double layoutX, double layoutY) {
+        
+        rect.layoutXProperty().bind(new DoubleBinding() {
+            {
+                super.bind(image.fitWidthProperty(), image.fitHeightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return layoutX * image.getLayoutBounds().getWidth() / DonneesPlateau.largeurInitialePlateau;
+            }
+        });
+        rect.layoutYProperty().bind(new DoubleBinding() {
+            {
+                super.bind(image.fitWidthProperty(), image.fitHeightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return layoutY * image.getLayoutBounds().getHeight() / DonneesPlateau.hauteurInitialePlateau;
+            }
+        });
+
+        // EPAISSEUR ET LONGUEUR
+        rect.widthProperty().bind(new DoubleBinding() {
+            {
+                super.bind(image.fitWidthProperty(), image.fitHeightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return DonneesPlateau.largeurRectangle * image.getLayoutBounds().getWidth() / DonneesPlateau.largeurInitialePlateau;
+
+            }
+        });
+        rect.heightProperty().bind(new DoubleBinding() {
+            {
+                super.bind(image.fitWidthProperty(), image.fitHeightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return DonneesPlateau.hauteurRectangle * image.getLayoutBounds().getHeight()/ DonneesPlateau.hauteurInitialePlateau;
+
+            }
+        });
+        
+        //X ET Y 
+        /*
+        rect.xProperty().bind(new DoubleBinding() {
+            {
+                super.bind(image.fitWidthProperty(), image.fitHeightProperty());
+            }
+        @Override
+        protected double computeValue() {
+            // TODO Auto-generated method stub
+            return rect.getLayoutX() / DonneesPlateau.largeurInitialePlateau;
+        }
+        });
+        rect.yProperty().bind(new DoubleBinding() {
+            {
+                super.bind(image.fitWidthProperty(), image.fitHeightProperty());
+            }
+        @Override
+        protected double computeValue() {
+            // TODO Auto-generated method stub
+            return layoutY * image.getLayoutBounds().getHeight() / DonneesPlateau.hauteurInitialePlateau;
+        }
+        });*/
+    }
+
+    private void bindRoutes() {
+        for (Node nRoute : routes.getChildren()) {
+            Group gRoute = (Group) nRoute;
+            int numRect = 0;
+            for (Node nRect : gRoute.getChildren()) {
+                Rectangle rect = (Rectangle) nRect;
+                bindRectangle(rect, DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutX(), DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutY());
+                numRect++;
+            }
+        }
+    }
+
+    private void bindVilles() {
+        for (Node nVille : villes.getChildren()) {
+            Circle ville = (Circle) nVille;
+            bindVille(ville, DonneesPlateau.getVille(ville.getId()).getLayoutX(), DonneesPlateau.getVille(ville.getId()).getLayoutY());
+        }
+    }
+
+    private void bindVille(Circle ville, double layoutX, double layoutY) {
+    
+        ville.layoutXProperty().bind(new DoubleBinding() {
+            {
+                super.bind(image.fitWidthProperty(), image.fitHeightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return layoutX * image.getLayoutBounds().getWidth()/ DonneesPlateau.largeurInitialePlateau;
+            }
+        });
+        ville.layoutYProperty().bind(new DoubleBinding() {
+            {
+                super.bind(image.fitWidthProperty(), image.fitHeightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return layoutY * image.getLayoutBounds().getHeight()/ DonneesPlateau.hauteurInitialePlateau;
+            }
+        });
+        ville.radiusProperty().bind(new DoubleBinding() {
+            { super.bind(image.fitWidthProperty(), image.fitHeightProperty());}
+            @Override
+            protected double computeValue() {
+                return DonneesPlateau.rayonInitial * image.getLayoutBounds().getWidth() / DonneesPlateau.largeurInitialePlateau;
+            }
+        });
+    }
+
 }

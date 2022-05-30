@@ -67,7 +67,7 @@ public class VueAutresJoueurs extends GridPane {
             jeu.joueurCourantProperty().addListener(changeListener);
     }
 
-    public String traduire(String couleur) {
+    public static String traduire(String couleur) {
 
         switch(couleur)
         {
@@ -110,7 +110,7 @@ public class VueAutresJoueurs extends GridPane {
 
         for (int i = 0; i < joueur.getNbGares(); i++)
             {
-                ImageView wagon = new ImageView("images/wagons/image-wagon-"+joueur.getCouleur()+".png");
+                ImageView wagon = new ImageView("images/gares/gare-"+joueur.getCouleur()+".png");
                 wagon.setPreserveRatio(true);
                 wagon.setFitHeight(40);
                 wagon.setX(i*30+130);

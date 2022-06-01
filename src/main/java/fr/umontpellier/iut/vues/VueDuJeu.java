@@ -190,7 +190,6 @@ public class VueDuJeu extends GridPane {
 
     public void choixEtInstructions()   {
 
-
         Label instruction = new Label();
         instruction.setId("instruction");
         ChangeListener<String> changementInstruction = new ChangeListener<String>() {

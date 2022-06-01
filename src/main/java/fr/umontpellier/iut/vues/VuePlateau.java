@@ -106,14 +106,13 @@ public class VuePlateau extends Pane {
         });
         
         //X ET Y 
-        /*
         rect.xProperty().bind(new DoubleBinding() {
             {
                 super.bind(image.fitWidthProperty(), image.fitHeightProperty());
             }
         @Override
         protected double computeValue() {
-            return rect.getLayoutX() / DonneesPlateau.largeurInitialePlateau;
+            return DonneesPlateau.xInitial * image.getLayoutBounds().getWidth() / DonneesPlateau.largeurInitialePlateau;
         }
         });
         rect.yProperty().bind(new DoubleBinding() {
@@ -122,9 +121,9 @@ public class VuePlateau extends Pane {
             }
         @Override
         protected double computeValue() {
-            return layoutY * image.getLayoutBounds().getHeight() / DonneesPlateau.hauteurInitialePlateau;
+            return DonneesPlateau.yInitial * image.getLayoutBounds().getHeight() / DonneesPlateau.hauteurInitialePlateau;
         }
-        });*/
+        });
     }
 
     private void bindRoutes() {

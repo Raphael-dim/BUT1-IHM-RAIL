@@ -1,10 +1,12 @@
 package fr.umontpellier.iut.vues;
 
 import java.util.List;
+import java.util.zip.Adler32;
 
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
+import fr.umontpellier.iut.rails.Destination;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +14,7 @@ import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -25,6 +28,7 @@ public class VueJoueurCourant extends Pane {
     private IJoueur joueurCourant;
     private IJeu jeu;
     private Pane main;
+    private HBox garesEtWagons;
 
     public VueJoueurCourant() {
         main = new Pane();
@@ -56,30 +60,13 @@ public class VueJoueurCourant extends Pane {
         image.setId("image");
         getChildren().add(image);
 
-        HBox garesEtWagons = new HBox();
-        garesEtWagons.setSpacing(20);
-        garesEtWagons.setLayoutY(230);
-        getChildren().add(garesEtWagons);
-
-        for (int i = 0; i < joueurCourant.getNbGares(); i++) 
-            {
-                ImageView wagon = new ImageView("images/gares/gare-" + joueurCourant.getCouleur() + ".png");
-                wagon.setPreserveRatio(true);
-                wagon.setFitHeight(60);
-                garesEtWagons.getChildren().add(wagon);
-            }
-
-        ImageView image_wagon = new ImageView("images/wagons/image-wagon-" + joueurCourant.getCouleur() + ".png");
-        image_wagon.setPreserveRatio(true);
-        image_wagon.setFitHeight(110);
-        Label wagons = new Label("x " +joueurCourant.getNbWagons());
-        wagons.setStyle("-fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(joueurCourant.getCouleur().name())+"; -fx-stroke-color: black");
-
-        garesEtWagons.getChildren().addAll(image_wagon, wagons);
-
         main.getChildren().clear();
-        getChildren().add(main);
+
+        afficherGaresEtWagons();
+        afficherDestinations();
         afficherCartes(joueurCourant.getCartesWagon());
+        getChildren().add(garesEtWagons);
+        getChildren().add(main);
 
         ListChangeListener<CouleurWagon> changeListener = new ListChangeListener<CouleurWagon>() {
             @Override
@@ -100,14 +87,51 @@ public class VueJoueurCourant extends Pane {
         joueurCourant.cartesWagonProperty().addListener(changeListener);
     }
 
+    public void afficherGaresEtWagons() {
+
+        garesEtWagons = new HBox();
+        garesEtWagons.setSpacing(20);
+        garesEtWagons.setLayoutY(230);
+        for (int i = 0; i < joueurCourant.getNbGares(); i++) {
+            ImageView wagon = new ImageView("images/gares/gare-" + joueurCourant.getCouleur() + ".png");
+            wagon.setPreserveRatio(true);
+            wagon.setFitHeight(60);
+            garesEtWagons.getChildren().add(wagon);
+        }
+
+        ImageView image_wagon = new ImageView("images/wagons/image-wagon-" + joueurCourant.getCouleur() + ".png");
+        image_wagon.setPreserveRatio(true);
+        image_wagon.setFitHeight(110);
+        Label wagons = new Label("x " + joueurCourant.getNbWagons());
+        wagons.setStyle("-fx-font-size: 30; -fx-text-fill: "
+                + VueAutresJoueurs.traduire(joueurCourant.getCouleur().name()) + "; -fx-stroke-color: black");
+
+        garesEtWagons.getChildren().addAll(image_wagon, wagons);
+    }
+
+    public void afficherDestinations()  {
+        
+        GridPane tab = new GridPane();
+        int i = 0;
+        for (Destination d : joueurCourant.getDestinations())
+            {
+                Label l = new Label(d.getNom());
+                l.setLayoutY(i);
+                l.setLayoutX(900);
+                l.setStyle("-fx-font-size: 30; -fx-text-fill: orange");
+                i+=1;
+            }
+        garesEtWagons.getChildren().add(tab);
+    }
+
     public void afficherCartes(List<? extends CouleurWagon> cartes) {
 
         for (CouleurWagon couleurWagon : cartes) 
         {
             ImageView vueCarteWagon = new VueCarteWagon(couleurWagon).AfficherCarte();
+            VueCarteWagon.texturer(vueCarteWagon);
             vueCarteWagon.setId(couleurWagon + "");
             vueCarteWagon.setOnMouseClicked(e->jeu.uneCarteWagonAEteChoisie(couleurWagon));
-            VueCarteWagon.texturer(vueCarteWagon);
             if (main.getChildren().size() >= 14) 
             {
                 vueCarteWagon.setX(main.getChildren().size() % 14 * 65 + 175);

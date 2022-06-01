@@ -67,8 +67,10 @@ public class VueDuJeu extends GridPane {
 
         setHgap(15);
         setVgap(15);
+        
         maxHauteur =  1080;
         maxLongueur = 1920;
+        
         setPadding(new Insets(15));
 
         plateau = new VuePlateau();
@@ -76,8 +78,7 @@ public class VueDuJeu extends GridPane {
         autresJoueurs = new VueAutresJoueurs();
 
         joueurCourant = new VueJoueurCourant();
-
-
+        
         cartesWagonVisibles();
         piocheEtDefausse();
         destinations();
@@ -95,6 +96,7 @@ public class VueDuJeu extends GridPane {
 
     public void creerBindings() {
 
+        
         this.getScene().widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
@@ -123,38 +125,8 @@ public class VueDuJeu extends GridPane {
                 });  
             }    
         });
-
-        /*
-        this.getScene().heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-                Platform.runLater(() -> {
-                
-                for (Node node : getChildren()) 
-                    {
-                        if (arg2.doubleValue() > maxHauteur)
-                            {
-                                maxHauteur = arg2.doubleValue();
-                            }
-                        double pourcentage;
-                        if (arg2.doubleValue() < arg1.doubleValue()) {
-                            pourcentage = (maxHauteur / arg2.doubleValue());
-                            node.setScaleX(1 / pourcentage);
-                            node.setScaleY(1 / pourcentage);
-                        }
-                        if (arg2.doubleValue() > arg1.doubleValue()) {
-                            pourcentage = (maxHauteur / arg2.doubleValue());
-                            node.setScaleX(1 / pourcentage);
-                            node.setScaleY(1 / pourcentage);
-                        }
-                        node.setTranslateX(0);
-                    }
-                
-                }); 
-            }
-        });
-        */
-
+        
+        
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setPercentWidth(60);
         getColumnConstraints().add(col1);
@@ -162,12 +134,15 @@ public class VueDuJeu extends GridPane {
         col2.setPercentWidth(40);
         getColumnConstraints().add(col2);
 
+        
+        
         RowConstraints lig1 = new RowConstraints();
-        lig1.setPercentHeight(70);
+        lig1.setPercentHeight(90);
         getRowConstraints().add(lig1);
         RowConstraints lig2 = new RowConstraints();
         lig2.setPercentHeight(30);
         getRowConstraints().add(lig2);
+        
         
         VBox autresJoueursEtPioches = new VBox(autresJoueurs);
         autresJoueursEtPioches.getChildren().addAll(piocheDefausse, wagonsVisibles);

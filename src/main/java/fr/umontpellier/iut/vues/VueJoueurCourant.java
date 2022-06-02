@@ -48,14 +48,13 @@ public class VueJoueurCourant extends Pane {
         };
 
         jeu.joueurCourantProperty().addListener(changeListener);
-        
     }
 
     public void afficherJoueur() {
 
         ImageView image = new ImageView("images/avatar-"+joueurCourant.getCouleur()+".png");
         image.setPreserveRatio(true);
-        image.setFitHeight(200);
+        image.setFitHeight(150);
         image.setOpacity(50);
         image.setId("image");
         getChildren().add(image);
@@ -91,17 +90,17 @@ public class VueJoueurCourant extends Pane {
 
         garesEtWagons = new HBox();
         garesEtWagons.setSpacing(20);
-        garesEtWagons.setLayoutY(230);
+        garesEtWagons.setLayoutY(155);
         for (int i = 0; i < joueurCourant.getNbGares(); i++) {
             ImageView wagon = new ImageView("images/gares/gare-" + joueurCourant.getCouleur() + ".png");
             wagon.setPreserveRatio(true);
-            wagon.setFitHeight(60);
+            wagon.setFitHeight(40);
             garesEtWagons.getChildren().add(wagon);
         }
 
         ImageView image_wagon = new ImageView("images/wagons/image-wagon-" + joueurCourant.getCouleur() + ".png");
         image_wagon.setPreserveRatio(true);
-        image_wagon.setFitHeight(110);
+        image_wagon.setFitHeight(90);
         Label wagons = new Label("x " + joueurCourant.getNbWagons());
         wagons.setStyle("-fx-font-size: 30; -fx-text-fill: "
                 + VueAutresJoueurs.traduire(joueurCourant.getCouleur().name()) + "; -fx-stroke-color: black");

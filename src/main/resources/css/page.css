@@ -1,7 +1,7 @@
 .button {
     -fx-font-size: 18;
-    -fx-text-fill: #006464;
-    -fx-background-color: #DFB951;
+    -fx-text-fill: #bbbbbb;
+    -fx-background-color: #000000;
     -fx-border-radius: 20;
     -fx-background-radius: 20;
     -fx-padding: 5;
@@ -23,12 +23,14 @@
 }
 
 #instruction  {
-    -fx-text-fill: #ff9900;
-    -fx-font-size: 25;
+    -fx-text-fill: #000000;
+    -fx-font-size: 30;
+    /*
     -fx-background-color: #00000091;
     -fx-border-radius: 20;
     -fx-background-radius: 20;
     -fx-padding: 5;
+    */
 }
 
 #choix{

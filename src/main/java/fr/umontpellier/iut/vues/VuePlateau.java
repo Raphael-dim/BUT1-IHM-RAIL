@@ -55,6 +55,10 @@ public class VuePlateau extends Pane {
         bindRedimensionPlateau();
     }
 
+    public ImageView getImage() {
+        return image;
+    }
+
     private void bindRedimensionPlateau() {
         bindRoutes();
         bindVilles();
@@ -62,7 +66,6 @@ public class VuePlateau extends Pane {
 
         image.fitWidthProperty().bind(getScene().widthProperty().multiply(0.6));
         image.fitHeightProperty().bind(getScene().heightProperty());
-
     }
     
     private void bindRectangle(Rectangle rect, double layoutX, double layoutY) {

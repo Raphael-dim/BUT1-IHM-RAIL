@@ -67,7 +67,7 @@ public class VueDuJeu extends GridPane {
 
         setHgap(15);
         setVgap(15);
-        
+      
         maxHauteur =  1080;
         maxLongueur = 1920;
         
@@ -95,6 +95,22 @@ public class VueDuJeu extends GridPane {
     }
 
     public void creerBindings() {
+        
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(64);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(36);
+        
+        RowConstraints lig1 = new RowConstraints();
+        lig1.setPercentHeight(75);
+        RowConstraints lig2 = new RowConstraints();
+        lig2.setPercentHeight(25);
+        
+        getRowConstraints().add(lig1);
+        getRowConstraints().add(lig2);
+        
+        getColumnConstraints().add(col1);
+        getColumnConstraints().add(col2);
 
         
         this.getScene().widthProperty().addListener(new ChangeListener<Number>() {
@@ -105,45 +121,21 @@ public class VueDuJeu extends GridPane {
                     {
                         if ( ! node.getId().equals("plateau"))
                             {
-                                if (arg2.doubleValue() > maxLongueur) {
+                                double pourcentage = 0;
+                                if (arg2.doubleValue() > maxLongueur) 
+                                {
                                     maxLongueur = arg2.doubleValue();
                                 }
-                                double pourcentage;
-                                if (arg2.doubleValue() < arg1.doubleValue()) {
-                                    pourcentage = (maxLongueur / arg2.doubleValue());
-                                    node.setScaleX(1 / pourcentage);
-                                    node.setScaleY(1 / pourcentage);
-                                }
-                                if (arg2.doubleValue() > arg1.doubleValue()) {
-                                    pourcentage = (maxLongueur / arg2.doubleValue());
-                                    node.setScaleX(1 / pourcentage);
-                                    node.setScaleY(1 / pourcentage);
-                                }
-                                node.setTranslateX(0);
+                                pourcentage = (maxLongueur / arg2.doubleValue());
+                                node.setScaleX(1 / pourcentage);
+                                node.setScaleY(1 / pourcentage);
                             }
-                    } 
+                    }
                 });  
             }    
         });
         
-        
-        ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(60);
-        getColumnConstraints().add(col1);
-        ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(40);
-        getColumnConstraints().add(col2);
 
-        
-        
-        RowConstraints lig1 = new RowConstraints();
-        lig1.setPercentHeight(90);
-        getRowConstraints().add(lig1);
-        RowConstraints lig2 = new RowConstraints();
-        lig2.setPercentHeight(30);
-        getRowConstraints().add(lig2);
-        
-        
         VBox autresJoueursEtPioches = new VBox(autresJoueurs);
         autresJoueursEtPioches.getChildren().addAll(piocheDefausse, wagonsVisibles);
         autresJoueursEtPioches.setSpacing(70);
@@ -160,7 +152,6 @@ public class VueDuJeu extends GridPane {
         plateau.creerBindings();
         autresJoueurs.creerBindings();
         joueurCourant.creerBindings();
-
     } 
 
     public void choixEtInstructions()   {
@@ -172,7 +163,7 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
                 Platform.runLater(() -> {
-                    instruction.setText(arg0.getValue());
+                    instruction.setText(arg2);
                 });
             }
         };
@@ -183,7 +174,7 @@ public class VueDuJeu extends GridPane {
 
         passer.setOnMouseEntered(e -> {
             passer.setStyle(
-                    "-fx-font-size: 25; -fx-text-fill: #DFB951; -fx-background-color: #006464; -fx-border-radius: 20;-fx-background-radius: 20;  -fx-padding: 5;");
+                    "-fx-font-size: 25; -fx-text-fill: white; -fx-border-color: white;");
             passer.setEffect(new Glow(0.3));
             passer.setEffect(new DropShadow(20, Color.BLACK));
         });
@@ -272,7 +263,7 @@ public class VueDuJeu extends GridPane {
                                 });
                                 boutton.setOnMouseEntered(e -> {
                                     boutton.setStyle(
-                                            " -fx-font-size: 25; -fx-text-fill: #DFB951; -fx-background-color: #006464; -fx-border-radius: 20;-fx-background-radius: 20;  -fx-padding: 5;");
+                                            "-fx-font-size: 25; -fx-text-fill: white; -fx-border-color: white;");
                                     boutton.setEffect(new DropShadow(20, Color.BLACK));
                                 });
                                 boutton.setOnMouseExited(e -> {

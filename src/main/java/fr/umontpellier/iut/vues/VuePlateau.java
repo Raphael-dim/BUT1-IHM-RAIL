@@ -107,6 +107,8 @@ public class VuePlateau extends Pane {
                                     image.layoutYProperty().bind(rect.layoutYProperty());
                                     image.xProperty().bind(rect.xProperty());
                                     image.yProperty().bind(rect.yProperty());
+                                    image.translateXProperty().bind(rect.translateXProperty());
+                                    image.translateYProperty().bind(rect.translateYProperty());
                                     image.setRotate(rect.getRotate());
                                     getChildren().add(image);
                                 });
@@ -129,9 +131,11 @@ public class VuePlateau extends Pane {
                                 image.setFitHeight(27);
                                 image.setEffect(new DropShadow(20, Color.BLACK));
                                 image.layoutXProperty().bind(c.layoutXProperty().divide(1.02));
-                                image.layoutYProperty().bind(c.layoutYProperty().divide(1.04));
-                                image.xProperty().bind(c.translateXProperty().divide(1.02));
-                                image.yProperty().bind(c.translateYProperty().divide(1.02));
+                                image.layoutYProperty().bind(c.layoutYProperty().divide(1.06));
+                                image.xProperty().bind(c.centerXProperty());
+                                image.yProperty().bind(c.centerYProperty());
+                                image.translateXProperty().bind(c.translateXProperty().divide(1.06));
+                                image.translateYProperty().bind(c.translateYProperty().divide(1.06));
                                 getChildren().add(image);
                             });
                             break;

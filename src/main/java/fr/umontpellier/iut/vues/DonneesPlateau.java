@@ -527,6 +527,13 @@ public final class DonneesPlateau {
         return routes.get(id);
     }
 
+    public int getIndice(String id)  {
+        return 0;
+
+    }
+
+
+
     static {
         villes = new HashMap<>();
         villes.put("Cadiz", new DonneesLayout(144, 1072));

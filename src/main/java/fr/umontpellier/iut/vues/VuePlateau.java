@@ -1,20 +1,30 @@
 package fr.umontpellier.iut.vues;
 
+import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import fr.umontpellier.iut.IJeu;
+import fr.umontpellier.iut.rails.Joueur;
+import fr.umontpellier.iut.rails.Route;
+import fr.umontpellier.iut.rails.Ville;
+import fr.umontpellier.iut.vues.DonneesPlateau.DonneesLayout;
 
 /**
  * Cette classe présente les routes et les villes sur le plateau.
@@ -53,11 +63,83 @@ public class VuePlateau extends Pane {
     public void creerBindings() {
         jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
         bindRedimensionPlateau();
+        proprietaires();
     }
 
-    public ImageView getImage() {
-        return image;
+    public void proprietaires()    {
+
+        for (Object o : jeu.getRoutes()) {
+            Route r = (Route) o;
+            r.proprietaireProperty().addListener(new ChangeListener<Joueur>() {
+                @Override
+                public void changed(ObservableValue<? extends Joueur> arg0, Joueur arg1, Joueur arg2) {
+                    afficherWagon(r, arg2);
+                }
+            });
+        }
+
+        for (Object o : jeu.getVilles()) {
+            Ville v = (Ville) o;
+            v.proprietaireProperty().addListener(new ChangeListener<Joueur>() {
+                @Override
+                public void changed(ObservableValue<? extends Joueur> arg0, Joueur arg1, Joueur arg2) {
+                    afficherGare(v, arg2);
+                }
+            });
+        }
     }
+
+    public void afficherWagon(Route r, Joueur j)    {
+
+        for (Node p : routes.getChildren())
+            {
+                Group gRoute = (Group) p;
+                if (p.getId().equals(r.getNom()))
+                    {
+                        for (Node nRect : gRoute.getChildren()) 
+                        {
+                                Rectangle rect = (Rectangle) nRect;
+                                Platform.runLater(()->{
+                                    ImageView image = new ImageView("images/wagons/image-wagon-"+j.getCouleur()+".png");
+                                    image.setPreserveRatio(true);
+                                    image.setFitHeight(27);
+                                    image.layoutXProperty().bind(rect.layoutXProperty());
+                                    image.layoutYProperty().bind(rect.layoutYProperty());
+                                    image.xProperty().bind(rect.xProperty());
+                                    image.yProperty().bind(rect.yProperty());
+                                    image.setRotate(rect.getRotate());
+                                    getChildren().add(image);
+                                });
+                            }
+                        break;
+                    }
+            }
+    }
+
+    public void afficherGare(Ville v, Joueur j)    {
+
+        for (Node p : villes.getChildren())
+                {
+                    if (p.getId().equals(v.getNom()))
+                        {
+                            Circle c = (Circle) p;
+                            Platform.runLater(()->{
+                                ImageView image = new ImageView("images/gares/gare-"+j.getCouleur()+".png");
+                                image.setPreserveRatio(true);
+                                image.setFitHeight(27);
+                                image.setEffect(new DropShadow(20, Color.BLACK));
+                                image.layoutXProperty().bind(c.layoutXProperty().divide(1.02));
+                                image.layoutYProperty().bind(c.layoutYProperty().divide(1.04));
+                                image.xProperty().bind(c.translateXProperty().divide(1.02));
+                                image.yProperty().bind(c.translateYProperty().divide(1.02));
+                                getChildren().add(image);
+                            });
+                            break;
+                        }
+                }
+    }
+
+    
 
     private void bindRedimensionPlateau() {
         bindRoutes();

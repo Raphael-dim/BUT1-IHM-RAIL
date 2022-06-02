@@ -1,8 +1,6 @@
 package fr.umontpellier.iut.vues;
 
 import java.util.List;
-import java.util.zip.Adler32;
-
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;

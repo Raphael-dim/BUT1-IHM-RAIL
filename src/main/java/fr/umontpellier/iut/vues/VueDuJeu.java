@@ -46,7 +46,6 @@ public class VueDuJeu extends GridPane {
     private HBox destinations;
     private HBox wagonsVisibles;
     private HBox piocheDefausse;
-    private double maxHauteur;
     private double maxLongueur;
 
     public VueDuJeu(IJeu jeu) {
@@ -68,7 +67,6 @@ public class VueDuJeu extends GridPane {
         setHgap(15);
         setVgap(15);
       
-        maxHauteur =  1080;
         maxLongueur = 1920;
         
         setPadding(new Insets(15));

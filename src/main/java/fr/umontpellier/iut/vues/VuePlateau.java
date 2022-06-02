@@ -11,20 +11,16 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.Joueur;
 import fr.umontpellier.iut.rails.Route;
 import fr.umontpellier.iut.rails.Ville;
-import fr.umontpellier.iut.vues.DonneesPlateau.DonneesLayout;
 
 /**
  * Cette classe présente les routes et les villes sur le plateau.

@@ -110,7 +110,7 @@ public class VueDuJeu extends GridPane {
         getColumnConstraints().add(col1);
         getColumnConstraints().add(col2);
 
-        
+        /*
         this.getScene().widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
@@ -132,7 +132,7 @@ public class VueDuJeu extends GridPane {
                 });  
             }    
         });
-        
+         */
 
         VBox autresJoueursEtPioches = new VBox(autresJoueurs);
         autresJoueursEtPioches.getChildren().addAll(piocheDefausse, wagonsVisibles);

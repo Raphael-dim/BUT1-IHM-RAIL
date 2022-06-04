@@ -15,24 +15,27 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
  *
  * On y définit les bindings sur le joueur courant, ainsi que le listener à exécuter lorsque ce joueur change
  */
-public class VueJoueurCourant extends Pane {
+public class VueJoueurCourant extends HBox {
 
     private IJoueur joueurCourant;
     private IJeu jeu;
     private Pane main;
     private HBox garesEtWagons;
+    private VBox logo;
 
     public VueJoueurCourant() {
         main = new Pane();
     }
     
     public void creerBindings() {
+
         jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
         ChangeListener<IJoueur> changeListener = new ChangeListener<IJoueur>() {
             @Override
@@ -50,20 +53,21 @@ public class VueJoueurCourant extends Pane {
 
     public void afficherJoueur() {
 
+        logo = new VBox();
         ImageView image = new ImageView("images/avatar-"+joueurCourant.getCouleur()+".png");
         image.setPreserveRatio(true);
         image.setFitHeight(150);
         image.setOpacity(50);
         image.setId("image");
-        getChildren().add(image);
+        logo.getChildren().add(image);
 
         main.getChildren().clear();
 
+        getChildren().add(logo);
         afficherGaresEtWagons();
-        afficherDestinations();
-        afficherCartes(joueurCourant.getCartesWagon());
-        getChildren().add(garesEtWagons);
         getChildren().add(main);
+        afficherCartes(joueurCourant.getCartesWagon());
+        afficherDestinations();
 
         ListChangeListener<CouleurWagon> changeListener = new ListChangeListener<CouleurWagon>() {
             @Override
@@ -72,6 +76,7 @@ public class VueJoueurCourant extends Pane {
                     while (arg0.next()) {
                         if (arg0.wasAdded()) {
                             afficherCartes(arg0.getAddedSubList());
+
                         } else if (arg0.wasRemoved()) {
                             for (CouleurWagon couleurWagon : arg0.getRemoved()) {
                                 main.getChildren().remove(trouverImageView(couleurWagon+""));
@@ -88,12 +93,11 @@ public class VueJoueurCourant extends Pane {
 
         garesEtWagons = new HBox();
         garesEtWagons.setSpacing(20);
-        garesEtWagons.setLayoutY(155);
         for (int i = 0; i < joueurCourant.getNbGares(); i++) {
-            ImageView wagon = new ImageView("images/gares/gare-" + joueurCourant.getCouleur() + ".png");
-            wagon.setPreserveRatio(true);
-            wagon.setFitHeight(40);
-            garesEtWagons.getChildren().add(wagon);
+            ImageView gare = new ImageView("images/gares/gare-" + joueurCourant.getCouleur() + ".png");
+            gare.setPreserveRatio(true);
+            gare.setFitHeight(40);
+            garesEtWagons.getChildren().add(gare);
         }
 
         ImageView image_wagon = new ImageView("images/wagons/image-wagon-" + joueurCourant.getCouleur() + ".png");
@@ -104,21 +108,20 @@ public class VueJoueurCourant extends Pane {
                 + VueAutresJoueurs.traduire(joueurCourant.getCouleur().name()) + "; -fx-stroke-color: black");
 
         garesEtWagons.getChildren().addAll(image_wagon, wagons);
+        logo.getChildren().add(garesEtWagons);
     }
 
     public void afficherDestinations()  {
         
-        GridPane tab = new GridPane();
-        int i = 0;
+        VBox destinations = new VBox();
+        destinations.setLayoutX(this.widthProperty().getValue()- 100);
         for (Destination d : joueurCourant.getDestinations())
             {
                 Label l = new Label(d.getNom());
-                l.setLayoutY(i);
-                l.setLayoutX(900);
                 l.setStyle("-fx-font-size: 30; -fx-text-fill: orange");
-                i+=1;
+                destinations.getChildren().add(l);
             }
-        garesEtWagons.getChildren().add(tab);
+        getChildren().add(destinations);
     }
 
     public void afficherCartes(List<? extends CouleurWagon> cartes) {
@@ -139,7 +142,7 @@ public class VueJoueurCourant extends Pane {
                 vueCarteWagon.setX(main.getChildren().size() * 65 + 175);
             }
                     main.getChildren().add(vueCarteWagon);
-                }
+        }
     }
 
     public ImageView trouverImageView(String id) {

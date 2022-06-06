@@ -7,8 +7,8 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 
-<fx:root type="javafx.scene.layout.Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.35" prefWidth="935.5500000000001" stylesheets="@../css/style.css"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <ImageView fx:id="image" fitHeight="603.35" fitWidth="935.5500000000001" pickOnBounds="true" preserveRatio="true">
+<fx:root type="javafx.scene.layout.Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../css/style.css"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <ImageView fx:id="image" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@../images/euMap.jpg" />
         </image>

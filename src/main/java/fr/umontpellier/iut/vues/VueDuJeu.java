@@ -1,4 +1,6 @@
 package fr.umontpellier.iut.vues;
+import java.util.ArrayList;
+
 import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.CouleurWagon;
@@ -94,8 +96,10 @@ public class VueDuJeu extends GridPane {
 
     public void creerBindings() {
         
-        ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(64);
+        /*
+         * 
+         ColumnConstraints col1 = new ColumnConstraints();
+         col1.setPercentWidth(64);
         ColumnConstraints col2 = new ColumnConstraints();
         col2.setPercentWidth(36);
         
@@ -109,31 +113,17 @@ public class VueDuJeu extends GridPane {
         
         getColumnConstraints().add(col1);
         getColumnConstraints().add(col2);
-
-        /*
+        */
+         
         this.getScene().widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
                 Platform.runLater(() -> {
-                for (Node node : getChildren())
-                    {
-                        if ( ! node.getId().equals("plateau"))
-                            {
-                                double pourcentage = 0;
-                                if (arg2.doubleValue() > maxLongueur) 
-                                {
-                                    maxLongueur = arg2.doubleValue();
-                                }
-                                pourcentage = (maxLongueur / arg2.doubleValue());
-                                node.setScaleX(1 / pourcentage);
-                                node.setScaleY(1 / pourcentage);
-                            }
-                    }
+                    calculerTaille();
                 });  
             }    
         });
-         */
-
+        
         VBox autresJoueursEtPioches = new VBox(autresJoueurs);
         autresJoueursEtPioches.getChildren().addAll(piocheDefausse, wagonsVisibles);
         autresJoueursEtPioches.setSpacing(70);
@@ -151,6 +141,9 @@ public class VueDuJeu extends GridPane {
         autresJoueurs.creerBindings();
         joueurCourant.creerBindings();
     } 
+
+    public void calculerTaille()    {
+    }
 
     public void choixEtInstructions()   {
 
@@ -190,7 +183,6 @@ public class VueDuJeu extends GridPane {
     public void cartesWagonVisibles() {
 
         wagonsVisibles = new HBox();
-        wagonsVisibles.setSpacing(5);
         ListChangeListener<CouleurWagon> changement = new ListChangeListener<CouleurWagon>() {
 
             @Override
@@ -204,13 +196,12 @@ public class VueDuJeu extends GridPane {
                                 image.setId(couleurWagon + "");
                                 image.setOnMouseClicked(e->jeu.uneCarteWagonAEteChoisie(couleurWagon));
                                 wagonsVisibles.getChildren().add(image);
-
                             }
                         } else if (arg0.wasRemoved()) {
                             if (arg0.getRemovedSize()>=5)
-                                {
-                                    wagonsVisibles.getChildren().clear();
-                                }
+                            {
+                                wagonsVisibles.getChildren().clear();
+                            }
                             else{
                                 for (CouleurWagon couleurWagon : arg0.getRemoved()) {
                                     wagonsVisibles.getChildren().remove(trouverImageView(wagonsVisibles, couleurWagon+""));
@@ -218,6 +209,7 @@ public class VueDuJeu extends GridPane {
                             }
                         }
                     }
+                    calculerTaille();
                 });   
             }
         };

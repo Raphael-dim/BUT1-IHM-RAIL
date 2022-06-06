@@ -146,8 +146,8 @@ public class VuePlateau extends Pane {
         bindVilles();
 //        Les dimensions de l'image varient avec celle de la scène
 
-        image.fitWidthProperty().bind(getScene().widthProperty().multiply(0.6));
-        image.fitHeightProperty().bind(getScene().heightProperty());
+        image.fitWidthProperty().bind(getScene().widthProperty().multiply(0.7));
+        image.fitHeightProperty().bind(getScene().heightProperty().multiply(0.7));
     }
     
     private void bindRectangle(Rectangle rect, double layoutX, double layoutY) {

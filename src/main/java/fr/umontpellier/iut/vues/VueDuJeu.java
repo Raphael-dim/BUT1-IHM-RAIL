@@ -1,14 +1,19 @@
 package fr.umontpellier.iut.vues;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fr.umontpellier.iut.IDestination;
 import fr.umontpellier.iut.IJeu;
+import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
+import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -28,6 +33,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeLineCap;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -148,19 +155,81 @@ public class VueDuJeu extends GridPane {
         joueurCourant.creerBindings();
     } 
 
+    public Color getCouleur(String couleur)   {
+        switch (couleur) {
+            case "ROSE":
+                return Color.PINK;
+            case "BLEU":
+                return Color.BLUE;
+            case "ROUGE":
+                return Color.RED;
+
+            case "VERT":
+                return Color.GREEN;
+
+            case "VIOLET":
+                return Color.PURPLE;
+
+            case "JAUNE":
+                return Color.YELLOW;
+        }
+        return Color.BLACK;
+    }
+
     public void choixEtInstructions()   {
 
         Label instruction = new Label();
         instruction.setId("instruction");
+        
+        Line line1 = new Line();
+        Line line2 = new Line();
+        line1.startXProperty().bind(instruction.layoutXProperty());
+        line1.endXProperty().bind(instruction.widthProperty());
+        line2.startXProperty().bind(instruction.layoutXProperty());
+        line2.endXProperty().bind(instruction.widthProperty());
+        line1.setStrokeWidth(4);
+        line2.setStrokeWidth(4);
+        line1.setStrokeLineCap(StrokeLineCap.ROUND);
+        line2.setStrokeLineCap(StrokeLineCap.ROUND);
+        
+        ChangeListener<IJoueur> changementJoueur = new ChangeListener<IJoueur>() {
+            @Override
+            public void changed(ObservableValue<? extends IJoueur> arg0, IJoueur arg1, IJoueur arg2) {
+                Platform.runLater(() -> {
+                    instruction.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+    
+                    line1.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur() + ""));
+                    line2.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                });
+            }
+        };
+        
+        jeu.joueurCourantProperty().addListener(changementJoueur);
+        
+        
         ChangeListener<String> changementInstruction = new ChangeListener<String>() {
-
+            
             @Override
             public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
                 Platform.runLater(() -> {
+                    instruction.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                    Timer timer = new Timer();
+                    TimerTask timerTask = new TimerTask() {
+                        
+                        @Override
+                        public void run() {
+                            instruction.setStyle("-fx-font-size: 25; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                            
+                        }
+                        
+                    };
+                    timer.schedule(timerTask, 3000);
                     instruction.setText(arg2);
                 });
             }
         };
+
+
         jeu.instructionProperty().addListener(changementInstruction);
         Button passer = new Button("Passer");
         passer.setId("passer");
@@ -180,13 +249,13 @@ public class VueDuJeu extends GridPane {
 
         choix = new VBox();
         choix.setSpacing(20);
-        choix.getChildren().addAll(instruction, passer, destinations);
+        choix.getChildren().addAll(line1, instruction, line2, passer, destinations);
     }
 
     public void cartesWagonVisibles() {
 
         wagonsVisibles = new HBox();
-        wagonsVisibles.setSpacing(15);
+        wagonsVisibles.setSpacing(20);
         ListChangeListener<CouleurWagon> changement = new ListChangeListener<CouleurWagon>() {
 
             @Override

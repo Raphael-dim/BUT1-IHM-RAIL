@@ -12,12 +12,15 @@ import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
@@ -192,6 +195,17 @@ public class VueJoueurCourant extends VBox {
             VueCarteWagon.texturer(vueCarteWagon);
             vueCarteWagon.setId(couleurWagon + "");
             vueCarteWagon.setOnMouseClicked(e->jeu.uneCarteWagonAEteChoisie(couleurWagon));
+            /*
+             
+            vueCarteWagon.setOnMouseEntered(e->{
+                vueCarteWagon.setScaleX(1.25);
+                vueCarteWagon.setScaleY(1.25);
+                // carte.toFront();
+                vueCarteWagon.setEffect(new Glow(0.3));
+                vueCarteWagon.setEffect(new DropShadow(20, Color.BLACK));
+                vueCarteWagon.toFront();
+            });
+            */
             if (main.getChildren().size() >= 14) 
             {
                 vueCarteWagon.setX(main.getChildren().size() % 14 * 65);

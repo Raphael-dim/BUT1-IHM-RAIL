@@ -57,7 +57,6 @@ public class VueCarteWagon extends Pane {
             carte.setScaleX(1);
             carte.setScaleY(1);
             carte.setEffect(null);
-            //carte.toBack();
         });
         return carte;
     }

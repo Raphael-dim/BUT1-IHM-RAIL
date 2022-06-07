@@ -44,20 +44,25 @@ public class VueCarteWagon extends Pane {
 
         carte.setPreserveRatio(true);
         carte.setFitHeight(80);
-        //vueCarteWagon.setFitWidth(150);
+        carte.setFitWidth(124);
 
         carte.setOnMouseEntered(e-> {
-            carte.setFitHeight(100);
-            //vueCarteWagon.toFront();
+            carte.setScaleX(1.25);
+            carte.setScaleY(1.25);
+            //carte.toFront();
             carte.setEffect(new Glow(0.3)); 
             carte.setEffect(new DropShadow(20, Color.BLACK));
         });
         carte.setOnMouseExited(e-> {
-
+            carte.setScaleX(1);
+            carte.setScaleY(1);
             carte.setEffect(null);
-            carte.setFitHeight(80);
-            //vueCarteWagon.toBack();
+            //carte.toBack();
         });
         return carte;
+    }
+
+    public static double getLongueur(){
+        return 124;
     }
 }

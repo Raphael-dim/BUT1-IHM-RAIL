@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -34,7 +35,7 @@ public class VueJoueurCourant extends VBox {
     
     public VueJoueurCourant() {
         main = new Pane();
-
+        setSpacing(30);
         maxLongueur = 1920;
     }
     
@@ -113,6 +114,7 @@ public class VueJoueurCourant extends VBox {
                         node.setScaleY(1 / pourcentage);
                     }
             }
+        setSpacing(30 / pourcentage);
     }
 
     public void afficherGaresEtWagons() {
@@ -129,18 +131,41 @@ public class VueJoueurCourant extends VBox {
         ImageView image_wagon = new ImageView("images/wagons/image-wagon-" + joueurCourant.getCouleur() + ".png");
         image_wagon.setPreserveRatio(true);
         image_wagon.setFitHeight(75);
+
         Label wagons = new Label("x " + joueurCourant.getNbWagons());
         wagons.setMinWidth(15);
         wagons.setStyle("-fx-font-size: 30; -fx-text-fill: "
-                + VueAutresJoueurs.traduire(joueurCourant.getCouleur().name()) + "; -fx-stroke-color: black");
+        + VueAutresJoueurs.traduire(joueurCourant.getCouleur().name()) + "; -fx-stroke-color: black");
+        
+        image_wagon.setOnMouseEntered(e -> {
+            wagons.setMinWidth(80);
+        });
+
+        image_wagon.setOnMouseExited(e -> {
+            wagons.setMinWidth(0);
+        });
 
         garesEtWagons.getChildren().addAll(image_wagon, wagons);
         HBox garesEtWagonsEtDestinations = new HBox(garesEtWagons, destinations);
+
+        destinations.setOnMouseEntered(e -> {
+            destinations.setMinWidth(getWidth());
+            garesEtWagonsEtDestinations.getChildren().remove(garesEtWagons);
+        });
+        destinations.setOnMouseExited(e -> {
+            destinations.setMinWidth(0);
+            garesEtWagonsEtDestinations.getChildren().clear();
+            garesEtWagonsEtDestinations.getChildren().addAll(garesEtWagons, destinations);
+        });
+
+        garesEtWagons.setLayoutY(30);
+        garesEtWagonsEtDestinations.setSpacing(15);
         getChildren().add(garesEtWagonsEtDestinations);
     }
 
     public void afficherDestinations()  {
         
+
         destinations = new GridPane();
         destinations.setHgap(10);
         int ligne = 0;
@@ -148,10 +173,10 @@ public class VueJoueurCourant extends VBox {
         for (Destination d : joueurCourant.getDestinations())
             {
                 Label l = new Label(d.getNom());
-                l.setStyle("-fx-font-size: 30; -fx-text-fill: orange");
+                l.setStyle("-fx-font-size: 25; -fx-text-fill: orange");
                 destinations.add(l, colonne, ligne);
                 ligne++;
-                if (ligne >= 3)
+                if (ligne >= 2)
                     {
                         ligne = 0;
                         colonne++;

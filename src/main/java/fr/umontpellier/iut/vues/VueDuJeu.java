@@ -114,12 +114,17 @@ public class VueDuJeu extends GridPane {
         getColumnConstraints().add(col1);
         getColumnConstraints().add(col2);
         */
-         
+        
         this.getScene().widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
                 Platform.runLater(() -> {
-                    calculerTaille();
+                    for (Node n : wagonsVisibles.getChildren()) {
+                        ((ImageView) n).setFitWidth(VueCarteWagon.getLongueur() * (getWidth() / maxLongueur));
+                    }
+                    for (Node n : piocheDefausse.getChildren()) {
+                        ((ImageView) n).setFitWidth(VueCarteWagon.getLongueur() * (getWidth() / maxLongueur));
+                    }
                 });  
             }    
         });
@@ -127,6 +132,7 @@ public class VueDuJeu extends GridPane {
         VBox autresJoueursEtPioches = new VBox(autresJoueurs);
         autresJoueursEtPioches.getChildren().addAll(piocheDefausse, wagonsVisibles);
         autresJoueursEtPioches.setSpacing(70);
+        autresJoueursEtPioches.setPadding(new Insets(30));
 
         plateau.setId("plateau");
         autresJoueursEtPioches.setId("autresJoueursEtPioches");
@@ -141,9 +147,6 @@ public class VueDuJeu extends GridPane {
         autresJoueurs.creerBindings();
         joueurCourant.creerBindings();
     } 
-
-    public void calculerTaille()    {
-    }
 
     public void choixEtInstructions()   {
 
@@ -183,6 +186,7 @@ public class VueDuJeu extends GridPane {
     public void cartesWagonVisibles() {
 
         wagonsVisibles = new HBox();
+        wagonsVisibles.setSpacing(15);
         ListChangeListener<CouleurWagon> changement = new ListChangeListener<CouleurWagon>() {
 
             @Override
@@ -195,6 +199,7 @@ public class VueDuJeu extends GridPane {
                                 VueCarteWagon.texturer(image);
                                 image.setId(couleurWagon + "");
                                 image.setOnMouseClicked(e->jeu.uneCarteWagonAEteChoisie(couleurWagon));
+                                image.setFitWidth(VueCarteWagon.getLongueur() * (getWidth() / maxLongueur));
                                 wagonsVisibles.getChildren().add(image);
                             }
                         } else if (arg0.wasRemoved()) {
@@ -209,7 +214,6 @@ public class VueDuJeu extends GridPane {
                             }
                         }
                     }
-                    calculerTaille();
                 });   
             }
         };

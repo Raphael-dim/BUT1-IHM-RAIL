@@ -96,6 +96,7 @@ public class VuePlateau extends Pane {
                         {
                                 Rectangle rect = (Rectangle) nRect;
                                 Platform.runLater(()->{
+                                    nRect.setStyle("-fx-stroke: "+VueAutresJoueurs.traduire(j.getCouleur()+"")+ ";-fx-stroke-width: 2");
                                     ImageView image = new ImageView("images/wagons/image-wagon-"+j.getCouleur()+".png");
                                     image.setPreserveRatio(true);
                                     image.setFitHeight(27);

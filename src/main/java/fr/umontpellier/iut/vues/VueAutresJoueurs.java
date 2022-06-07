@@ -1,4 +1,5 @@
 package fr.umontpellier.iut.vues;
+import java.security.spec.EllipticCurve;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -72,9 +78,9 @@ public class VueAutresJoueurs extends GridPane {
         {
             case "JAUNE": return "#fcba03";
             case "ROUGE": return "red";
-            case "BLEU": return "blue";
+            case "BLEU": return "#05009e";
             case "ROSE": return "#fc0394";
-            case "VERT": return "green";
+            case "VERT": return "#087a00";
         }
         return couleur;
         
@@ -83,6 +89,7 @@ public class VueAutresJoueurs extends GridPane {
     public Pane panneauJoueur(IJoueur joueur) {
 
         Pane pane = new Pane();
+        
 
         ImageView logo= new ImageView("images/avatar-"+joueur.getCouleur()+".png");
         logo.setPreserveRatio(true);
@@ -105,7 +112,21 @@ public class VueAutresJoueurs extends GridPane {
         gares.setLayoutX(80);
         gares.setLayoutY(35);
 
-        pane.getChildren().addAll(logo, nom, gares, score);
+        Ellipse ellipse = new Ellipse();
+        ellipse.setOpacity(0.4);
+        Stop[] stop = { new Stop(0.1f, VueDuJeu.getCouleur(joueur.getCouleur().name())),
+                        new Stop(0.7f, Color.BLACK),
+            };
+
+        // create a Linear gradient object
+        LinearGradient linear_gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stop);
+        ellipse.setFill(linear_gradient);
+        ellipse.centerXProperty().bind(gares.layoutXProperty().multiply(1.3));
+        ellipse.centerYProperty().bind(gares.layoutYProperty().multiply(1.4));
+        ellipse.setRadiusX(130);
+        ellipse.setRadiusY(70);
+
+        pane.getChildren().addAll(ellipse, logo, nom, gares, score);
 
         for (int i = 0; i < joueur.getNbGares(); i++)
             {

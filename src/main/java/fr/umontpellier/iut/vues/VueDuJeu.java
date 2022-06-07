@@ -155,7 +155,7 @@ public class VueDuJeu extends GridPane {
         joueurCourant.creerBindings();
     } 
 
-    public Color getCouleur(String couleur)   {
+    public static Color getCouleur(String couleur)   {
         switch (couleur) {
             case "ROSE":
                 return Color.PINK;
@@ -223,7 +223,7 @@ public class VueDuJeu extends GridPane {
                         }
                         
                     };
-                    timer.schedule(timerTask, 3000);
+                    timer.schedule(timerTask, 2000);
                     instruction.setText(arg2);
                 });
             }

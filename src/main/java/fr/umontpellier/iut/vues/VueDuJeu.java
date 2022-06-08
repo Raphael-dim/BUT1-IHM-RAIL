@@ -22,16 +22,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
@@ -52,7 +43,7 @@ public class VueDuJeu extends GridPane {
     private VueAutresJoueurs autresJoueurs;
     private VueJoueurCourant joueurCourant;
     private VBox choix;
-    private HBox destinations;
+    private GridPane destinations;
     private HBox wagonsVisibles;
     private HBox piocheDefausse;
     private double maxLongueur;
@@ -139,7 +130,7 @@ public class VueDuJeu extends GridPane {
         VBox autresJoueursEtPioches = new VBox(autresJoueurs);
         autresJoueursEtPioches.getChildren().addAll(piocheDefausse, wagonsVisibles);
         autresJoueursEtPioches.setSpacing(70);
-        autresJoueursEtPioches.setPadding(new Insets(30));
+        autresJoueursEtPioches.setPadding(new Insets(25));
 
         plateau.setId("plateau");
         autresJoueursEtPioches.setId("autresJoueursEtPioches");
@@ -196,7 +187,7 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends IJoueur> arg0, IJoueur arg1, IJoueur arg2) {
                 Platform.runLater(() -> {
-                    instruction.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
     
                     line1.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur() + ""));
                     line2.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur()+""));
@@ -212,14 +203,13 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
                 Platform.runLater(() -> {
-                    instruction.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
                     Timer timer = new Timer();
                     TimerTask timerTask = new TimerTask() {
                         
                         @Override
                         public void run() {
                             instruction.setStyle("-fx-font-size: 25; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
-                            
                         }
                         
                     };
@@ -229,7 +219,6 @@ public class VueDuJeu extends GridPane {
             }
         };
 
-
         jeu.instructionProperty().addListener(changementInstruction);
         Button passer = new Button("Passer");
         passer.setId("passer");
@@ -237,7 +226,7 @@ public class VueDuJeu extends GridPane {
 
         passer.setOnMouseEntered(e -> {
             passer.setStyle(
-                    "-fx-font-size: 25; -fx-text-fill: white; -fx-border-color: white;");
+                    "-fx-font-family: \"IM FELL English SC\";-fx-font-size: 25; -fx-text-fill: white; -fx-border-color: white;");
             passer.setEffect(new Glow(0.3));
             passer.setEffect(new DropShadow(20, Color.BLACK));
         });
@@ -311,29 +300,42 @@ public class VueDuJeu extends GridPane {
         pioche.setOnMouseClicked(e->jeu.uneDestinationAEtePiochee());
         piocheDefausse.getChildren().addAll(pioche);
 
-        destinations = new HBox();
-        destinations.setSpacing(10);
+        destinations = new GridPane();
+        destinations.setHgap(20);
+        destinations.setVgap(20);
+        //destinations.setSpacing(10);
         ListChangeListener<Destination> changementDestination = new ListChangeListener<Destination>() {
             @Override
             public void onChanged(Change<? extends Destination> arg0) {
                 Platform.runLater(() -> {
                     while (arg0.next()) {
+
                         if (arg0.wasAdded()) {
                             for (Destination destination : arg0.getAddedSubList()) {
                                 Button boutton = new Button(destination.getNom());
+                                boutton.setId(destination.getNom());
                                 boutton.setOnMouseClicked(e -> {
                                     jeu.uneDestinationAEteChoisie(boutton.getText());
                                 });
                                 boutton.setOnMouseEntered(e -> {
                                     boutton.setStyle(
-                                            "-fx-font-size: 25; -fx-text-fill: white; -fx-border-color: white;");
+                                            "-fx-font-family: \"IM FELL English SC\";-fx-font-size: 25; -fx-text-fill: white; -fx-border-color: white;");
                                     boutton.setEffect(new DropShadow(20, Color.BLACK));
                                 });
                                 boutton.setOnMouseExited(e -> {
                                     boutton.setStyle(null);
                                     boutton.setEffect(null);
                                 });
-                                destinations.getChildren().add(boutton);
+                                int ligne;
+                                if (destinations.getChildren().size() >= 2)
+                                {
+                                    ligne = 1;
+                                }
+                                else{
+                                    ligne = 0;
+                                }
+                                int colonne = destinations.getChildren().size()%2;
+                                destinations.add(boutton, colonne, ligne);
                             }
                         } else if (arg0.wasRemoved()) {
                             for (Destination destination : arg0.getRemoved()) {
@@ -345,6 +347,18 @@ public class VueDuJeu extends GridPane {
             };
         };
         jeu.destinationsInitialesProperty().addListener(changementDestination);
+    }
+
+    public Button getPane(String id) {
+        for (Node pane : destinations.getChildren())
+        {
+            Button l = (Button) pane;
+            if (pane.getId().equals(id))
+            {
+                return l;
+            }
+        }
+        return null;
     }
 
     public ImageView trouverImageView(HBox CartesWagonsVisibles, String id) {

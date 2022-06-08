@@ -33,6 +33,8 @@ public class VueAutresJoueurs extends GridPane {
 
     public VueAutresJoueurs() {
         this.setHgap(50);
+        getStylesheets().add("css/page.css");
+
         this.setVgap(50);
     }
 
@@ -96,19 +98,19 @@ public class VueAutresJoueurs extends GridPane {
         logo.setFitHeight(100);
 
         Label nom = new Label(joueur.getNom());
-        nom.setStyle("-fx-font-size: 25; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        nom.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-size: 25; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
         nom.setLayoutX(80);
 
         Label score = new Label("Score : "+ joueur.getScore());
-        score.setStyle("-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        score.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
         score.setLayoutX(80);
         score.setLayoutY(70);
 
         Rectangle rectangle = new Rectangle(150, 150);
-        rectangle.setStyle("-fx-fill: null; -fx-border-style: solid; -fx-border-width: 10; -fx-stroke: black;");
+        rectangle.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-fill: null; -fx-border-style: solid; -fx-border-width: 10; -fx-stroke: black;");
 
         Label gares = new Label("Gares : ");
-        gares.setStyle("-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        gares.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
         gares.setLayoutX(80);
         gares.setLayoutY(35);
 

@@ -21,6 +21,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
@@ -38,6 +42,7 @@ public class VueJoueurCourant extends VBox {
     
     public VueJoueurCourant() {
         main = new Pane();
+        getStylesheets().add("css/page.css");
         setSpacing(30);
         maxLongueur = 1920;
     }
@@ -123,6 +128,11 @@ public class VueJoueurCourant extends VBox {
     public void afficherGaresEtWagons() {
 
         garesEtWagons = new HBox();
+        VBox nomsEtAutre = new VBox();
+        nomsEtAutre.setSpacing(15);
+        Label nom = new Label(joueurCourant.getNom());
+        nomsEtAutre.getChildren().add(nom);
+        nomsEtAutre.getChildren().add(garesEtWagons);
         garesEtWagons.setSpacing(10);
         for (int i = 0; i < joueurCourant.getNbGares(); i++) {
             ImageView gare = new ImageView("images/gares/gare-" + joueurCourant.getCouleur() + ".png");
@@ -137,7 +147,7 @@ public class VueJoueurCourant extends VBox {
 
         Label wagons = new Label("x " + joueurCourant.getNbWagons());
         wagons.setMinWidth(15);
-        wagons.setStyle("-fx-font-size: 30; -fx-text-fill: "
+        wagons.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 30; -fx-text-fill: "
         + VueAutresJoueurs.traduire(joueurCourant.getCouleur().name()) + "; -fx-stroke-color: black");
         
         image_wagon.setOnMouseEntered(e -> {
@@ -149,7 +159,7 @@ public class VueJoueurCourant extends VBox {
         });
 
         garesEtWagons.getChildren().addAll(image_wagon, wagons);
-        HBox garesEtWagonsEtDestinations = new HBox(garesEtWagons, destinations);
+        HBox garesEtWagonsEtDestinations = new HBox(nomsEtAutre, destinations);
 
         destinations.setOnMouseEntered(e -> {
             destinations.setMinWidth(getWidth());
@@ -176,7 +186,7 @@ public class VueJoueurCourant extends VBox {
         for (Destination d : joueurCourant.getDestinations())
             {
                 Label l = new Label(d.getNom());
-                l.setStyle("-fx-font-size: 25; -fx-text-fill: orange");
+                l.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 25; -fx-text-fill: orange");
                 destinations.add(l, colonne, ligne);
                 ligne++;
                 if (ligne >= 2)

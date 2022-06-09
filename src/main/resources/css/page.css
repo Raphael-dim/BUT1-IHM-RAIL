@@ -23,6 +23,11 @@
     */
 }
 
+.text{
+    -fx-font-family: "IM FELL English SC";
+    -fx-font-size: 24;
+}
+
 #instruction  {
     -fx-text-fill: #000000;
     -fx-font-size: 30;

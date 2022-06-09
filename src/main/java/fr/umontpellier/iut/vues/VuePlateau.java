@@ -10,9 +10,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -96,18 +98,8 @@ public class VuePlateau extends Pane {
                         {
                                 Rectangle rect = (Rectangle) nRect;
                                 Platform.runLater(()->{
-                                    nRect.setStyle("-fx-stroke: "+VueAutresJoueurs.traduire(j.getCouleur()+"")+ ";-fx-stroke-width: 2");
-                                    ImageView image = new ImageView("images/wagons/image-wagon-"+j.getCouleur()+".png");
-                                    image.setPreserveRatio(true);
-                                    image.setFitHeight(27);
-                                    image.layoutXProperty().bind(rect.layoutXProperty());
-                                    image.layoutYProperty().bind(rect.layoutYProperty());
-                                    image.xProperty().bind(rect.xProperty());
-                                    image.yProperty().bind(rect.yProperty());
-                                    image.translateXProperty().bind(rect.translateXProperty());
-                                    image.translateYProperty().bind(rect.translateYProperty());
-                                    image.setRotate(rect.getRotate());
-                                    getChildren().add(image);
+                                    Image image = new Image("images/wagons/image-wagon-"+j.getCouleur()+".png");
+                                    rect.setFill(new ImagePattern(image, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), false));
                                 });
                             }
                         break;
@@ -125,7 +117,7 @@ public class VuePlateau extends Pane {
                             Platform.runLater(()->{
                                 ImageView image = new ImageView("images/gares/gare-"+j.getCouleur()+".png");
                                 image.setPreserveRatio(true);
-                                image.setFitHeight(27);
+                                image.setFitHeight(32);
                                 image.setEffect(new DropShadow(20, Color.BLACK));
                                 image.layoutXProperty().bind(c.layoutXProperty().divide(1.02));
                                 image.layoutYProperty().bind(c.layoutYProperty().divide(1.06));

@@ -1,5 +1,4 @@
 package fr.umontpellier.iut.vues;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,12 +7,10 @@ import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
-import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ListChangeListener.Change;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -111,8 +108,8 @@ public class VueDuJeu extends GridPane {
         
         getColumnConstraints().add(col1);
         getColumnConstraints().add(col2);
-        */
         
+        */
         this.getScene().widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
@@ -171,7 +168,7 @@ public class VueDuJeu extends GridPane {
 
         Label instruction = new Label();
         instruction.setId("instruction");
-        
+        instruction.setStyle("-fx-font-family: \"IM FELL English SC\";");
         Line line1 = new Line();
         Line line2 = new Line();
         line1.startXProperty().bind(instruction.layoutXProperty());
@@ -187,7 +184,7 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends IJoueur> arg0, IJoueur arg1, IJoueur arg2) {
                 Platform.runLater(() -> {
-                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
     
                     line1.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur() + ""));
                     line2.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur()+""));
@@ -203,13 +200,13 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
                 Platform.runLater(() -> {
-                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
                     Timer timer = new Timer();
                     TimerTask timerTask = new TimerTask() {
                         
                         @Override
                         public void run() {
-                            instruction.setStyle("-fx-font-size: 25; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                            instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-size: 25; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
                         }
                         
                     };

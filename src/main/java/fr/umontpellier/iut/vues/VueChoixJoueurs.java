@@ -34,7 +34,7 @@ import java.util.List;
 public class VueChoixJoueurs extends Stage {
 
     private GridPane grille;
-    private ChoiceBox<Integer> choix;
+    private ChoiceBox<Integer> liste;
     private ObservableList<String> nomsJoueurs;
     private boolean demarrerPartie = false;
     public ObservableList<String> nomsJoueursProperty() {
@@ -49,18 +49,16 @@ public class VueChoixJoueurs extends Stage {
         nomsJoueurs = FXCollections.observableArrayList();
         grille = new GridPane();
         Scene scene = new Scene(grille);
-        
         this.setTitle("Choix des joueurs");
         this.setScene(scene);
-        this.setWidth(640*1.7);
-        this.setHeight(400*1.7);
-        this.setResizable(false);
+        
+        /* */
         grille.maxHeight(60);
         grille.maxWidth(100);
 
         scene.getStylesheets().add("css/page.css");
         
-        Image bg = new Image("images/adr5.png");
+        Image bg = new Image("images/fond sae deb.png");
         BackgroundImage bImg = new BackgroundImage(bg,
                 BackgroundRepeat.REPEAT,
                 BackgroundRepeat.REPEAT,
@@ -80,39 +78,29 @@ public class VueChoixJoueurs extends Stage {
         grille.setHgap(30);
         grille.setVgap(30);
         
-        VBox v = new VBox();
         Label label = new Label("Choisissez le nombre de joueurs : ");
         label.setStyle("-fx-background-color: #000000;");
-        
-    
-    
         label.setTranslateY(200);
         label.setLayoutY(100);
         label.setId("choix");
         
-        choix = new ChoiceBox<>();  
-        choix.setScaleX(1.2);
-        choix.setScaleY(1.2); 
-        choix.setTranslateY(200);
-        choix.setOnMouseEntered(e->{
-            choix.setStyle("-fx-border-color: #ff9900; -fx-border-radius: 5; -fx-background-color: #000000;");
-            choix.setScaleX(1.4);
-            choix.setScaleY(1.4);
+        liste = new ChoiceBox<>(); 
+        liste.setTranslateY(200);
+        liste.setOnMouseEntered(e->{
+            liste.setStyle("-fx-border-color: white;-fx-border-width: 2; -fx-background-color: #000000;");
         }); 
         
-        choix.setOnMouseExited(e -> {
-            choix.setScaleX(1.2);
-            choix.setScaleY(1.2);
-            choix.setStyle(null);
+        liste.setOnMouseExited(e -> {
+            liste.setStyle(null);
         });
-        choix.getItems().add(2);
-        choix.getItems().add(3);
-        choix.getItems().add(4);
-        choix.getItems().add(5);
+        liste.getItems().add(2);
+        liste.getItems().add(3);
+        liste.getItems().add(4);
+        liste.getItems().add(5);
 
 
         grille.add(label, 0, 0);
-        grille.add(choix, 1, 0);
+        grille.add(liste, 1, 0);
         
         VBox noms = new VBox();
         noms.setTranslateY(200);
@@ -156,7 +144,7 @@ public class VueChoixJoueurs extends Stage {
                 }
         });
 
-        choix.valueProperty().addListener(new ChangeListener<Integer>() {
+        liste.valueProperty().addListener(new ChangeListener<Integer>() {
 
             @Override
             public void changed(ObservableValue<? extends Integer> arg0, Integer arg1, Integer arg2) {
@@ -230,7 +218,7 @@ public class VueChoixJoueurs extends Stage {
      * Retourne le nombre de participants à la partie que l'utilisateur a renseigné
      */
     protected int getNombreDeJoueurs() {
-        return choix.getValue();
+        return liste.getValue();
     }
 
     /**

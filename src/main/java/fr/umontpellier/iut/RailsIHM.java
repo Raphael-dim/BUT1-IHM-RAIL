@@ -10,6 +10,7 @@ import javafx.concurrent.Worker;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class RailsIHM extends Application {
         if (avecVueChoixJoueurs) {
             vueChoixJoueurs = new VueChoixJoueurs();
             vueChoixJoueurs.setNomsDesJoueursDefinisListener(quandLesNomsJoueursSontDefinis);
+            vueChoixJoueurs.setWidth(640 * 1.7);
+            vueChoixJoueurs.setHeight(400 * 1.7);
             vueChoixJoueurs.show();
 
 
@@ -53,7 +56,7 @@ public class RailsIHM extends Application {
             nomsJoueurs.add("LeChuck");
             nomsJoueurs.add("Elaine");
         }
-
+        vueChoixJoueurs.close();
         serviceDuJeu = new ServiceDuJeu(nomsJoueurs.toArray(new String[0]));
         vueDuJeu = new VueDuJeu(serviceDuJeu.getJeu());
         Scene scene = new Scene(vueDuJeu); // la scene doit être créée avant de mettre en place les bindings
@@ -64,6 +67,7 @@ public class RailsIHM extends Application {
         primaryStage.setTitle("Rails");
         primaryStage.centerOnScreen();
         primaryStage.setMaximized(true);
+        primaryStage.getIcons().add(new Image("images/logo.png"));
 
         primaryStage.setOnCloseRequest(event -> {
             this.onStopGame();

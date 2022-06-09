@@ -89,7 +89,6 @@ public class VueAutresJoueurs extends GridPane {
     public Pane panneauJoueur(IJoueur joueur) {
 
         Pane pane = new Pane();
-        
 
         ImageView logo= new ImageView("images/avatar-"+joueur.getCouleur()+".png");
         logo.setPreserveRatio(true);

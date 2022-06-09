@@ -12,6 +12,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -43,30 +49,53 @@ public class VueChoixJoueurs extends Stage {
         nomsJoueurs = FXCollections.observableArrayList();
         grille = new GridPane();
         Scene scene = new Scene(grille);
+        
         this.setTitle("Choix des joueurs");
         this.setScene(scene);
-        this.setWidth(700);
-        this.setHeight(500);
+        this.setWidth(640*1.7);
+        this.setHeight(400*1.7);
+        this.setResizable(false);
+        grille.maxHeight(60);
+        grille.maxWidth(100);
+
         scene.getStylesheets().add("css/page.css");
+        
+        Image bg = new Image("images/adr5.png");
+        BackgroundImage bImg = new BackgroundImage(bg,
+                BackgroundRepeat.REPEAT,
+                BackgroundRepeat.REPEAT,
+                BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT);
+        Background bGround = new Background(bImg);
+    
+        grille.setBackground(bGround);
         grille.setId("page_debut");
         Afficher();
 
     }
 
     public void Afficher()  {
-
+        
         grille.setPadding(new Insets(30));
         grille.setHgap(30);
         grille.setVgap(30);
-
+        
+        VBox v = new VBox();
         Label label = new Label("Choisissez le nombre de joueurs : ");
+        label.setStyle("-fx-background-color: #000000;");
+        
+    
+    
+        label.setTranslateY(200);
+        label.setLayoutY(100);
         label.setId("choix");
         
         choix = new ChoiceBox<>();  
         choix.setScaleX(1.2);
         choix.setScaleY(1.2); 
+        choix.setTranslateY(200);
         choix.setOnMouseEntered(e->{
-            choix.setStyle("-fx-border-color: #ff9900; -fx-border-radius: 5");
+            choix.setStyle("-fx-border-color: #ff9900; -fx-border-radius: 5; -fx-background-color: #000000;");
             choix.setScaleX(1.4);
             choix.setScaleY(1.4);
         }); 
@@ -86,11 +115,13 @@ public class VueChoixJoueurs extends Stage {
         grille.add(choix, 1, 0);
         
         VBox noms = new VBox();
+        noms.setTranslateY(200);
         noms.setSpacing(20);
         grille.add(noms, 1, 1);
 
         Button valider = new Button("Valider");
-
+        valider.setTranslateY(200);
+        valider.setTranslateX(100);
         valider.setOnMouseEntered(e->{
             valider.setStyle("-fx-font-size: 25");
         });
@@ -133,7 +164,9 @@ public class VueChoixJoueurs extends Stage {
                 if (arg1 == null)
                     {
                         Label label = new Label("Noms de joueurs : ");
+                        label.setStyle("-fx-background-color: #000000;");
                         label.setId("choix");
+                        label.setTranslateY(200);
                         grille.add(label, 0, 1);
                     }
 
@@ -142,7 +175,7 @@ public class VueChoixJoueurs extends Stage {
                         for (int i = noms.getChildren().size() ; i < arg2; i++)
                             {
                                 TextField nom = new TextField();
-                                
+                                nom.setStyle("-fx-background-color: #1d1e1f;");
                                 noms.getChildren().add(nom);
                             }
 

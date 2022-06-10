@@ -42,15 +42,54 @@
     -fx-padding: 5;
 }
 
-.text-field {
-    -fx-font-size: 18;
+#JAUNE{-fx-font-size: 18;
     -fx-padding: 1, 1, 1, 1;
     -fx-border-color: rgb(255, 255, 255);
     -fx-border-width: 2;
     -fx-border-radius: 1;
     -fx-border: gone;
     -fx-background-color: transparent;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #e8e000;
+}
+#ROUGE{
+    -fx-font-size: 18;
+        -fx-padding: 1, 1, 1, 1;
+        -fx-border-color: rgb(255, 255, 255);
+        -fx-border-width: 2;
+        -fx-border-radius: 1;
+        -fx-border: gone;
+        -fx-background-color: transparent;
+        -fx-text-fill: red;
+}
+#BLEU{
+    -fx-font-size: 18;
+        -fx-padding: 1, 1, 1, 1;
+        -fx-border-color: rgb(255, 255, 255);
+        -fx-border-width: 2;
+        -fx-border-radius: 1;
+        -fx-border: gone;
+        -fx-background-color: transparent;
+        -fx-text-fill: #0569f5;
+}
+#VERT{
+    -fx-font-size: 18;
+        -fx-padding: 1, 1, 1, 1;
+        -fx-border-color: rgb(255, 255, 255);
+        -fx-border-width: 2;
+        -fx-border-radius: 1;
+        -fx-border: gone;
+        -fx-background-color: transparent;
+        -fx-text-fill: #10c000;
+}
+#ROSE{
+    -fx-font-size: 18;
+        -fx-padding: 1, 1, 1, 1;
+        -fx-border-color: rgb(255, 255, 255);
+        -fx-border-width: 2;
+        -fx-border-radius: 1;
+        -fx-border: gone;
+        -fx-background-color: transparent;
+        -fx-text-fill: #f700ff;
 }
 
 .choice-box .context-menu {

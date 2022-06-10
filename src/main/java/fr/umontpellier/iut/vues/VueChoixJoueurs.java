@@ -95,7 +95,6 @@ public class VueChoixJoueurs extends Stage {
         vbox.getChildren().add(pane);
         
         Label label = new Label("Choisissez le nombre de joueurs : ");
-        label.setStyle("-fx-background-color: #000000;");
         label.setId("choix");
         
         liste = new ChoiceBox<>(); 
@@ -169,7 +168,6 @@ public class VueChoixJoueurs extends Stage {
                 if (arg1 == null)
                     {
                         Label label = new Label("Noms de joueurs : ");
-                        label.setStyle("-fx-background-color: #000000;");
                         label.setId("choix");
                         grille.add(label, 0, 1);
                     }
@@ -180,6 +178,7 @@ public class VueChoixJoueurs extends Stage {
                             {
                                 TextField nom = new TextField();
                                 Couleur c = couleurs.remove(0);
+                                nom.setId(c.name());
                                 ImageView wagon = new ImageView("images/wagons/image-wagon-"+c+".png");
                                 wagon.setId(c.name());
                                 wagon.setFitHeight(40);

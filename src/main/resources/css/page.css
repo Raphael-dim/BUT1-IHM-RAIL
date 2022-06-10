@@ -7,19 +7,9 @@
     -fx-padding: 1;
 }
 
-#page {
-    /*
-    -fx-background-repeat: no-repeat;
-    /*-fx-background-color: rgb(151, 91, 91);
-    -fx-background-image: url("https://www.nadib-bandi.com/wp-content/uploads/2018/01/Dessin-quai-gare-amberieu-en-bugey-sketch-ter.jpg");
-    -fx-background-radius: 5.0;
-    /*-fx-background-insets: 0.0 5.0 0.0 5.0;
-    */
-}
-
 #page_debut{
     
-    -fx-background-color: rgb(70, 70, 70);
+    -fx-background-color: rgb(64, 71, 72);
     
 }
 

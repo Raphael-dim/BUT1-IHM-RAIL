@@ -167,8 +167,7 @@ public class VueDuJeu extends GridPane {
     public void choixEtInstructions()   {
 
         Label instruction = new Label();
-        instruction.setId("instruction");
-        instruction.setStyle("-fx-font-family: \"IM FELL English SC\";");
+        instruction.setStyle("-fx-font-size: 35; -fx-font-family: \"IM FELL English SC\";");
         Line line1 = new Line();
         Line line2 = new Line();
         line1.startXProperty().bind(instruction.layoutXProperty());
@@ -184,7 +183,7 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends IJoueur> arg0, IJoueur arg1, IJoueur arg2) {
                 Platform.runLater(() -> {
-                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 35; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
     
                     line1.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur() + ""));
                     line2.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur()+""));
@@ -200,13 +199,13 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
                 Platform.runLater(() -> {
-                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 35; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
                     Timer timer = new Timer();
                     TimerTask timerTask = new TimerTask() {
                         
                         @Override
                         public void run() {
-                            instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-size: 25; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                            instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-size: 30; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
                         }
                         
                     };
@@ -218,23 +217,24 @@ public class VueDuJeu extends GridPane {
 
         jeu.instructionProperty().addListener(changementInstruction);
         Button passer = new Button("Passer");
+        passer.setStyle("-fx-text-fill: white; -fx-font-family: \"IM FELL English SC\";-fx-font-size: 25");
         passer.setId("passer");
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());
 
         passer.setOnMouseEntered(e -> {
             passer.setStyle(
-                    "-fx-font-family: \"IM FELL English SC\";-fx-font-size: 25; -fx-text-fill: white; -fx-border-color: white;");
+                    "-fx-font-family: \"IM FELL English SC\";-fx-font-size: 30; -fx-text-fill: white; -fx-border-color: white;");
             passer.setEffect(new Glow(0.3));
             passer.setEffect(new DropShadow(20, Color.BLACK));
         });
         passer.setOnMouseExited(e -> {
-            passer.setStyle(null);
+            passer.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 25");
             passer.setEffect(null);
 
         });
 
         choix = new VBox();
-        choix.setSpacing(20);
+        choix.setSpacing(15);
         choix.getChildren().addAll(line1, instruction, line2, passer, destinations);
     }
 
@@ -310,17 +310,18 @@ public class VueDuJeu extends GridPane {
                         if (arg0.wasAdded()) {
                             for (Destination destination : arg0.getAddedSubList()) {
                                 Button boutton = new Button(destination.getNom());
+                                boutton.setStyle("-fx-text-fill: white; -fx-font-family: \"IM FELL English SC\";-fx-font-size: 25");
                                 boutton.setId(destination.getNom());
                                 boutton.setOnMouseClicked(e -> {
                                     jeu.uneDestinationAEteChoisie(boutton.getText());
                                 });
                                 boutton.setOnMouseEntered(e -> {
                                     boutton.setStyle(
-                                            "-fx-font-family: \"IM FELL English SC\";-fx-font-size: 25; -fx-text-fill: white; -fx-border-color: white;");
+                                            "-fx-font-family: \"IM FELL English SC\";-fx-font-size: 30; -fx-text-fill: white; -fx-border-color: white;");
                                     boutton.setEffect(new DropShadow(20, Color.BLACK));
                                 });
                                 boutton.setOnMouseExited(e -> {
-                                    boutton.setStyle(null);
+                                    boutton.setStyle("-fx-text-fill: white; -fx-font-family: \"IM FELL English SC\";-fx-font-size: 25");
                                     boutton.setEffect(null);
                                 });
                                 int ligne;

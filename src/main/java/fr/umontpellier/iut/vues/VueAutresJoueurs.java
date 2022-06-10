@@ -4,10 +4,12 @@ import java.util.List;
 
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
+import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -18,6 +20,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.PathElement;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -79,9 +82,9 @@ public class VueAutresJoueurs extends GridPane {
         {
             case "JAUNE": return "#fcba03";
             case "ROUGE": return "red";
-            case "BLEU": return "#05009e";
-            case "ROSE": return "#fc0394";
-            case "VERT": return "#087a00";
+            case "BLEU": return "#0569f5";
+            case "ROSE": return "#f50589";
+            case "VERT": return "#026307";
         }
         return couleur;
         
@@ -96,11 +99,11 @@ public class VueAutresJoueurs extends GridPane {
         logo.setFitHeight(100);
 
         Label nom = new Label(joueur.getNom());
-        nom.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-size: 25; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        nom.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-size: 36; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
         nom.setLayoutX(80);
 
         Label score = new Label("Score : "+ joueur.getScore());
-        score.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        score.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 30; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
         score.setLayoutX(80);
         score.setLayoutY(70);
 
@@ -108,15 +111,17 @@ public class VueAutresJoueurs extends GridPane {
         rectangle.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-fill: null; -fx-border-style: solid; -fx-border-width: 10; -fx-stroke: black;");
 
         Label gares = new Label("Gares : ");
-        gares.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 20; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        gares.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 30; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
         gares.setLayoutX(80);
         gares.setLayoutY(35);
 
+        /*
+         
         Ellipse ellipse = new Ellipse();
         ellipse.setOpacity(0.4);
         Stop[] stop = { new Stop(0.1f, VueDuJeu.getCouleur(joueur.getCouleur().name())),
-                        new Stop(0.7f, Color.BLACK),
-            };
+            new Stop(0.7f, Color.BLACK),
+        };
 
         // create a Linear gradient object
         LinearGradient linear_gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stop);
@@ -125,20 +130,63 @@ public class VueAutresJoueurs extends GridPane {
         ellipse.centerYProperty().bind(gares.layoutYProperty().multiply(1.4));
         ellipse.setRadiusX(130);
         ellipse.setRadiusY(70);
-
-        pane.getChildren().addAll(ellipse, logo, nom, gares, score);
+        
+        */
+        pane.getChildren().addAll(logo, nom, gares, score);
 
         for (int i = 0; i < joueur.getNbGares(); i++)
             {
                 ImageView wagon = new ImageView("images/gares/gare-"+joueur.getCouleur()+".png");
                 wagon.setPreserveRatio(true);
                 wagon.setFitHeight(40);
-                wagon.setX(i*30+130);
-                wagon.setY(28);
+                wagon.setX(i*30+180);
+                wagon.setY(40);
                 pane.getChildren().add(wagon);
             }
         pane.setId(joueur.getNom());
+
+        pane.setOnMouseEntered(e->{
+            if (getRowIndex(pane) == 1)
+                {
+                    setPadding(new Insets(10, 0, 150, 0));
+                }
+            else{
+                setVgap(150);
+            }
+            pane.getChildren().add(afficherCarte(joueur));
+        });
+
+        pane.setOnMouseExited(e->{
+            setPadding(new Insets(10, 0, 0, 0));
+            setVgap(50);
+            pane.getChildren().remove(pane.getChildren().size() - 1);
+        });
+
+
+
         return pane;
+    }
+
+    public Pane afficherCarte(IJoueur joueur) {
+
+        Pane main = new Pane();
+        main.setTranslateY(120);
+        for (CouleurWagon c : joueur.getCartesWagon())  
+        {
+            ImageView vueCarteWagon = new VueCarteWagon(c).AfficherCarte();
+            vueCarteWagon.setPreserveRatio(true);
+            vueCarteWagon.setFitWidth(65);
+            if (main.getChildren().size() >= 7) {
+                int i = main.getChildren().size() / 7;
+                vueCarteWagon.setX(main.getChildren().size() % 7 * 30);
+                vueCarteWagon.setY(40 * i);
+            } else {
+                vueCarteWagon.setX(main.getChildren().size() * 30);
+            }
+                    main.getChildren().add(vueCarteWagon);
+        }
+        
+        return main;
     }
 
     public Pane getPane(String id) {

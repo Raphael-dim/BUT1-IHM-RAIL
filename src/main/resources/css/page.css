@@ -18,25 +18,13 @@
 }
 
 #page_debut{
-    /*
+    
     -fx-background-color: rgb(70, 70, 70);
-    */
+    
 }
 
-.text{
-    -fx-font-family: "IM FELL English SC";
-    -fx-font-size: 24;
-}
-
-#instruction  {
-    -fx-text-fill: #000000;
-    -fx-font-size: 30;
-    /*
-    -fx-background-color: #00000091;
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-    -fx-padding: 5;
-    */
+#liste{
+    -fx-font-size: 17;
 }
 
 #choix{

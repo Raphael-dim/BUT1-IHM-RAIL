@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -75,6 +76,7 @@ public class VueJoueurCourant extends VBox {
         main.getChildren().clear();
 
         HBox logoEtMain = new HBox(image, main);
+        logoEtMain.setSpacing(20);
         getChildren().add(logoEtMain);
 
         afficherDestinations();
@@ -104,9 +106,11 @@ public class VueJoueurCourant extends VBox {
     }
 
     public void calculerTaille(){
+        /*
+         
         double pourcentage = maxLongueur / getScene().getWidth(); 
         for (Node n : getChildren())
-            {
+        {
                 HBox hBox = (HBox) n;
                 for (Node node : hBox.getChildren())
                     {
@@ -114,7 +118,8 @@ public class VueJoueurCourant extends VBox {
                         node.setScaleY(1 / pourcentage);
                     }
             }
-        //setSpacing(30 / pourcentage);
+            //setSpacing(30 / pourcentage);
+            */
     }
 
     public void afficherGaresEtWagons() {
@@ -143,7 +148,7 @@ public class VueJoueurCourant extends VBox {
 
         Label wagons = new Label("x " + joueurCourant.getNbWagons());
         wagons.setMinWidth(7);
-        wagons.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 30; -fx-text-fill: "
+        wagons.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 35; -fx-text-fill: "
         + VueAutresJoueurs.traduire(joueurCourant.getCouleur().name()) + "; -fx-stroke-color: black");
         
         image_wagon.setOnMouseEntered(e -> {
@@ -158,7 +163,9 @@ public class VueJoueurCourant extends VBox {
         HBox garesEtWagonsEtDestinations = new HBox(nomsEtAutre, destinations);
 
         destinations.setOnMouseEntered(e -> {
+            destinations.setTranslateY(0);
             destinations.setMinWidth(getWidth());
+            destinations.setMinHeight(garesEtWagonsEtDestinations.getHeight());
             garesEtWagonsEtDestinations.getChildren().remove(nomsEtAutre);
         });
         destinations.setOnMouseExited(e -> {
@@ -176,13 +183,15 @@ public class VueJoueurCourant extends VBox {
         
 
         destinations = new GridPane();
+        destinations.setPadding(new Insets(0, 0, 0, 10));
+        destinations.setTranslateY(40);
         destinations.setHgap(10);
         int ligne = 0;
         int colonne = 0;
         for (Destination d : joueurCourant.getDestinations())
             {
                 Label l = new Label(d.getNom());
-                l.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 25; -fx-text-fill: orange");
+                l.setStyle("-fx-font-size: 25; -fx-font-family: \"IM FELL English SC\";-fx-font-size: 29; -fx-text-fill: orange");
                 destinations.add(l, colonne, ligne);
                 ligne++;
                 if (ligne >= 2)
@@ -212,9 +221,9 @@ public class VueJoueurCourant extends VBox {
                 vueCarteWagon.toFront();
             });
             */
-            if (main.getChildren().size() >= 14) 
+            if (main.getChildren().size() >= 13) 
             {
-                vueCarteWagon.setX(main.getChildren().size() % 14 * 65);
+                vueCarteWagon.setX(main.getChildren().size() % 13 * 65);
                 vueCarteWagon.setY(100);
             } 
             else 

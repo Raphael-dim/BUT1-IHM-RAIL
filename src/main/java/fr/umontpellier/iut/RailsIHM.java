@@ -32,13 +32,9 @@ public class RailsIHM extends Application {
         
         if (avecVueChoixJoueurs) {
             vueChoixJoueurs = new VueChoixJoueurs();
+            vueChoixJoueurs.getIcons().add(new Image("images/logo.png"));
             vueChoixJoueurs.setNomsDesJoueursDefinisListener(quandLesNomsJoueursSontDefinis);
-            vueChoixJoueurs.setWidth(640 * 1.7);
-            vueChoixJoueurs.setHeight(400 * 1.7);
             vueChoixJoueurs.show();
-
-
-
         } else {
             demarrerPartie();
         }

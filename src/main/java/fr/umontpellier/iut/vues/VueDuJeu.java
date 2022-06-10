@@ -7,6 +7,7 @@ import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -23,6 +24,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.util.Duration;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -137,6 +139,13 @@ public class VueDuJeu extends GridPane {
         add(autresJoueursEtPioches, 1, 0);
         add(joueurCourant, 0, 1);
         add(choix, 1, 1);
+
+        FadeTransition fondu = new FadeTransition();
+        fondu.setDuration(new Duration(1100));
+        fondu.setFromValue(0);
+        fondu.setToValue(1);
+        fondu.setNode(this);
+        fondu.play();
 
         plateau.creerBindings();
         autresJoueurs.creerBindings();

@@ -250,7 +250,7 @@ public class VueDuJeu extends GridPane {
     public void cartesWagonVisibles() {
 
         wagonsVisibles = new HBox();
-        wagonsVisibles.setSpacing(20);
+        wagonsVisibles.setSpacing(25);
         ListChangeListener<CouleurWagon> changement = new ListChangeListener<CouleurWagon>() {
 
             @Override
@@ -287,7 +287,7 @@ public class VueDuJeu extends GridPane {
     public void piocheEtDefausse() {
         
         piocheDefausse = new HBox();
-        piocheDefausse.setSpacing(20);
+        piocheDefausse.setSpacing(40);
         ImageView pioche = new ImageView("images/wagons.png");
         pioche.setOnMouseClicked(e->jeu.uneCarteWagonAEtePiochee());
         VueCarteWagon.texturer(pioche);

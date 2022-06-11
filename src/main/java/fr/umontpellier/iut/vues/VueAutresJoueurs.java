@@ -34,7 +34,9 @@ public class VueAutresJoueurs extends GridPane {
     private IJeu jeu;
 
     public VueAutresJoueurs() {
-        this.setHgap(50);
+        setStyle("-fx-text-fill: #ffffff; -fx-background-color: rgba(45, 45, 45, 0.7);-fx-border-radius: 20;  -fx-background-radius: 20;");
+
+        this.setHgap(70);
         getStylesheets().add("css/page.css");
 
         this.setVgap(50);
@@ -84,7 +86,7 @@ public class VueAutresJoueurs extends GridPane {
             case "ROUGE": return "red";
             case "BLEU": return "#0569f5";
             case "ROSE": return "#f50589";
-            case "VERT": return "#026307";
+            case "VERT": return "#12A331";
         }
         return couleur;
         
@@ -99,7 +101,7 @@ public class VueAutresJoueurs extends GridPane {
         logo.setFitHeight(100);
 
         Label nom = new Label(joueur.getNom());
-        nom.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-size: 36; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
+        nom.setStyle("-fx-underline: true; -fx-font-family: \"IM FELL English SC\"; -fx-font-size: 36; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
         nom.setLayoutX(80);
 
         Label score = new Label("Score : "+ joueur.getScore());
@@ -148,16 +150,19 @@ public class VueAutresJoueurs extends GridPane {
         pane.setOnMouseEntered(e->{
             if (getRowIndex(pane) == 1 || getChildren().size() < 3)
                 {
-                    setPadding(new Insets(10, 0, 150, 0));
+                    setHeight(getHeight() + 70);
+                    setPadding(new Insets(0, 0, 150, 0));
                 }
             else{
+                setHeight(getHeight() + 90);
                 setVgap(150);
             }
             pane.getChildren().add(afficherCarte(joueur));
         });
 
         pane.setOnMouseExited(e->{
-            setPadding(new Insets(10, 0, 0, 0));
+            setHeight(getHeight() - 70);
+            setPadding(new Insets(0, 0, 0, 0));
             setVgap(50);
             pane.getChildren().remove(pane.getChildren().size() - 1);
         });
@@ -171,6 +176,7 @@ public class VueAutresJoueurs extends GridPane {
 
         Pane main = new Pane();
         main.setTranslateY(120);
+        main.setTranslateX(20);
         for (CouleurWagon c : joueur.getCartesWagon())  
         {
             ImageView vueCarteWagon = new VueCarteWagon(c).AfficherCarte();

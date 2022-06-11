@@ -34,6 +34,8 @@ public class VueJoueurCourant extends VBox {
     private double maxLongueur;
     
     public VueJoueurCourant() {
+        setStyle(
+                "-fx-text-fill: #ffffff; -fx-background-color: rgba(45, 45, 45, 0.6);-fx-border-radius: 20;  -fx-background-radius: 20;");
         main = new Pane();
         getStylesheets().add("css/page.css");
         //setSpacing(3);
@@ -129,7 +131,7 @@ public class VueJoueurCourant extends VBox {
         nomsEtAutre.setSpacing(4);
         nom = new Label(joueurCourant.getNom());
         nom.setTranslateX(20);
-        nom.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 45; -fx-text-fill: "
+        nom.setStyle("-fx-underline: true; -fx-font-family: \"IM FELL English SC\";-fx-font-size: 45; -fx-text-fill: "
                 + VueAutresJoueurs.traduire(joueurCourant.getCouleur().name()) + "; -fx-stroke-color: black");
 
         nomsEtAutre.getChildren().add(nom);
@@ -148,7 +150,7 @@ public class VueJoueurCourant extends VBox {
 
         Label wagons = new Label("x " + joueurCourant.getNbWagons());
         wagons.setMinWidth(7);
-        wagons.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 35; -fx-text-fill: "
+        wagons.setStyle("-fx-underline: true; -fx-font-family: \"IM FELL English SC\";-fx-font-size: 35; -fx-text-fill: "
         + VueAutresJoueurs.traduire(joueurCourant.getCouleur().name()) + "; -fx-stroke-color: black");
         
         image_wagon.setOnMouseEntered(e -> {

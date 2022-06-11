@@ -15,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -140,6 +142,10 @@ public class VueChoixJoueurs extends Stage {
                     if (nom.getText() == null || nom.getText().equals(""))
                         {
                             bool = false;
+                            Label la = new Label("Les noms ne peuvent pas être vide.");
+                            la.setStyle("-fx-font-size: 22; -fx-text-fill: #E81717; ");
+                            grille.add(la, 0, 2);
+
                         }
                 }
             if (bool)

@@ -20,6 +20,8 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -192,7 +194,7 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends IJoueur> arg0, IJoueur arg1, IJoueur arg2) {
                 Platform.runLater(() -> {
-                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 35; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                    instruction.setStyle("-fx-underline: true; -fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 35; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
     
                     line1.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur() + ""));
                     line2.setStroke(getCouleur(jeu.joueurCourantProperty().getValue().getCouleur()+""));
@@ -208,7 +210,7 @@ public class VueDuJeu extends GridPane {
             @Override
             public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
                 Platform.runLater(() -> {
-                    instruction.setStyle("-fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 35; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
+                    instruction.setStyle("-fx-underline: true; -fx-font-family: \"IM FELL English SC\"; -fx-font-weight: bold; -fx-font-size: 35; -fx-text-fill: "+VueAutresJoueurs.traduire(jeu.joueurCourantProperty().getValue().getCouleur()+""));
                     Timer timer = new Timer();
                     TimerTask timerTask = new TimerTask() {
                         
@@ -226,6 +228,13 @@ public class VueDuJeu extends GridPane {
 
         jeu.instructionProperty().addListener(changementInstruction);
         Button passer = new Button("Passer");
+        passer.addEventFilter(KeyEvent.KEY_PRESSED, ev->{
+            if (ev.getCode() == KeyCode.ENTER)
+                {
+                    jeu.passerAEteChoisi();
+                    ev.consume();
+                }
+        });
         passer.setStyle("-fx-text-fill: white; -fx-font-family: \"IM FELL English SC\";-fx-font-size: 25");
         passer.setId("passer");
         passer.setOnMouseClicked(event -> jeu.passerAEteChoisi());

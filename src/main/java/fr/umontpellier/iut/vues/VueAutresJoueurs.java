@@ -15,12 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.PathElement;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -44,6 +38,7 @@ public class VueAutresJoueurs extends GridPane {
 
     public void creerBindings() {
         
+
         jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
         ChangeListener<IJoueur> changeListener = new ChangeListener<IJoueur>() {
             @Override
@@ -57,15 +52,17 @@ public class VueAutresJoueurs extends GridPane {
                             int ligne = 0;
                             int colonne = 0;
                             for (Joueur j : autresJoueurs) 
+                            {
+                                add(panneauJoueur(j), colonne, ligne);
+                                colonne++;
+                                if (colonne>=2)
                                 {
-                                    add(panneauJoueur(j), colonne, ligne);
-                                    colonne++;
-                                    if (colonne>=2)
-                                        {
-                                            colonne=0;
-                                            ligne++;
-                                        }
+                                    setWidth(getWidth() + 30);
+                                    colonne=0;
+                                    ligne++;
                                 }
+                                }
+
                         }
                     else    
                         {
@@ -116,24 +113,7 @@ public class VueAutresJoueurs extends GridPane {
         gares.setStyle("-fx-font-family: \"IM FELL English SC\";-fx-font-size: 30; -fx-text-fill: "+traduire(joueur.getCouleur().name())+"; -fx-stroke-color: black");
         gares.setLayoutX(80);
         gares.setLayoutY(35);
-
-        /*
-         
-        Ellipse ellipse = new Ellipse();
-        ellipse.setOpacity(0.4);
-        Stop[] stop = { new Stop(0.1f, VueDuJeu.getCouleur(joueur.getCouleur().name())),
-            new Stop(0.7f, Color.BLACK),
-        };
-
-        // create a Linear gradient object
-        LinearGradient linear_gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stop);
-        ellipse.setFill(linear_gradient);
-        ellipse.centerXProperty().bind(gares.layoutXProperty().multiply(1.3));
-        ellipse.centerYProperty().bind(gares.layoutYProperty().multiply(1.4));
-        ellipse.setRadiusX(130);
-        ellipse.setRadiusY(70);
         
-        */
         pane.getChildren().addAll(logo, nom, gares, score);
 
         for (int i = 0; i < joueur.getNbGares(); i++)
@@ -154,7 +134,6 @@ public class VueAutresJoueurs extends GridPane {
                     setPadding(new Insets(0, 0, 150, 0));
                 }
             else{
-                setHeight(getHeight() + 90);
                 setVgap(150);
             }
             pane.getChildren().add(afficherCarte(joueur));

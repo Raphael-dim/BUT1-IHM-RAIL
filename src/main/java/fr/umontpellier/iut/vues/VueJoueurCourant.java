@@ -1,6 +1,4 @@
 package fr.umontpellier.iut.vues;
-
-import java.util.List;
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
@@ -31,7 +29,6 @@ public class VueJoueurCourant extends VBox {
     private HBox garesEtWagons;
     private GridPane destinations;
     private Label nom;
-    private double maxLongueur;
     
     public VueJoueurCourant() {
         setStyle(
@@ -39,19 +36,9 @@ public class VueJoueurCourant extends VBox {
         main = new Pane();
         getStylesheets().add("css/page.css");
         //setSpacing(3);
-        maxLongueur = 1920;
     }
     
     public void creerBindings() {
-
-        this.getScene().widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-                Platform.runLater(() -> {
-                    calculerTaille();
-                });
-            }
-        });
 
         jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
         ChangeListener<IJoueur> changeListener = new ChangeListener<IJoueur>() {
@@ -83,7 +70,19 @@ public class VueJoueurCourant extends VBox {
 
         afficherDestinations();
         afficherGaresEtWagons();
-        afficherCartes(joueurCourant.getCartesWagon());
+        for (CouleurWagon couleurWagon : joueurCourant.getCartesWagon()) {
+            ImageView vueCarteWagon = new VueCarteWagon(couleurWagon).AfficherCarte();
+            VueCarteWagon.texturer(vueCarteWagon);
+            vueCarteWagon.setId(couleurWagon + "");
+            vueCarteWagon.setOnMouseClicked(e -> jeu.uneCarteWagonAEteChoisie(couleurWagon));
+            if (main.getChildren().size() >= 13) {
+                vueCarteWagon.setX(main.getChildren().size() % 13 * 65);
+                vueCarteWagon.setY(100);
+            } else {
+                vueCarteWagon.setX(main.getChildren().size() * 65);
+            }
+            main.getChildren().add(vueCarteWagon);
+        }
 
         ListChangeListener<CouleurWagon> changeListener = new ListChangeListener<CouleurWagon>() {
             @Override
@@ -91,7 +90,19 @@ public class VueJoueurCourant extends VBox {
                 Platform.runLater(() -> {
                     while (arg0.next()) {
                         if (arg0.wasAdded()) {
-                            afficherCartes(arg0.getAddedSubList());
+                            for (CouleurWagon couleurWagon : arg0.getAddedSubList()) {
+                                ImageView vueCarteWagon = new VueCarteWagon(couleurWagon).AfficherCarte();
+                                VueCarteWagon.texturer(vueCarteWagon);
+                                vueCarteWagon.setId(couleurWagon + "");
+                                vueCarteWagon.setOnMouseClicked(e -> jeu.uneCarteWagonAEteChoisie(couleurWagon));
+                                if (main.getChildren().size() >= 13) {
+                                    vueCarteWagon.setX(main.getChildren().size() % 13 * 65);
+                                    vueCarteWagon.setY(100);
+                                } else {
+                                    vueCarteWagon.setX(main.getChildren().size() * 65);
+                                }
+                                main.getChildren().add(vueCarteWagon);
+                            }
 
                         } else if (arg0.wasRemoved()) {
                             for (CouleurWagon couleurWagon : arg0.getRemoved()) {
@@ -104,24 +115,6 @@ public class VueJoueurCourant extends VBox {
         };
         joueurCourant.cartesWagonProperty().addListener(changeListener);
 
-        calculerTaille();
-    }
-
-    public void calculerTaille(){
-        /*
-         
-        double pourcentage = maxLongueur / getScene().getWidth(); 
-        for (Node n : getChildren())
-        {
-                HBox hBox = (HBox) n;
-                for (Node node : hBox.getChildren())
-                    {
-                        node.setScaleX(1 / pourcentage);
-                        node.setScaleY(1 / pourcentage);
-                    }
-            }
-            //setSpacing(30 / pourcentage);
-            */
     }
 
     public void afficherGaresEtWagons() {
@@ -204,38 +197,6 @@ public class VueJoueurCourant extends VBox {
                         colonne++;
                     }
             }
-    }
-
-    public void afficherCartes(List<? extends CouleurWagon> cartes) {
-
-        for (CouleurWagon couleurWagon : cartes) 
-        {
-            ImageView vueCarteWagon = new VueCarteWagon(couleurWagon).AfficherCarte();
-            VueCarteWagon.texturer(vueCarteWagon);
-            vueCarteWagon.setId(couleurWagon + "");
-            vueCarteWagon.setOnMouseClicked(e->jeu.uneCarteWagonAEteChoisie(couleurWagon));
-            /*
-             
-            vueCarteWagon.setOnMouseEntered(e->{
-                vueCarteWagon.setScaleX(1.25);
-                vueCarteWagon.setScaleY(1.25);
-                // carte.toFront();
-                vueCarteWagon.setEffect(new Glow(0.3));
-                vueCarteWagon.setEffect(new DropShadow(20, Color.BLACK));
-                vueCarteWagon.toFront();
-            });
-            */
-            if (main.getChildren().size() >= 13) 
-            {
-                vueCarteWagon.setX(main.getChildren().size() % 13 * 65);
-                vueCarteWagon.setY(100);
-            } 
-            else 
-            {
-                vueCarteWagon.setX(main.getChildren().size() * 65);
-            }
-            main.getChildren().add(vueCarteWagon);
-        }
     }
 
     public ImageView trouverImageView(String id) {

@@ -1,6 +1,4 @@
 package fr.umontpellier.iut.vues;
-
-import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
@@ -18,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 import java.io.IOException;
 

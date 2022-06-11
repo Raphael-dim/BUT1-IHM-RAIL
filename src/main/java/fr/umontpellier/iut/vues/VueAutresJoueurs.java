@@ -175,13 +175,13 @@ public class VueAutresJoueurs extends GridPane {
         {
             ImageView vueCarteWagon = new VueCarteWagon(c).AfficherCarte();
             vueCarteWagon.setPreserveRatio(true);
-            vueCarteWagon.setFitWidth(65);
+            vueCarteWagon.setFitWidth(75);
             if (main.getChildren().size() >= 7) {
                 int i = main.getChildren().size() / 7;
-                vueCarteWagon.setX(main.getChildren().size() % 7 * 30);
-                vueCarteWagon.setY(40 * i);
+                vueCarteWagon.setX(main.getChildren().size() % 7 * 40);
+                vueCarteWagon.setY(50 * i);
             } else {
-                vueCarteWagon.setX(main.getChildren().size() * 30);
+                vueCarteWagon.setX(main.getChildren().size() * 40);
             }
                     main.getChildren().add(vueCarteWagon);
         }

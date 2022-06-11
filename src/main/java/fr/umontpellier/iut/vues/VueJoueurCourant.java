@@ -163,7 +163,7 @@ public class VueJoueurCourant extends VBox {
         HBox garesEtWagonsEtDestinations = new HBox(nomsEtAutre, destinations);
 
         destinations.setOnMouseEntered(e -> {
-            destinations.setTranslateY(0);
+            destinations.setTranslateY(40);
             destinations.setMinWidth(getWidth());
             destinations.setMinHeight(garesEtWagonsEtDestinations.getHeight());
             garesEtWagonsEtDestinations.getChildren().remove(nomsEtAutre);
@@ -172,6 +172,8 @@ public class VueJoueurCourant extends VBox {
             destinations.setMinWidth(0);
             garesEtWagonsEtDestinations.getChildren().clear();
             garesEtWagonsEtDestinations.getChildren().addAll(nomsEtAutre, destinations);
+            destinations.setTranslateY(40);
+
         });
 
         garesEtWagons.setLayoutY(30);

@@ -146,7 +146,7 @@ public class VueAutresJoueurs extends GridPane {
         pane.setId(joueur.getNom());
 
         pane.setOnMouseEntered(e->{
-            if (getRowIndex(pane) == 1)
+            if (getRowIndex(pane) == 1 || getChildren().size() < 3)
                 {
                     setPadding(new Insets(10, 0, 150, 0));
                 }

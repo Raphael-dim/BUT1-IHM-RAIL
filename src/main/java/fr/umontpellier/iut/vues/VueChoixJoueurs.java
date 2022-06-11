@@ -167,7 +167,7 @@ public class VueChoixJoueurs extends Stage {
 
                 if (arg1 == null)
                     {
-                        Label label = new Label("Noms de joueurs : ");
+                        Label label = new Label("Noms des joueurs : ");
                         label.setId("choix");
                         grille.add(label, 0, 1);
                     }

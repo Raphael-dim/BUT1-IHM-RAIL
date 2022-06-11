@@ -142,7 +142,7 @@ public class VueChoixJoueurs extends Stage {
                     if (nom.getText() == null || nom.getText().equals(""))
                         {
                             bool = false;
-                            Label la = new Label("Les noms ne peuvent pas être vide.");
+                            Label la = new Label("Chaque joueur doit avoir un nom.");
                             la.setStyle("-fx-font-size: 22; -fx-text-fill: #E81717; ");
                             grille.add(la, 0, 2);
 

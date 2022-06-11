@@ -9,7 +9,7 @@
 
 #page_debut{
     
-    -fx-background-color: rgb(64, 71, 72);
+    -fx-background-color: rgb(87, 81, 82);
     
 }
 
@@ -34,7 +34,7 @@
 
 #JAUNE{-fx-font-size: 18;
     -fx-padding: 1, 1, 1, 1;
-    -fx-border-color: rgb(255, 255, 255);
+    -fx-border-color: #ffffff;
     -fx-border-width: 2;
     -fx-border-radius: 1;
     -fx-border: gone;

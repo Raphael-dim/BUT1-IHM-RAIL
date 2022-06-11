@@ -232,7 +232,7 @@ public class VueJoueurCourant extends VBox {
             {
                 vueCarteWagon.setX(main.getChildren().size() * 65);
             }
-                    main.getChildren().add(vueCarteWagon);
+            main.getChildren().add(vueCarteWagon);
         }
     }
 

@@ -64,7 +64,6 @@ public class VueDuJeu extends GridPane {
                 BackgroundSize.DEFAULT);
                 
         setBackground(new Background(img));
-
         setHgap(15);
         setVgap(15);
       

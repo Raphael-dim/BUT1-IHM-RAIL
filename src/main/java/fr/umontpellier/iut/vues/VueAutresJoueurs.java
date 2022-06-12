@@ -154,24 +154,26 @@ public class VueAutresJoueurs extends GridPane {
     public Pane afficherCarte(IJoueur joueur) {
 
         Pane main = new Pane();
-        main.setTranslateY(120);
-        main.setTranslateX(20);
-        for (CouleurWagon c : joueur.getCartesWagon())  
-        {
-            ImageView vueCarteWagon = new VueCarteWagon(c).AfficherCarte();
-            vueCarteWagon.setPreserveRatio(true);
-            vueCarteWagon.setFitWidth(75);
-            if (main.getChildren().size() >= 7) {
-                int i = main.getChildren().size() / 7;
-                vueCarteWagon.setX(main.getChildren().size() % 7 * 40);
-                vueCarteWagon.setY(50 * i);
-            } else {
-                vueCarteWagon.setX(main.getChildren().size() * 40);
-            }
-                    main.getChildren().add(vueCarteWagon);
-        }
-        
+        Platform.runLater(() -> {
+            main.setTranslateY(120);
+            main.setTranslateX(20);
+            for (CouleurWagon c : joueur.getCartesWagon())  
+            {
+                ImageView vueCarteWagon = new VueCarteWagon(c).AfficherCarte();
+                vueCarteWagon.setPreserveRatio(true);
+                vueCarteWagon.setFitWidth(75);
+                if (main.getChildren().size() >= 7) {
+                    int i = main.getChildren().size() / 7;
+                    vueCarteWagon.setX(main.getChildren().size() % 7 * 40);
+                    vueCarteWagon.setY(50 * i);
+                } else {
+                    vueCarteWagon.setX(main.getChildren().size() * 40);
+                }
+                        main.getChildren().add(vueCarteWagon);
+                    }
+                });
         return main;
+        
     }
 
     public Pane getPane(String id) {
